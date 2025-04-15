@@ -1,0 +1,25 @@
+site_name: INSolver Documentation
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Introduction: sections/introduction.md
+  - Governing Equations: sections/governing_equations.md
+  - Discretization: sections/discretization.md
+  - Grid Types: sections/grid_types.md
+  - Algorithm: sections/algorithm.md
+  - Poisson Solver: sections/poisson_solver.md
+  - Results: sections/results.md
+  - Conclusion: sections/conclusion.md
+  - References: sections/references.md
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+
+
