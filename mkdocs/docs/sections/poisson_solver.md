@@ -199,7 +199,6 @@ def gauss_seidel_iteration(cnp.ndarray[cnp.double_t, ndim=2] p,
 The convergence behavior of the Gauss-Seidel solver is illustrated in the following figure, which plots the logarithm of the norm of the residual (the difference between successive pressure fields) as a function of the number of iterations. This metric provides a quantitative measure of how rapidly the solution approaches a steady state. The curve exhibits a steep decline during the first 700 iterations, indicating rapid error reduction in the early stages of the solution process. Beyond this point, the slope of the curve decreases, forming a slightly concave shape that reflects slower but continued convergence toward the final solution. This behavior highlights the diminishing returns of additional iterations once the residual has been sufficiently minimized. Therefore, it is important to define an appropriate convergence threshold to find a practical balance between computational efficiency and solution accuracy.
 
 ![Jacobi vs Gauss-Seidel](../images/PoissonConvergence.png)
-
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Convergence of the Poisson solver: logarithm of the residual norm versus number of iterations.
 </p>
