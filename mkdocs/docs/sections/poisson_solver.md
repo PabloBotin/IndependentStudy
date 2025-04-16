@@ -84,12 +84,7 @@ def pressure_poisson(p, b, dx, dy, tol, maxiter):
 
     return p
 ```
-
-## 💻 Try to set link to Google Colab. 
-
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]
-(https://colab.research.google.com/github/PabloBotin/INSolver/blob/main/code/poisson_solver.ipynb)
-
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/docs/sections/poisson_solver.ipynb)
 
 ## Gauss-Seidel
 The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pressure values in-place, making it more computationally efficient. What is more, it has been implemented using Cython for an even faster convergence.
@@ -104,14 +99,10 @@ The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pr
     B) Maximum number of iterations is reached.
 8. **Output** Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.
 
-<p style="text-align: center;">
-    <img src="/Users/pabo1849/Library/CloudStorage/OneDrive-UCB-O365/Documents/Research/IndependentStudy/images/ChorinAlgorithm.png" alt="Chorin Algorithm" width="600">
-    <br>
-    <span style="display: block; text-align: center;">Chorin's algorithm schematic.</span>
+![Chorin_Algorithm](../images/Chorin_Algorithm.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Chorin's algorithm schematic.
 </p>
-
-
-
 
 ```python
 def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
@@ -175,23 +166,18 @@ def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
 
 To assess the performance of the Jacobi and Gauss-Seidel methods in solving the Poisson equation, both algorithms were applied to the same flow setup. The figure below shows the resulting divergence fields for each method: the Jacobi solution is shown on the left, and the Gauss-Seidel solution on the right.
 
-<p style="text-align: center;">
-    <img src="../images/Jacobi_vs_GaussSeidel.png" width="900" alt="Jacobi vs Gauss-Seidel divergence fields">
-    <br>
-    <span style="display: block; text-align: center;">Divergence field results using Jacobi (left) and Gauss-Seidel (right) solvers.</span>
+![Jacobi_vs_GaussSeide](../images/Jacobi_vs_GaussSeidel.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Divergence field results using Jacobi (left) and Gauss-Seidel (right) solvers.
 </p>
-
 
 For the same problem setup, the Gauss-Seidel method converged approximately 45% faster, requiring only 17 seconds compared to 32 seconds for the Jacobi solver. Furthermore, the final velocity field obtained with Gauss-Seidel had a divergence four orders of magnitude smaller than that obtained using Jacobi. This highlights Gauss-Seidel's improved numerical stability and effectiveness in enforcing the incompressibility constraint, making it a more efficient and accurate choice for solving the Poisson equation in this context.
 
 What’s more, the Gauss-Seidel solver can be further optimized using Cython, allowing for substantial reductions in computation time by accelerating the most performance-critical loops in the algorithm.
 
 
-### Performance Optimization with Cython make this more casual. 
-To improve the performance of the iterative solver, Cython is used. Cython is a superset of Python that enables C-like performance optimizations while preserving the readability and ease of Python syntax. By compiling Python code to C, it allows the iterative solver to execute much faster, which is essential for large grid sizes in computational fluid dynamics simulations.
-
-In particular, the `gauss_seidel_iteration` function is implemented using Cython, which allow direct and efficient interaction with NumPy arrays while avoiding the overhead of Python's dynamic typing. This approach enables fast and memory-efficient manipulation of large datasets, making it well-suited for CFD applications. Instructions for usage are included in the documentation of the function.
-
+### Performance Optimization with Cython 
+To improve the performance of the iterative solver, Cython is used. **Cython** is a superset of Python that enables C-like performance optimizations while preserving the readability and ease of Python syntax. Compiling Python code to C allows direct and efficient interaction and the algorithm **executes much faster**.
 
 ```python
 def gauss_seidel_iteration(cnp.ndarray[cnp.double_t, ndim=2] p,
@@ -215,7 +201,7 @@ def gauss_seidel_iteration(cnp.ndarray[cnp.double_t, ndim=2] p,
 
 ### Convergence of the Poisson Solver
 
-The convergence behavior of the Gauss-Seidel solver is illustrated in the following figure, which plots the logarithm of the norm of the residual (the difference between successive pressure fields) as a function of the number of iterations. This metric provides a quantitative measure of how rapidly the solution approaches a steady state. The curve exhibits a steep decline during the first 700 iterations, indicating rapid error reduction in the early stages of the solution process. Beyond this point, the slope of the curve decreases, forming a slightly concave shape that reflects slower but continued convergence toward the final solution. This behavior highlights the diminishing returns of additional iterations once the residual has been sufficiently minimized. Therefore, it is important to define an appropriate convergence threshold to find a practical balance between computational efficiency and solution accuracy.
+The convergence behavior of the Gauss-Seidel solver is illustrated in the following figure, which plots the logarithm of the norm of the residual (the difference between successive pressure fields) as a function of the number of iterations. This metric provides a quantitative measure of **how rapidly the solution approaches a steady state**. The curve exhibits a steep decline during the first 700 iterations, indicating rapid error reduction in the early stages of the solution process. Beyond this point, the slope of the curve decreases, forming a slightly concave shape that reflects slower but continued convergence toward the final solution. This behavior highlights the diminishing returns of additional iterations once the residual has been sufficiently minimized. Therefore, it is important to define an appropriate convergence threshold to find a practical balance between computational efficiency and solution accuracy.
 
 ![Jacobi vs Gauss-Seidel](../images/PoissonConvergence.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
