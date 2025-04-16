@@ -1,21 +1,34 @@
+thebe: true
+
 # Poisson solver 
 In incompressible flows, ensuring mass conservation requires solving the Poisson equation for pressure at each time step, based on the updated velocity field. This step is crucial for projecting the velocity field to satisfy the continuity equation:
 where $\nabla^2 p = \nabla \cdot \mathbf{u}^*$
 where p is the intermediate velocity field computed from the momentum equation.
-To solve this equation efficiently, two common iterative solvers are used: Jacobi and Gauss-Seidel methods. In this section, I will explain both methods step by step, provide scripts for their implementation, and compare their performance.
+To solve this equation efficiently, two common iterative solvers are used: **Jacobi** and **Gauss-Seidel** methods. In this section, I will explain both methods step by step, provide scripts for their implementation, and compare their performance.
 
 ## Jacobi 
 The Jacobi method computes the solution iteratively by solving for each variable in terms of the others using values from the previous iteration.
 ### Algorithm steps 
-1. **Initialize variables.** Start with the current p field & define the RHS (b) of the Poisson equation (derived from velocity divergence). 
-2. **Precompute coefficients.** Precompute p_coef and b, which are adjusted for the grid spacings. $p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)}$$ $$b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2}$ The computation of b depends on the method used (projection or predictor-corrector). 
-4. **Iteration.** Jacobian update of p on the interior grid points.  $p_{i,j}^{(k+1)} = p_{\text{coef}} \left[ (p_{i+1,j}^{(k)} + p_{i-1,j}^{(k)}) \Delta y^2 + (p_{i,j+1}^{(k)} + p_{i,j-1}^{(k)}) \Delta x^2 \right] - b_{i,j}$
-5. **Enforce Boundary Conditions** Apply Neumann boundary conditions $\frac{\partial p}{\partial n} = 0$ in this case. This may change depending on the BC problem.
-6. **Compute Error** Calculate the root-mean-square (RMS) error between successive pressure fields: $\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2}$
-7. **End of the iteration** Iteration automatically ends if: 
-    A) Error is lower than tolerance.
-    B) Maximum number of iterations is reached.
-8. **Output** Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.
+1. **Initialize variables.** Start with the current p field and define the right hand side of the Poisson equation (derived from velocity divergence). 
+2. **Precompute coefficients.** Precompute p_coef and b, which are adjusted for the grid spacings.
+$$
+p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)}
+$$
+$$
+b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2}
+$$
+The computation of b depends on the method used (projection or predictor-corrector). 
+3. **Iteration.** Jacobian update of p on the interior grid points.  $p_{i,j}^{(k+1)} = p_{\text{coef}} \left[ (p_{i+1,j}^{(k)} + p_{i-1,j}^{(k)}) \Delta y^2 + (p_{i,j+1}^{(k)} + p_{i,j-1}^{(k)}) \Delta x^2 \right] - b_{i,j}$
+4. **Enforce Boundary Conditions** Apply Neumann boundary conditions $\frac{\partial p}{\partial n} = 0$ in this case. This may change depending on the BC problem.
+5. **Compute Error** Calculate the root-mean-square (RMS) error between successive pressure fields:
+$$
+\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2}
+$$
+6. **End of the iteration**  
+   Iteration automatically ends if:  
+   &nbsp;&nbsp;&nbsp;&nbsp;**A)** Error is lower than tolerance.  
+   &nbsp;&nbsp;&nbsp;&nbsp;**B)** Maximum number of iterations is reached.
+7. **Output** Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.
 
 
 ```python
@@ -71,6 +84,12 @@ def pressure_poisson(p, b, dx, dy, tol, maxiter):
 
     return p
 ```
+
+## 💻 Try to set link to Google Colab. 
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]
+(https://colab.research.google.com/github/PabloBotin/INSolver/blob/main/code/poisson_solver.ipynb)
+
 
 ## Gauss-Seidel
 The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pressure values in-place, making it more computationally efficient. What is more, it has been implemented using Cython for an even faster convergence.
