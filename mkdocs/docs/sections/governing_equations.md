@@ -12,11 +12,15 @@ The incompressible Navier-Stokes equations consist of:
 ## **Continuity Equation**
 The continuity equation ensures the **conservation of mass** in incompressible flows. For a velocity field 
 $\mathbf{u}$, the equation is written as $∇⋅\mathbf{u}= 0$. In 2D derivative form, it becomes:  
-$\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0$
+$$
+\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
+$$
 
 ## **Momentum Equations**
 The momentum equations describe the **conservation of momentum** in the fluid, considering all the forces involved. For incompressible flows, they are expressed as:  
-$\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \mathbf{f}$
+$$
+\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \mathbf{f}
+$$
 
 In 2D derivative form:
 
@@ -46,9 +50,7 @@ This apparent decoupling gives rise to several **numerical challenges**:
 - There is no explicit **equation for pressure**, so it must be computed indirectly.
 - Without proper treatment, the pressure-velocity relationship can become unstable, causing **oscillations** or **non-physical results**
 
-To restore this coupling and enforce incompressibility, a **Poisson equation** for pressure is derived from the divergence of the momentum equations. This acts as a surrogate for the continuity equation.
-
-**INSERT DERIVATION OR REFERENCE TO LORENA BARBA**
+To restore this coupling and enforce incompressibility, a Poisson equation for pressure can be derived from the divergence of the momentum equations. This acts as a surrogate for the continuity equation. A clear and pedagogical explanation of both the derivation of the Poisson equation and the discretization of the governing equations is provided in *CFD Python: 12 steps to Navier-Stokes* by Barba and Forsyth ([Barba & Forsyth, 2014](https://github.com/barbagroup/CFDPython)).
 
 ---
 
@@ -86,3 +88,4 @@ Discretizing the continuous equations introduces trade-offs:
 - **Pressure-velocity consistency**: Ensuring that the discrete velocity field remains divergence-free is essential.
 
 
+These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the stability and accuracy of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called discretization.
