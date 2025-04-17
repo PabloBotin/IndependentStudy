@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../discretization/">
+        <link rel="prev" href="../poisson_solver/">
       
       
-        <link rel="next" href="../algorithm/">
+        <link rel="next" href="../results/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Grid Types - INSolver Documentation</title>
+        <title>Boundary Conditions - INSolver Documentation</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#grid-types" class="md-skip">
+        <a href="#boundary-conditions" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Grid Types
+              Boundary Conditions
             
           </span>
         </div>
@@ -279,32 +279,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Grid Types
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../grid_types/" class="md-nav__link">
         
   
   
@@ -315,53 +293,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#collocated-grid" class="md-nav__link">
-    <span class="md-ellipsis">
-      Collocated Grid
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#staggered-grid" class="md-nav__link">
-    <span class="md-ellipsis">
-      Staggered Grid
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#comparison-of-solutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Comparison of Solutions
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -414,10 +345,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../boundary_conditions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Boundary Conditions
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -428,6 +381,95 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-types-of-boundary-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Types of Boundary Conditions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-boundary-conditions-used-per-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Boundary Conditions Used per Case
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Boundary Conditions Used per Case">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lid-driven-cavity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lid-Driven Cavity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#channel-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Channel Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Open Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-in-open-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Object in Open Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wind-turbine-in-open-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wind Turbine in Open Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -525,29 +567,71 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#collocated-grid" class="md-nav__link">
+  <a href="#1-types-of-boundary-conditions" class="md-nav__link">
     <span class="md-ellipsis">
-      Collocated Grid
+      1. Types of Boundary Conditions
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#staggered-grid" class="md-nav__link">
+  <a href="#2-boundary-conditions-used-per-case" class="md-nav__link">
     <span class="md-ellipsis">
-      Staggered Grid
+      2. Boundary Conditions Used per Case
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Boundary Conditions Used per Case">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lid-driven-cavity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lid-Driven Cavity
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#comparison-of-solutions" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#channel-flow" class="md-nav__link">
     <span class="md-ellipsis">
-      Comparison of Solutions
+      Channel Flow
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#open-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Open Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-in-open-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Object in Open Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wind-turbine-in-open-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wind Turbine in Open Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -567,60 +651,73 @@
 
 
 
-<h1 id="grid-types">Grid Types</h1>
-<p>Numerical solvers for the incompressible Navier-Stokes equations often use structured grids to discretize the computational domain. Two common types of grids are <strong>collocated grids</strong> and <strong>staggered grids</strong>. This section explains these grid configurations, discusses why staggered grids are often preferred for maintaining incompressibility and compares the results of using the different grids for the same cases. </p>
-<p><img alt="Grid Types" src="../../images/GridTypes.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Grid Types: Collocated and staggered
-</p>
-
-<h2 id="collocated-grid">Collocated Grid</h2>
-<p>In a <strong>collocated grid</strong> all flow variables—such as the velocity components <span class="arithmatex">\((u, v)\)</span> and pressure <span class="arithmatex">\(p\)</span>—are stored at the same grid points (typically at cell centers). This arrangement simplifies data storage and implementation, especially in structured solvers. However, this can lead to spurious pressure oscillations, often referred to as <em>checkerboard patterns</em>, which can make the numerical solution unstable or non-physical.</p>
-<p><img alt="Checkerboard" src="../../images/Checkerboard.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-(Undesired) Checkerboard effect 
-</p>
-
-<p>In addition to pressure-velocity decoupling, another potential issue with collocated grids is the failure to fully enforce the mass conservation condition. This can result in non-zero divergence across the domain, particularly in regions with complex flow features or sharp gradients. The following divergence maps highlight this effect in three different scenarios. In the lid-driven cavity case (left), divergence appears primarily at the corners, likely due to abrupt changes in boundary conditions. In the channel flow with a square obstacle (center), and open flow around a wind turbine (right).</em></p>
-<p>In addition to pressure-velocity decoupling, another potential issue with collocated grids is the failure to fully enforce the mass conservation condition. This can result in non-zero divergence across the domain, particularly in regions with complex flow features or sharp gradients. The following divergence maps highlight this effect in three different scenarios. In the lid-driven cavity case (left), divergence appears primarily at the corners, most probably due to aggresive changes in boundary conditions. In the channel flow with a square obstacle (center), divergence is concentrated at the inlet corners and around the object, where strong velocity gradients and flow separation make it difficult to maintain a divergence-free field. In the open flow around a wind turbine (right), divergence is observed both in front of and behind the turbine, likely caused by large, concentrated velocity gradients. </p>
-<p><img alt="Divergence_CavityFlow" src="../../images/Divergence_CavityFlow.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field for cavity flow.
-</p>
-
-<p><img alt="Divergence_CFSquare" src="../../images/Divergence_CFSquare.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field for channel flow around a square obstacle.
-</p>
-
-<p><img alt="Divergence_Turbine" src="../../images/Divergence_Turbine.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field for a turbine (axial induction) in an open flow. 
-</p>
-
-<p>To mitigate this issues, correction schemes can be employed to <strong>stabilize</strong> the pressure field. However, adopting a <strong>staggered grid</strong> potentially offers a more fundamental solution by addressing the root cause of the decoupling.</p>
-<h2 id="staggered-grid">Staggered Grid</h2>
-<p>In a <strong>staggered grid</strong>, different variables are stored at different spatial locations within each grid cell, in this case:</p>
+<h1 id="boundary-conditions">Boundary Conditions</h1>
+<p>Boundary conditions (BCs) are a fundamental part of any numerical simulation, as they define how the system interacts with its surroundings. In the context of incompressible Navier-Stokes solvers, they play a crucial role in ensuring accurate and stable solutions. This chapter introduces the main types of boundary conditions used in CFD and describes how they are applied in each of the configurations considered in this notebook.</p>
+<hr />
+<h2 id="1-types-of-boundary-conditions">1. Types of Boundary Conditions</h2>
 <ul>
-<li><strong>Pressure</strong> <span class="arithmatex">\(p\)</span> is stored at the <strong>cell center</strong>.</li>
-<li>The <strong>horizontal velocity</strong> component <span class="arithmatex">\(u\)</span> is stored at the center of the <strong>vertical cell faces</strong>.</li>
-<li>The <strong>vertical velocity</strong> component <span class="arithmatex">\(v\)</span> is stored at the center of the <strong>horizontal cell faces</strong>.</li>
+<li>
+<p><strong>Dirichlet Boundary Condition</strong><br />
+  Specifies the value of a variable at the boundary. For example, setting a fixed velocity (inflow, wall movement) or pressure at a boundary.</p>
+<ul>
+<li>
+<p><strong>No-Slip Condition</strong><br />
+  A type of Dirichlet BC where velocity is set to zero at solid walls.</p>
+</li>
+<li>
+<p><strong>Slip Condition</strong><br />
+  Allows tangential velocity but prevents normal velocity at walls, often used in inviscid or simplified flow models.</p>
+</li>
 </ul>
-<p><img alt="Staggered grid variables" src="../../images/Staggered.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Staggered grid. Variables location layout.
-</p>
-
-<p>This configuration <strong>naturally couples pressure and velocity</strong> by positioning them at offset locations (velocity components are on the cell faces and pressure at the cell centers). This offset arrangement may help satisfy the discretized continuity equation more accurately. It could also reduce or eliminate pressure oscillations without the need for artificial interpolation, potentially making staggered grids more effective for incompressible flow solvers.</p>
-<h2 id="comparison-of-solutions">Comparison of Solutions</h2>
-<p>To evaluate the practical impact of grid configuration, I implemented both a collocated and a staggered grid version of the solver and ran them on the same test case.</p>
-<p>INSERT FIGURES OF VELOCITY AND DIVERGENCE FOR COLLOCATED AND STAGGERED. 
-FIND SIMILAR CASES AND COMPARE. HOW DIFFERENT WERE THEY? CAN I FIND CHECKERBOARD AND NO CHECKERBOARD? </p>
-<p>EXPLAIN</p>
-<blockquote>
-<p><em>Insert plots showing velocity fields and divergence magnitude for both grid types.</em></p>
-</blockquote>
-<p>This comparison illustrates the <strong>numerical robustness and stability</strong> of staggered grids for solving the incompressible Navier-Stokes equations.</p>
+</li>
+<li>
+<p><strong>Neumann Boundary Condition</strong><br />
+  Specifies the derivative (usually normal to the boundary) of a variable. Commonly used to model outflow conditions or natural walls where flux is zero.</p>
+</li>
+<li>
+<p><strong>Periodic Boundary Condition</strong><br />
+  Used when the domain wraps around, like in fully developed flows or repeated geometries. Variables exiting one side re-enter on the opposite side.</p>
+</li>
+<li>
+<p><strong>Open/Outflow Boundary</strong><br />
+  Typically uses a Neumann condition for velocity and a fixed pressure (Dirichlet) to allow flow to exit freely.</p>
+</li>
+</ul>
+<hr />
+<h2 id="2-boundary-conditions-used-per-case">2. Boundary Conditions Used per Case</h2>
+<h3 id="lid-driven-cavity">Lid-Driven Cavity</h3>
+<ul>
+<li><strong>Top lid</strong>: Dirichlet condition for horizontal velocity (set to lid speed), no vertical velocity (Dirichlet = 0).  </li>
+<li><strong>Other walls</strong>: No-slip condition (Dirichlet = 0 for both velocity components).  </li>
+<li><strong>Pressure</strong>: Neumann condition (zero-gradient) at all boundaries; pressure is anchored by setting a reference value at one point.</li>
+</ul>
+<h3 id="channel-flow">Channel Flow</h3>
+<ul>
+<li><strong>Inlet</strong>: Dirichlet condition for velocity profile (parabolic or constant), Neumann for pressure.  </li>
+<li><strong>Outlet</strong>: Dirichlet condition for pressure (e.g., <span class="arithmatex">\( p = 0 \)</span>), Neumann for velocity.  </li>
+<li><strong>Walls</strong>: No-slip condition for velocity, Neumann for pressure.</li>
+</ul>
+<h3 id="open-flow">Open Flow</h3>
+<ul>
+<li><strong>Inlet</strong>: Prescribed velocity (Dirichlet), Neumann for pressure.  </li>
+<li><strong>Outlet</strong>: Neumann for velocity, Dirichlet for pressure.  </li>
+<li><strong>Top and bottom</strong>: Free-slip or open boundaries depending on setup.</li>
+</ul>
+<h3 id="object-in-open-flow">Object in Open Flow</h3>
+<ul>
+<li><strong>Object surface</strong>: No-slip condition.  </li>
+<li><strong>Inlet/outlet</strong>: Same as in open flow.  </li>
+<li><strong>Top and bottom</strong>: Often treated as open (Neumann), or walls (no-slip), depending on domain size.</li>
+</ul>
+<h3 id="wind-turbine-in-open-flow">Wind Turbine in Open Flow</h3>
+<ul>
+<li><strong>Inlet</strong>: Dirichlet velocity, Neumann pressure.  </li>
+<li><strong>Outlet</strong>: Neumann velocity, Dirichlet pressure.  </li>
+<li><strong>Turbine surface</strong>: No-slip boundary.  </li>
+<li><strong>Top and sides</strong>: Open boundaries (Neumann for velocity and pressure) or symmetry/slip depending on context.</li>
+</ul>
+<hr />
+<p>Let me know if you want this turned into a collapsible section for MkDocs, or if you'd like to add figures for each BC case.</p>
 
 
 

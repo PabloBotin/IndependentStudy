@@ -225,6 +225,19 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -236,6 +249,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objective
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -358,6 +408,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../boundary_conditions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Boundary Conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../results/" class="md-nav__link">
         
   
@@ -437,6 +509,32 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Motivation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      Objective
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -452,10 +550,32 @@
 
 
 <h1 id="introduction">Introduction</h1>
-<p>Fluid dynamics plays an important role in understanding natural phenomena and designing engineering systems. From the flow of air around an airplane wing to the movement of water in rivers, the behavior of fluids is governed by a set of partial differential equations known as the Navier-Stokes equations.</p>
-<p>The original motivation for developing this solver was to model wake formation behind wind turbines in a wind farm using a lightweight, efficient computational tool. The goal was to enable fast 2D real-time visualizations, with potential extension into the 3D domain. While this notebook does not focus on that specific application, it centers on the design and implementation of the numerical method behind the solver.</p>
-<p>This method targets the 2D incompressible Navier-Stokes equations, which describe the motion of fluids with constant density. These equations are particularly relevant for liquid flows and low-speed gas flows where density variations are negligible.</p>
-<p>In this notebook, we introduce the governing equations, discuss the challenges of solving them numerically, and present an efficient solver implementation. Along the way, we compare different grid types, interpolation strategies, and iterative solvers to highlight the numerical trade-offs involved.</p>
+<p><strong>Fluid dynamics</strong> plays an important role in understanding natural phenomena and designing engineering systems. From the flow of air around an airplane wing to the movement of water in rivers, the behavior of fluids is governed by a set of partial differential equations known as the <strong>Navier-Stokes equations</strong>.</p>
+<p>The original motivation for developing this solver was to model wake formation behind wind turbines in a wind farm using a lightweight, efficient computational tool. The goal was to enable <strong>fast 2D real-time visualizations</strong>, with potential extension into the 3D domain. While this notebook does not focus on that specific application, it centers on the <strong>design and implementation</strong> of the numerical method behind the solver.</p>
+<p>This method targets the <strong>2D incompressible Navier-Stokes equations</strong>, which describe the motion of fluids with constant density. These equations are particularly relevant for liquid flows and low-speed gas flows where density variations are negligible.</p>
+<p>In this notebook, we introduce the <strong>governing equations</strong>, discuss the <strong>challenges of solving them numerically</strong>, and present an <strong>efficient solver implementation</strong>. Along the way, we compare different grid types, interpolation strategies, discretization techniques, boundary conditions and iterative solvers to highlight the numerical trade-offs involved. This is an <strong>educational</strong> module designed to help fellow CFD students learn how to build their own solvers tailored to specific flow scenarios.</p>
+<h3 id="motivation">Motivation</h3>
+<p>This project originated from a personal goal: to develop a solver capable of simulating flow in wind farms, where the interaction between turbines and the atmosphere requires both flexibility and precision. The path unfolded as follows:</p>
+<ol>
+<li>
+<p>First approach: <strong>Semi-Lagrangian Projection</strong>: I worked with a solver developed by Matthias Müller from <a href="https://github.com/matthias-research/pages/blob/master/tenMinutePhysics/17-fluidSim.html" title="Matthias Müller's Ten Minute Physics: Fluid Simulation"><em>Ten Minute Physics</em></a>. The method combines <strong>semi-Lagrangian advection</strong>, a <strong>projection step</strong> to enforce continuity, and an added <strong>diffusion step</strong> to improve stability. While useful for early testing, this approach led to results that didn’t always behave as expected, which motivated me to develop a solver from scratch using a more traditional formulation.</p>
+</li>
+<li>
+<p>Second approach: <strong>Collocated with Barba's method</strong>: To better understand the fundamentals, I decided to build my own solver from scratch using <a href="https://github.com/barbagroup/CFDPython" title="Lorena Barba's CFD Python Tutorials">Lorena Barba’s CFD Python tutorials</a> as a guide. This approach uses a <strong>collocated grid</strong> and a <strong>specific form of the projection method</strong>: it solves the Poisson equation first and then advects using the resulting pressure field. While the implementation helped me solidify my understanding of key numerical components, the solutions were not strictly divergence-free. This raised concerns about the method's consistency, and led me to explore a more classical formulation — Chorin’s predictor–corrector method — along with a new grid structure: the staggered grid.</p>
+</li>
+<li>
+<p>Final approach: <strong>Staggered grid with Chorin’s method</strong>: I then implemented a solver using <a href="https://math.berkeley.edu/~chorin/chorin68.pdf" title="A.J. Chorin (1968) – Numerical Solution of the Navier-Stokes Equations">Chorin’s classic predictor–corrector algorithm</a>, this time on a <strong>staggered grid</strong> structure. This formulation improved pressure–velocity coupling and ensured mass conservation more effectively. I also incorporated more advanced interpolation schemes and special boundary condition treatments to increase the solver's accuracy and flexibility.</p>
+</li>
+</ol>
+<hr />
+<h3 id="objective">Objective</h3>
+<p>This notebook is intended to be an <strong>educational module</strong> for other CFD students. It aims to provide a practical guide to building a flow solver from scratch by:</p>
+<ul>
+<li>Introducing the <strong>incompressible Navier Stokes equations</strong> and explain the numerical challenges of their resolution.   </li>
+<li>Present and discuss different <strong>types of grids</strong>, <strong>discretization</strong>, <strong>numerical methods</strong>, <strong>boundary conditions</strong>, <strong>iterative solvers</strong>...   </li>
+<li>Provide <strong>reproducible code</strong> with figures. </li>
+<li>Encourage other students to <strong>customize, extend, and adapt</strong> these methods to their own projects.</li>
+</ul>
 
 
 

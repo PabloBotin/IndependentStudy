@@ -290,7 +290,7 @@
         <li class="md-nav__item">
   <a href="#continuity-equation" class="md-nav__link">
     <span class="md-ellipsis">
-      Continuity equation
+      Continuity Equation
     </span>
   </a>
   
@@ -299,7 +299,7 @@
         <li class="md-nav__item">
   <a href="#momentum-equations" class="md-nav__link">
     <span class="md-ellipsis">
-      Momentum equations
+      Momentum Equations
     </span>
   </a>
   
@@ -459,6 +459,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../boundary_conditions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Boundary Conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../results/" class="md-nav__link">
         
   
@@ -547,7 +569,7 @@
         <li class="md-nav__item">
   <a href="#continuity-equation" class="md-nav__link">
     <span class="md-ellipsis">
-      Continuity equation
+      Continuity Equation
     </span>
   </a>
   
@@ -556,7 +578,7 @@
         <li class="md-nav__item">
   <a href="#momentum-equations" class="md-nav__link">
     <span class="md-ellipsis">
-      Momentum equations
+      Momentum Equations
     </span>
   </a>
   
@@ -629,65 +651,76 @@
 
 
 
-<h1 id="governing-equations">Governing Equations</h1>
-<p>The <strong>incompressible Navier-Stokes equations</strong> are fundamental to fluid dynamics and are used to model a wide range of physical phenomena, including airflow over airplane wings, water flow through pipes, and wake formation behind wind turbines. These equations express the conservation of mass (via the continuity equation) and the conservation of momentum (via the momentum equation) within a fluid.</p>
+<h1 id="governing-equations"><strong>Governing Equations</strong></h1>
+<p>The <strong>incompressible Navier-Stokes equations</strong> are fundamental to fluid dynamics and are used to model a wide range of physical phenomena, including airflow over airplane wings, water flow through pipes, and wake formation behind wind turbines. These equations express the <strong>conservation of mass</strong> (via the continuity equation) and the <strong>conservation of momentum</strong> (via the momentum equation) within a fluid.</p>
 <p>By assuming <strong>incompressibility</strong>, we neglect variations in density, an accepted assumption for many liquid flows and low-speed gas flows. This simplification reduces the complexity of the equations while still capturing the essential physics of many practical problems.</p>
-<p>The incompressible Navier-Stokes equations consist of:
-- <strong>Mass conservation</strong>, ensuring mass conservation
-- <strong>Momentum conservation</strong>, derived from Newton’s second law applied to fluid motion</p>
-<h2 id="continuity-equation">Continuity equation</h2>
+<p>The incompressible Navier-Stokes equations consist of:</p>
+<ul>
+<li><strong>Mass conservation</strong>, ensuring mass conservation  </li>
+<li><strong>Momentum conservation</strong>, derived from Newton’s second law applied to fluid motion</li>
+</ul>
+<h2 id="continuity-equation"><strong>Continuity Equation</strong></h2>
 <p>The continuity equation ensures the <strong>conservation of mass</strong> in incompressible flows. For a velocity field 
-u, the equation is written as <span class="arithmatex">\(∇⋅u= 0\)</span> In 2D derivative form, it becomes:  <span class="arithmatex">\(\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0\)</span></p>
-<h2 id="momentum-equations">Momentum equations</h2>
-<p>The momentum equations describe the conservation of momentum in the fluid, considering all the forces involved. For incompressible flows, they are expressed as:
-<span class="arithmatex">\(\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \mathbf{f}\)</span>. 
-In 2D derivative form:</p>
+<span class="arithmatex">\(\mathbf{u}\)</span>, the equation is written as <span class="arithmatex">\(∇⋅\mathbf{u}= 0\)</span>. In 2D derivative form, it becomes:<br />
+$$
+\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
+$$</p>
+<h2 id="momentum-equations"><strong>Momentum Equations</strong></h2>
+<p>The momentum equations describe the <strong>conservation of momentum</strong> in the fluid, considering all the forces involved. For incompressible flows, they are expressed as:<br />
+$$
+\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \mathbf{f}
+$$</p>
+<p>In 2D derivative form:</p>
 <p><strong>x-Momentum:</strong>
 $$
 \frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} = -\frac{1}{\rho} \frac{\partial p}{\partial x} + \nu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\right) + F_x
 $$</p>
 <p><strong>y-Momentum:</strong>
-$$\frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} = -\frac{1}{\rho} \frac{\partial p}{\partial y} + \nu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} \right) + F_y $$</p>
-<h2 id="challenges-in-solving-the-incompressible-navier-stokes-equations">Challenges in Solving the Incompressible Navier-Stokes Equations</h2>
-<h3 id="coupling-between-velocity-and-pressure">Coupling Between Velocity and Pressure</h3>
-<p>A key challenge in solving the incompressible Navier-Stokes equations is the implicit coupling between velocity <span class="arithmatex">\(\mathbf{u}\)</span> and pressure <span class="arithmatex">\(p\)</span>. Although the momentum and continuity equations appear decoupled in the incompressible form of the Navier-Stokes equations, they are physically interdependent because:</p>
+$$
+\frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} = -\frac{1}{\rho} \frac{\partial p}{\partial y} + \nu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} \right) + F_y 
+$$</p>
+<hr />
+<h2 id="challenges-in-solving-the-incompressible-navier-stokes-equations"><strong>Challenges in Solving the Incompressible Navier-Stokes Equations</strong></h2>
+<h3 id="coupling-between-velocity-and-pressure"><strong>Coupling Between Velocity and Pressure</strong></h3>
+<p>A key challenge in solving the incompressible Navier-Stokes equations is the implicit coupling between velocity <span class="arithmatex">\(\mathbf{u}\)</span> and pressure <span class="arithmatex">\(p\)</span>. Although the momentum and continuity equations appear decoupled, they are physically interdependent because:</p>
 <ul>
-<li>The velocity field influences the resulting pressure distribution.</li>
-<li>The pressure field must ensure that the velocity field satisfies the incompressibility constraint, which is expressed by the mass conservation (continuity) equation.</li>
+<li>The <strong>velocity field</strong> influences the resulting <strong>pressure distribution</strong>.</li>
+<li>The <strong>pressure field</strong> must ensure that the <strong>velocity field satisfies the incompressibility</strong> constraint.</li>
 </ul>
-<p>This apparent decoupling gives rise to several numerical challenges:</p>
+<p>This apparent decoupling gives rise to several <strong>numerical challenges</strong>:</p>
 <ul>
-<li>Since there is no explicit equation for pressure, it must be computed indirectly through the momentum and continuity equations.</li>
-<li>Without proper numerical treatment, the pressure-velocity relationship can become unstable, leading to artifacts such as pressure oscillations or non-physical velocity fields.</li>
+<li>There is no explicit <strong>equation for pressure</strong>, so it must be computed indirectly.</li>
+<li>Without proper treatment, the pressure-velocity relationship can become unstable, causing <strong>oscillations</strong> or <strong>non-physical results</strong></li>
 </ul>
-<p>To restore the coupling between velocity and pressure and enforce incompressibility, a Poisson equation for pressure is derived from the divergence of the momentum equations. This Poisson equation acts as a surrogate for the continuity equation.</p>
-<p>INSERT DERIVATION OR REFERENCE 2 LORENA BARBA's.</p>
-<h3 id="nonlinearity-of-the-momentum-equations">Nonlinearity of the Momentum Equations</h3>
-<p>The convective term in the momentum equations,</p>
+<p>To restore this coupling and enforce incompressibility, a Poisson equation for pressure can be derived from the divergence of the momentum equations. This acts as a surrogate for the continuity equation. A clear and pedagogical explanation of both the derivation of the Poisson equation and the discretization of the governing equations is provided in <em>CFD Python: 12 steps to Navier-Stokes</em> by Barba and Forsyth (<a href="https://github.com/barbagroup/CFDPython">Barba &amp; Forsyth, 2014</a>).</p>
+<hr />
+<h3 id="nonlinearity-of-the-momentum-equations"><strong>Nonlinearity of the Momentum Equations</strong></h3>
+<p>The <strong>convective term</strong> in the momentum equations,</p>
 <div class="arithmatex">\[
 (\mathbf{u} \cdot \nabla)\mathbf{u}
 \]</div>
-<p>introduces nonlinearity, which significantly complicates the numerical solution. If boundary conditions, interpolations and other numerical techniques are not properly set, it can result in:</p>
+<p>introduces <strong>nonlinearity</strong>, which complicates the numerical solution:</p>
 <ul>
-<li>Instabilities: Small numerical errors can grow rapidly unless stabilization techniques (e.g., upwinding or artificial diffusion) are used.</li>
-<li>Increased computational cost: Solving nonlinear systems often requires iterative approaches and careful time-stepping, such as the use of a CFL condition. </li>
+<li><strong>Instabilities</strong>: Small errors such as upwinding or artificial diffusion may arise.</li>
+<li><strong>Increased computational cost</strong>: Solving nonlinear systems often requires iterative methods and careful time-stepping, one way to control time-stepping is by applying a CFL condition.</li>
 </ul>
 <hr />
-<h3 id="boundary-conditions">Boundary Conditions</h3>
-<p>Correctly specifying boundary conditions is critical for both accuracy and stability. Challenges include:</p>
+<h3 id="boundary-conditions"><strong>Boundary Conditions</strong></h3>
+<p>Correctly specifying boundary conditions is critical for both <strong>accuracy</strong> and <strong>stability</strong>:</p>
 <ul>
-<li>Matching inflow and outflow conditions to avoid artificial reflections or contibuity interruption.</li>
-<li>Enforcing the no-slip condition on solid walls.</li>
-<li>Handling pressure and velocity gradients near boundaries, which may cause divergence or loss of accuracy.</li>
+<li>Matching <strong>inflow/outflow conditions</strong> to avoid artificial reflections.</li>
+<li>Enforcing the <strong>no-slip condition</strong> on solid walls.</li>
+<li>Handling pressure/velocity gradients near boundaries to avoid <strong>divergence</strong> or <strong>loss of accuracy</strong>.</li>
 </ul>
 <hr />
-<h3 id="discretization-challenges">Discretization Challenges</h3>
-<p>Discretizing the continuous equations introduces trade-offs and numerical artifacts:</p>
+<h3 id="discretization-challenges"><strong>Discretization Challenges</strong></h3>
+<p>Discretizing the continuous equations introduces trade-offs:</p>
 <ul>
-<li>Accuracy vs. cost: Finer grids yield better resolution but increase memory and computation time.</li>
-<li>Numerical diffusion: Some schemes may overly smooth the solution, hiding important flow features.</li>
-<li>Pressure-velocity consistency: Special care is needed to ensure that the discrete velocity field remains divergence-free, especially on collocated grids.</li>
+<li><strong>Accuracy vs. cost</strong>: Finer grids improve resolution but raise computational demand.</li>
+<li><strong>Numerical diffusion</strong>: Some schemes may over-smooth the solution.</li>
+<li><strong>Pressure-velocity consistency</strong>: Ensuring that the discrete velocity field remains divergence-free is essential.</li>
 </ul>
+<p>These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the stability and accuracy of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called discretization.</p>
 
 
 
