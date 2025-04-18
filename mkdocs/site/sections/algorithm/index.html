@@ -465,6 +465,28 @@
   
   
     <li class="md-nav__item">
+      <a href="../boundary_conditions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Boundary Conditions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../results/" class="md-nav__link">
         
   
@@ -644,34 +666,38 @@
 <h1 id="algorithm">Algorithm</h1>
 <p>In this section, we outline and compare two different numerical algorithms employed to solve the incompressible Navier-Stokes equations: <strong>Chorin's Projection Method</strong> and the <strong>Predictor-Corrector Method</strong>. These algorithms differ in their sequence of operations and the way they integrate the pressure and velocity fields over time. I will explain and implement both methods and compare their performance and results in terms of accuracy and computational efficiency.</p>
 <h2 id="1st-order-unsplit-eulers-method-laurena-barbas-method">1st order unsplit Euler's method (Laurena Barba's method)</h2>
-<p>Chorin's projection method is a widely used technique to solve the incompressible Navier-Stokes equations. The primary goal of this method is to ensure that the computed velocity field remains divergence-free (i.e., mass-conserving) at each timestep. This is achieved through two main steps: pressure projection and advection-diffusion, which are alternated to ensure the incompressibility condition.</p>
+<p>The primary goal of this method is to ensure that the computed velocity field remains divergence-free (mass conserves) at each timestep. This is achieved through two main steps: <strong>pressure projection</strong> and <strong>advection-diffusion</strong>, which are alternated to ensure the incompressibility condition.</p>
 <h3 id="step-1-solving-the-poisson-equation-for-pressure-correction">Step 1. Solving the Poisson equation for pressure correction.</h3>
-<p>The first step in Chorin’s method is to solve the Poisson equation for the pressure, which is derived from the incompressibility condition <span class="arithmatex">\(\nabla^2 p = \nabla \cdot \mathbf{u}^*\)</span>. The ultimate goal is to calculate the pressure gradient that will ensure zero divergence when performing the advection-diffusion step. </p>
+<p>The first step is to <strong>solve the Poisson equation</strong> for the pressure, which is derived from the incompressibility condition <span class="arithmatex">\(\nabla^2 p = \nabla \cdot \mathbf{u}^*\)</span>. The ultimate goal is to <strong>calculate the pressure gradient</strong> that will ensure zero divergence when performing the advection-diffusion step. </p>
 <h3 id="step-2-advection-diffusion-with-pressure-gradient">Step 2. Advection-Diffusion with Pressure Gradient.</h3>
-<p>The advection-diffusion step updates the velocity field by incorporating the pressure gradient (<span class="arithmatex">\(\nabla p^*\)</span>) obtained from the solution of the Poisson solver. This step ensures the incompressibility of the flow by adjusting the velocity field based on the pressure distribution, while simultaneously advecting and diffusing the fluid. The advection-diffusion equation, which includes the pressure gradient, is:
+<p>The advection-diffusion step updates the velocity field by incorporating the pressure gradient (<span class="arithmatex">\(\nabla p^*\)</span>) obtained from the solution of the Poisson solver. This step ensures the incompressibility of the flow by <strong>adjusting the velocity field based on the pressure distribution</strong>, while simultaneously advecting and diffusing the fluid. The advection-diffusion equation, which includes the pressure gradient, is:
 $$
 \mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \left[ -\frac{1}{\rho} \nabla p^* + \nu \nabla^2 \mathbf{u}^n - (\mathbf{u}^n \cdot \nabla) \mathbf{u}^n + \mathbf{f} \right]
 $$</p>
 <h2 id="chorins-projection-method">Chorin's Projection method</h2>
-<p>Chorin's fractional step algorithm is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct this predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.</p>
+<p>Chorin's fractional step algorithm is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.</p>
 <h3 id="step-1-prediction-step-advection-diffusion">Step 1. Prediction Step (Advection-Diffusion).</h3>
-<p>In the prediction step, the velocity field is updated by solving the advection-diffusion equation without considering the pressure gradient term. This means that the velocity field evolves based on the advection of the fluid and the diffusion effects, but the incompressibility constraint is not enforced at this stage.
+<p>In the prediction step, the velocity field is updated by solving the advection-diffusion equation <strong>without considering the pressure gradient term</strong>. This means that the velocity field evolves based on the advection of the fluid and the diffusion effects, but the incompressibility constraint is not enforced at this stage.
 $$
 \mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \left[\nu \nabla^2 \mathbf{u}^n - (\mathbf{u}^n \cdot \nabla) \mathbf{u}^n + \mathbf{f} \right]
 $$
-The result of this step is an intermediate velocity field that may not satisfy the incompressibility condition ∇⋅u=0.</p>
+The result of this step is an <strong>intermediate velocity</strong> field that may not satisfy the incompressibility condition ∇⋅u=0.</p>
 <h3 id="step-2-solve-the-poisson-equation">Step 2. Solve the Poisson Equation.</h3>
 <p>This step involves solving the Poisson equation for the pressure field with the fractional velocity field (<code>u*</code>). 
 $$
-\nabla^2 p = \nabla \cdot \mathbf{u}^{*}
+\nabla^2 p = \nabla \cdot \mathbf{u}^{<em>}
 $$
-The solution to this equation provides the pressure distribution required to compute the pressure gradient that will be used to correct the velocity field in order to ensure that it is divergence-free.</p>
+The solution to this equation provides the </em><em>pressure distribution required to compute the pressure gradient</em>* that will be used to correct the velocity field in order to ensure that it is divergence-free.</p>
 <h3 id="step-3-correction-step-apply-pressure-gradient-term">Step 3. Correction Step (Apply Pressure Gradient term)</h3>
-<p>After solving for the pressure p, we compute the pressure gradient which is the missing  used to correct the velocity field. The corrected velocity field is computed by subtracting the pressure gradient term from the intermediate velocity:
+<p>After solving for the pressure p, we compute the pressure gradient which is the missing used to correct the velocity field. The <strong>corrected velocity field</strong> is computed by subtracting the pressure gradient term from the intermediate velocity:
 $$
-\mathbf{u} = \mathbf{u}^* - \frac{\nabla p}{\rho}\Delta t
+\mathbf{u} = \mathbf{u}^<em> - \frac{\nabla p}{\rho}\Delta t
 $$
-This method really ensures zero divergence because the Poisson equation is solved for the actual velocity field. </p>
+This method effectivelly </em><em>ensures zero divergence</em>* because the Poisson equation is solved for the actual velocity field. </p>
+<p><img alt="Staggered grid variables" src="../../images/Chorin_Algorithm.png" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Chorin's algorithm workflow.
+</p>
 
 
 

@@ -3,7 +3,7 @@ Numerical solvers for the incompressible Navier-Stokes equations often use struc
 
 ![Grid Types](../images/GridTypes.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Grid Types: Collocated and staggered
+Grid Types: Collocated and staggered. Include Copyright. 
 </p>
 
 ## Collocated Grid

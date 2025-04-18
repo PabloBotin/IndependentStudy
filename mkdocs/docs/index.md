@@ -1,6 +1,10 @@
-# INSolver: Incompressible Navier-Stokes Solver
+# Solving the Incompressible Navier-Stokes Equations 
 
-Welcome to the documentation for INSolver, a Python-based solver for the incompressible Navier-Stokes equations.
+An Educational Exploration of Methods, Algorithms, and Boundary Conditions.
+
+
+
+ADD ABSTRACT HERE (INCLUDE ACKNOWLEDGMENTS). 
 
 ---
 
@@ -13,5 +17,4 @@ Welcome to the documentation for INSolver, a Python-based solver for the incompr
 5. [Algorithm](sections/algorithm.md)
 6. [Poisson Solver](sections/poisson_solver.md)
 7. [Boundary Conditions](sections/boundary_conditions.md)
-8. [Results](sections/results.md)
-9. [Conclusion](sections/conclusion.md)
+8. [Conclusion](sections/conclusion.md)

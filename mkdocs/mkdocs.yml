@@ -1,4 +1,4 @@
-site_name: INSolver Documentation
+site_name: Solving the Incompressible Navier-Stokes Equations 
 theme:
   name: material
 
@@ -11,7 +11,7 @@ nav:
   - Algorithm: sections/algorithm.md
   - Poisson Solver: sections/poisson_solver.md
   - Boundary Conditions: sections/boundary_conditions.md
-  - Results: sections/results.md
+  # - Results: sections/results.md
   - Conclusion: sections/conclusion.md
   - References: sections/references.md
 

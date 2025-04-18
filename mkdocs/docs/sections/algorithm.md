@@ -11,7 +11,7 @@ $$
 $$
 
 ## Chorin's Projection method 
-Chorin's fractional step algorithm is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.
+Chorin's **fractional step algorithm** is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.
 
 ### Step 1. Prediction Step (Advection-Diffusion).
 In the prediction step, the velocity field is updated by solving the advection-diffusion equation **without considering the pressure gradient term**. This means that the velocity field evolves based on the advection of the fluid and the diffusion effects, but the incompressibility constraint is not enforced at this stage.
@@ -36,6 +36,6 @@ This method effectivelly **ensures zero divergence** because the Poisson equatio
 
 ![Staggered grid variables](../images/Chorin_Algorithm.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Chorin's algorithm workflow.
+Chorin's algorithm workflow. REDO THIS FIGURE WITH WHITE BACKGROUND.
 </p>
 
