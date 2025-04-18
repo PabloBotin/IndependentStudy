@@ -20,7 +20,7 @@
     
     
       
-        <title>Algorithm - INSolver Documentation</title>
+        <title>Algorithm - Solving the Incompressible Navier-Stokes Equations</title>
       
     
     
@@ -78,7 +78,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="INSolver Documentation" class="md-header__button md-logo" aria-label="INSolver Documentation" data-md-component="logo">
+    <a href="../.." title="Solving the Incompressible Navier-Stokes Equations" class="md-header__button md-logo" aria-label="Solving the Incompressible Navier-Stokes Equations" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -92,7 +92,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            INSolver Documentation
+            Solving the Incompressible Navier-Stokes Equations
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -176,13 +176,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="INSolver Documentation" class="md-nav__button md-logo" aria-label="INSolver Documentation" data-md-component="logo">
+    <a href="../.." title="Solving the Incompressible Navier-Stokes Equations" class="md-nav__button md-logo" aria-label="Solving the Incompressible Navier-Stokes Equations" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    INSolver Documentation
+    Solving the Incompressible Navier-Stokes Equations
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -487,28 +487,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../results/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Results
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../conclusion/" class="md-nav__link">
         
   
@@ -675,7 +653,7 @@ $$
 \mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \left[ -\frac{1}{\rho} \nabla p^* + \nu \nabla^2 \mathbf{u}^n - (\mathbf{u}^n \cdot \nabla) \mathbf{u}^n + \mathbf{f} \right]
 $$</p>
 <h2 id="chorins-projection-method">Chorin's Projection method</h2>
-<p>Chorin's fractional step algorithm is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.</p>
+<p>Chorin's <strong>fractional step algorithm</strong> is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.</p>
 <h3 id="step-1-prediction-step-advection-diffusion">Step 1. Prediction Step (Advection-Diffusion).</h3>
 <p>In the prediction step, the velocity field is updated by solving the advection-diffusion equation <strong>without considering the pressure gradient term</strong>. This means that the velocity field evolves based on the advection of the fluid and the diffusion effects, but the incompressibility constraint is not enforced at this stage.
 $$
@@ -696,7 +674,7 @@ $$
 This method effectivelly </em><em>ensures zero divergence</em>* because the Poisson equation is solved for the actual velocity field. </p>
 <p><img alt="Staggered grid variables" src="../../images/Chorin_Algorithm.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Chorin's algorithm workflow.
+Chorin's algorithm workflow. REDO THIS FIGURE WITH WHITE BACKGROUND.
 </p>
 
 
