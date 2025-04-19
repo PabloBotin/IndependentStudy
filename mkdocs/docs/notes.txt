@@ -8,12 +8,14 @@
     - Explain the different terms in the Poisson equation. State their equations. 
 
 - Poisson Solver. 
-    - Poner los links de Colab chuckun. 
+    - Poner los links de Colab chuckun. Make sure repositories are up to date and pull when finished. 
     - Embedd executable python scripts. Optional
     - Add more convergence graphs and plots. 
 
 - Boundary Conditions. 
     - Continue work on the same line
+    - This have became into a complete analysis of the different solutions. 
+         Maybe I need to rename this into the Results section.. and add an animated solution featuring the velocity? 
 
 - Results.
     - Recover results chapter, embedding animated solutions for the different problem cases. 

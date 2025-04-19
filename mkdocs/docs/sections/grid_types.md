@@ -65,4 +65,3 @@ The following figure shows the results for a flow across a wind turbine using a 
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Divergence, pressure and velocity fields of a flow accross a wind turbine, using a staggered grid. 
 </p>
-
