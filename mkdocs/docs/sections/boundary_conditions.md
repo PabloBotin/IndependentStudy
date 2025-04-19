@@ -81,7 +81,7 @@ This setup imposes a uniform velocity at the inlet and fixes the pressure at the
 
 ![BC_ChannelFlow](../images/BC_ChannelFlow.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergenc map, pressure field and velocity magnitude for configuration 1 of the channel flow problem. 
+Divergence map, pressure field and velocity magnitude for configuration 1 of the channel flow problem. 
 </p>
 
 The velocity field shows the expected behavior induced by the no-slip condition at the walls. A strong vertical gradient in the horizontal velocity component develops near the solid boundaries, forming a parabolic-like profile across the height of the channel. Additionally, we can observe how the flow gradually develops along the streamwise direction, transitioning from the uniform inlet condition to the characteristic profile of a fully developed channel flow. The following figure provides a closer look at this velocity profile by comparing simulated profiles at different streamwise locations with the analytical Poiseuille solution. Notice that the orange curve represents a uniform velocity, corresponding to the inlet condition, before the flow begins to develop.
