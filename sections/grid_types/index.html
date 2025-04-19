@@ -349,15 +349,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#comparison-of-solutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Comparison of Solutions
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -520,15 +511,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#comparison-of-solutions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Comparison of Solutions
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -549,36 +531,52 @@
 <p>Numerical solvers for the incompressible Navier-Stokes equations often use structured grids to discretize the computational domain. Two common types of grids are <strong>collocated grids</strong> and <strong>staggered grids</strong>. This section explains these grid configurations, discusses why staggered grids are often preferred for maintaining incompressibility and compares the results of using the different grids for the same cases. </p>
 <p><img alt="Grid Types" src="../../images/GridTypes.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Grid Types: Collocated and staggered. Include Copyright. 
+Grid Types: Collocated and staggered. Need to include Copyright. 
 </p>
 
 <h2 id="collocated-grid">Collocated Grid</h2>
-<p>In a <strong>collocated grid</strong> all flow variables—such as the velocity components <span class="arithmatex">\((u, v)\)</span> and pressure <span class="arithmatex">\(p\)</span>—are stored at the same grid points (typically at cell centers). This arrangement simplifies data storage and implementation, especially in structured solvers. However, this can lead to spurious pressure oscillations, often referred to as <em>checkerboard patterns</em>, which can make the numerical solution unstable or non-physical.</p>
+<p>In a <strong>collocated grid</strong>, all primary flow variables, such as the velocity components <span class="arithmatex">\((u, v)\)</span> and pressure <span class="arithmatex">\(p\)</span>, are stored at the same spatial locations, typically at the cell centers. This setup simplifies memory management and implementation, especially for structured solvers. However, this arrangement can make it more difficult to <strong>numerically couple pressure and velocity</strong>, which are already decoupled in the continuous incompressible Navier-Stokes equations. If not treated carefully, this may lead to <em>spurious oscillations</em>, often appearing as a <strong>checkerboard pattern</strong> in the solution.</p>
 <p><img alt="Checkerboard" src="../../images/Checkerboard.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-(Undesired) Checkerboard effect 
+An example of the (undesired) checkerboard effect on a collocated grid.
 </p>
 
-<p>In addition to pressure-velocity decoupling, another potential issue with collocated grids is the failure to fully enforce the mass conservation condition. This can result in non-zero divergence across the domain, particularly in regions with complex flow features or sharp gradients. The following divergence maps highlight this effect in three different scenarios. In the lid-driven cavity case (left), divergence appears primarily at the corners, likely due to abrupt changes in boundary conditions. In the channel flow with a square obstacle (center), and open flow around a wind turbine (right).</em></p>
-<p>In addition to pressure-velocity decoupling, another potential issue with collocated grids is the failure to fully enforce the mass conservation condition. This can result in non-zero divergence across the domain, particularly in regions with complex flow features or sharp gradients. The following divergence maps highlight this effect in three different scenarios. In the lid-driven cavity case (left), divergence appears primarily at the corners, most probably due to aggresive changes in boundary conditions. In the channel flow with a square obstacle (center), divergence is concentrated at the inlet corners and around the object, where strong velocity gradients and flow separation make it difficult to maintain a divergence-free field. In the open flow around a wind turbine (right), divergence is observed both in front of and behind the turbine, likely caused by large, concentrated velocity gradients. </p>
-<p><img alt="Divergence_CavityFlow" src="../../images/Divergence_CavityFlow.png" /></p>
+<p>Another challenge is the enforcement of mass conservation. In collocated grids, this can result in <strong>non-zero divergence</strong> across the domain, particularly in regions with steep velocity gradients or complex boundary interactions. The following divergence maps illustrate this effect across three different scenarios:</p>
+<ul>
+<li><strong>Lid-driven cavity:</strong> Divergence appears mostly in the corners, likely due to sharp velocity changes imposed by the boundary conditions.
+<img alt="Divergence_CavityFlow" src="../../images/Divergence_Cavity.png" /></li>
+</ul>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field for cavity flow.
+Divergence  map for the lid-driven cavity flow problem.
 </p>
 
-<p><img alt="Divergence_CFSquare" src="../../images/Divergence_CFSquare.png" /></p>
+<ul>
+<li><strong>Channel flow:</strong> Divergence is concentrated at the inlet corners. This is likely caused by the sudden onset of flow and the interaction between imposed boundary conditions and the pressure field, which can be challenging to resolve with a collocated grid.</li>
+</ul>
+<p><img alt="Divergence_CFSquare" src="../../images/Divergence_ChannelFlow.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field for channel flow around a square obstacle.
+Divergence map for the channel flow problem.
 </p>
 
-<p><img alt="Divergence_Turbine" src="../../images/Divergence_Turbine.png" /></p>
+<ul>
+<li><strong>Flow around a square obstacle:</strong> Divergence appears near the object, where strong recirculation and flow separation make it difficult to maintain mass conservation.
+<img alt="Divergence_CFSquare" src="../../images/Divergence_Object.png" /></li>
+</ul>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field for a turbine (axial induction) in an open flow. 
+Velocity and divergence map for channel flow around a square obstacle.
+</p>
+
+<ul>
+<li><strong>Flow accross a wind turbine:</strong> Divergence accumulates on the front and back of the wind turbine. This is caused by the strong velocity gradients generated by the axial induction force. 
+<img alt="Divergence_Turbine" src="../../images/Divergence_Turbine.png" /></li>
+</ul>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Velocity and divergence map for a flow accross a turbine.
 </p>
 
 <p>To mitigate this issues, correction schemes can be employed to <strong>stabilize</strong> the pressure field. However, adopting a <strong>staggered grid</strong> potentially offers a more fundamental solution by addressing the root cause of the decoupling.</p>
 <h2 id="staggered-grid">Staggered Grid</h2>
-<p>In a <strong>staggered grid</strong>, different variables are stored at different spatial locations within each grid cell, in this case:</p>
+<p>In <strong>staggered grids</strong>, different variables are stored at different spatial locations within each grid cell, in this case:</p>
 <ul>
 <li><strong>Pressure</strong> <span class="arithmatex">\(p\)</span> is stored at the <strong>cell center</strong>.</li>
 <li>The <strong>horizontal velocity</strong> component <span class="arithmatex">\(u\)</span> is stored at the center of the <strong>vertical cell faces</strong>.</li>
@@ -589,16 +587,12 @@ Divergence field for a turbine (axial induction) in an open flow.
 Staggered grid. Variables location layout.
 </p>
 
-<p>This configuration <strong>naturally couples pressure and velocity</strong> by positioning them at offset locations (velocity components are on the cell faces and pressure at the cell centers). This offset arrangement may help satisfy the discretized continuity equation more accurately. It could also reduce or eliminate pressure oscillations without the need for artificial interpolation, potentially making staggered grids more effective for incompressible flow solvers.</p>
-<h2 id="comparison-of-solutions">Comparison of Solutions</h2>
-<p>To evaluate the practical impact of grid configuration, I implemented both a collocated and a staggered grid version of the solver and ran them on the same test case.</p>
-<p>INSERT FIGURES OF VELOCITY AND DIVERGENCE FOR COLLOCATED AND STAGGERED. 
-FIND SIMILAR CASES AND COMPARE. HOW DIFFERENT WERE THEY? CAN I FIND CHECKERBOARD AND NO CHECKERBOARD? </p>
-<p>EXPLAIN</p>
-<blockquote>
-<p><em>Insert plots showing velocity fields and divergence magnitude for both grid types.</em></p>
-</blockquote>
-<p>This comparison illustrates the <strong>numerical robustness and stability</strong> of staggered grids for solving the incompressible Navier-Stokes equations.</p>
+<p>This configuration <strong>naturally couples pressure and velocity</strong> by storing them at offset locations—velocity components on the cell faces and pressure at the cell centers. This staggered layout helps enforce the discretized continuity equation more accurately, potentially getting rid of the divergence and the oscillations. As a result, staggered grids are often more effective for incompressible flow solvers where maintaining a divergence-free velocity field is essential.</p>
+<p>The following figure shows the results for a flow across a wind turbine using a staggered grid. It displays the divergence, pressure, and velocity fields. Notice how the divergence has been effectively eliminated—particularly around the turbine—with only minimal residual values near the outlet region.</p>
+<p><img alt="Divergence_Turbine" src="../../images/Divergence_Turbine_Staggered.png" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Divergence, pressure and velocity fields of a flow accross a wind turbine, using a staggered grid. 
+</p>
 
 
 

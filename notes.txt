@@ -1,0 +1,37 @@
+- Grid Types.
+    - Add reference to spurious oscillations. 
+    - Include copyright in Matthias Muller image or create my own one. 
+    - Turn staggered grid sketch into black and white. 
+
+- Algorithm. 
+    - Create 2 algorithm sketchs. 
+    - Explain the different terms in the Poisson equation. State their equations. 
+
+- Poisson Solver. 
+    - Poner los links de Colab chuckun. Make sure repositories are up to date and pull when finished. 
+    - Embedd executable python scripts. Optional
+    - Add more convergence graphs and plots. 
+
+- Boundary Conditions. 
+    - Continue work on the same line
+    - This have became into a complete analysis of the different solutions. 
+         Maybe I need to rename this into the Results section.. and add an animated solution featuring the velocity? 
+
+- Results.
+    - Recover results chapter, embedding animated solutions for the different problem cases. 
+
+Conclusion
+    - Writte up a Conclusion. Necessary? 
+
+- Github. 
+    - CleanUp codes. 
+    - Build clear documentation. 
+
+
+What Peter wants: 
+- Focus on mkdocs, try to show cool things, like..
+    - Embedd animation. Do this forsure. 
+    - Present equations numbered (latex style). Do this for sure. 
+    - Embedd scripts. optional
+    - Brainstorm about other cool things I could do with mkdocs. 
+
