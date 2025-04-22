@@ -11,7 +11,7 @@ nav:
   - Algorithm: sections/algorithm.md
   - Poisson Solver: sections/poisson_solver.md
   - Boundary Conditions: sections/boundary_conditions.md
-  # - Results: sections/results.md
+  - Solutions: sections/solutions.md
   - Conclusion: sections/conclusion.md
   - References: sections/references.md
 

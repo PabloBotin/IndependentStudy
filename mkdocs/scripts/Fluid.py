@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from Config import L, ny, tol, maxiter, H, tf, u_in, rho, Re
+
+import pyximport
+pyximport.install()
 from gauss_seidel import gauss_seidel_iteration
 
 class Fluid:

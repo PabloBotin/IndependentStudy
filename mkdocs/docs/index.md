@@ -17,4 +17,5 @@ ADD ABSTRACT HERE (INCLUDE ACKNOWLEDGMENTS).
 5. [Algorithm](sections/algorithm.md)
 6. [Poisson Solver](sections/poisson_solver.md)
 7. [Boundary Conditions](sections/boundary_conditions.md)
-8. [Conclusion](sections/conclusion.md)
+8. [Solutions](sections/solutions.md)
+9. [Conclusion](sections/conclusion.md)
