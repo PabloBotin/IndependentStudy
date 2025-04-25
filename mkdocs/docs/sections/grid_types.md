@@ -66,3 +66,19 @@ The following figure shows the results for a **flow across a wind turbine** usin
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Divergence, pressure and velocity fields of a flow accross a wind turbine, using a staggered grid. 
 </p>
+
+## Mesh Refinement and Convergence
+
+An important indicator of a numerical method is its **ability to converge** to the true solution as the grid gets refined. In this case, this means that as we increase the number of grid points (i.e., decrease the grid spacing), the numerical solution should become more accurate.
+
+To quantify this, I have computed the **L2 error** between the numerical and analytical solution for the benchmark case of the **channel flow compared against the Poiseuille solution**. The L2 error provides a measure of the discrepancy between the two solutions.
+
+The following figure shows how the **error decreases as the mesh resolution increases**. The test was performed using a staggered grid and solving the channel flow problem at different resolutions.
+
+![Mesh Refinement Convergence](../images/mesh_refinement.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Effect of Mesh Refinement on the accuracy of the solution. 
+</p>
+
+The figure above shows the L2 error of the velocity field compared to the Poiseuille analytical solution, plotted against mesh resolution. The concave shape of the curve illustrates how the **error decreases with finer grids**, demonstrating the proper convergence behavior of the numerical method. However, after a certain resolution, the gain in accuracy becomes marginal compared to the increase in computational cost. Identifying this balance point—where further refinement offers diminishing returns—is a key challenge in practical CFD simulations.
+

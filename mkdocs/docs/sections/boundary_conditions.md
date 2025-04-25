@@ -21,11 +21,20 @@
 
 ---
 
-Setting **appropriate boundary conditions** is one of the most critical steps in solving the incompressible Navier-Stokes equations. The choice of boundary conditions directly influences the stability, accuracy, and physical realism of the simulation. For example, the no-slip condition on solid walls is commonly used, while zero-gradient conditions are often applied at outflows or boundaries where the flow should not be constrained. Different flow scenarios may require very different boundary treatment—for instance, prescribing a fixed pressure at the outlet versus allowing the flow to develop naturally from a pressure gradient. Even small changes to boundary conditions can lead to drastically different solutions—or, in some cases, cause the simulation to diverge or crash entirely.
+Setting **appropiate boundary conditions** is one of the most critical steps in solving the incompressible Navier-Stokes equations. The choice of boundary conditions directly influences the stability, accuracy, and physical realism of the simulation. For example, the **no-slip condition** on solid walls is commonly used, while **zero-gradient conditions** are often applied at outflows or boundaries where the flow should not be constrained. Different flow scenarios may require very different boundary treatment—for instance, prescribing a fixed pressure at the outlet versus allowing the flow to develop naturally from a pressure gradient. Even **small changes to boundary conditions can lead to drastically different solutions** or, in some cases, cause the simulation to diverge or crash entirely.
 
-ADD 2 SOLUTIONS WITH DIFFERENT BCS HERE. 
+The following figure illustrates how slightly different boundary condition configurations can lead to substantially different solutions, even in a simple channel flow setup:
+
+![ChannelFlow_BC_Comparison](../images/BC_comparison.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Comparison of horizontal velocity fields for two different boundary condition setups in a channel flow.
+</p>
+
+On the left, a **uniform velocity profile** is imposed at the inlet and the **pressure is fixed at the outlet**. This results in a developing flow region near the inlet, where the velocity gradually adjusts toward a parabolic profile.
+
+On the right, the **pressure is fixed at both the inlet and the outlet**, and the velocity is not explicitly prescribed. Instead, the flow develops naturally in response to the **imposed pressure difference** across the domain. In this case, the parabolic velocity profile is already fully developed from the entrance, and **no entrance region is observed**.
+
+This comparison highlights how **boundary conditions** not only influence numerical stability but also fundamentally **shape the physical behavior of the simulated flow**.
 
  Several practical configurations and their resulting solutions are explored in detail in the [Solutions](#solutions) chapter, where we examine how specific combinations of boundary conditions affect the flow behavior.
-
-
-
+ 

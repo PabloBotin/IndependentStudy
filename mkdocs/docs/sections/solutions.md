@@ -218,12 +218,10 @@ Divergence map for flow through a turbine in open-flow conditions. The solution 
 
 The divergence field shown above confirms that the solution is nearly divergence-free across the domain, validating the stability and consistency of the solver. The color scale indicates values on the order of \(10^{-5}\), demonstrating that mass conservation is maintained up to numerical precision.
 
-
 #### Computational Parameters
 INCLUIR parrafo aki. 
 
 <div style="display: flex; justify-content: center;">
-
 <table>
   <thead>
     <tr>
@@ -254,9 +252,6 @@ INCLUIR parrafo aki.
     </tr>
   </tbody>
 </table>
-
 </div>
-
-
 
 ---
