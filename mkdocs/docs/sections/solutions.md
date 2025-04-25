@@ -194,7 +194,8 @@ This formulation assumes that the **actuator force is distributed uniformly over
 
 The **wake recovery effect** observed downstream of the turbine is captured by the presence of the **diffusion term** in the momentum equation. As discussed in the [Governing Equations](#governing_equations) chapter, the advection-diffusion formulation inherently includes both the transport of momentum and its **redistribution through viscous effects**.
 
-This case also serves to demonstrate **how easily body forces can be implemented in numerical solvers** and how their influence affects the rest of the domain. The results show how **strong the coupling between the pressure and velocity fields** is, and demonstrates the **action of viscous diffusion**.
+This case also serves to demonstrate **how easily body forces can be implemented in numerical solvers** and how their influence affects the rest of the domain. The results show how **strong the coupling between the pressure and velocity fields**mkdocs serve
+ is, and demonstrates the **action of viscous diffusion**.
 
 ![Solution turbine velocity](../images/Solution_Turbine_u.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">

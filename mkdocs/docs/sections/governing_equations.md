@@ -88,4 +88,4 @@ Discretizing the continuous equations introduces trade-offs:
 - **Pressure-velocity consistency**: Ensuring that the discrete velocity field remains divergence-free is essential.
 
 
-These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the stability and accuracy of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called discretization.
+These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the **stability and accuracy** of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called discretization.

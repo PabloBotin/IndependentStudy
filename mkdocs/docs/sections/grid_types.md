@@ -53,14 +53,14 @@ In **staggered grids**, different variables are stored at different spatial loca
 - The **horizontal velocity** component $u$ is stored at the center of the **vertical cell faces**.
 - The **vertical velocity** component $v$ is stored at the center of the **horizontal cell faces**.
 
-![Staggered grid variables](../images/Staggered.png)
+![Staggered grid variables](../images/staggered.jpeg)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Staggered grid. Variables location layout.
 </p>
 
-This configuration **naturally couples pressure and velocity** by storing them at offset locations—velocity components on the cell faces and pressure at the cell centers. This staggered layout helps enforce the discretized continuity equation more accurately, potentially getting rid of the divergence and the oscillations. As a result, staggered grids are often more effective for incompressible flow solvers where maintaining a divergence-free velocity field is essential.
+This configuration **naturally couples pressure and velocity** by storing them at offset locations—velocity components on the cell faces and pressure at the cell centers. This staggered layout helps enforce the discretized continuity equation more accurately, potentially getting rid of the divergence and oscillations. As a result, staggered grids are often more effective for incompressible flow solvers where maintaining a divergence-free velocity field is essential.
 
-The following figure shows the results for a flow across a wind turbine using a staggered grid. It displays the divergence, pressure, and velocity fields. Notice how the divergence has been effectively eliminated—particularly around the turbine—with only minimal residual values near the outlet region.
+The following figure shows the results for a **flow across a wind turbine** using a staggered grid. It displays the divergence, pressure, and velocity fields. Notice how the divergence has been effectively eliminated around the turbine and only minimal residual values remain left near the outlet region.
 
 ![Divergence_Turbine](../images/Divergence_Turbine_Staggered.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">

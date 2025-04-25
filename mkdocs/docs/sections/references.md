@@ -23,4 +23,5 @@
 
 - Rhie, C. M., & Chow, W. L. (1983). *Numerical study of the turbulent flow past an airfoil with trailing edge separation*. AIAA Journal, 21(11), 1525–1532. https://doi.org/10.2514/3.8284
 
-- Burton, T., Sharpe, D., Jenkins, N., & Bossanyi, E. (2011). *Wind Energy Handbook* (2nd ed.). Wiley. [ISBN: 978-0-470-69975-1]
+<a id="ref2"></a>
+[2] Burton, T., Sharpe, D., Jenkins, N., & Bossanyi, E. (2011). *Wind Energy Handbook* (2nd ed.). Wiley. [ISBN: 978-0-470-69975-1]
