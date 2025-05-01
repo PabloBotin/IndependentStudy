@@ -1,0 +1,15 @@
+2Dos.txt
+
+X Grid Types: Update schematic of staggered grid (Ipad). 
+X BC's: Add comparison of 2 solutions. 
+- Poisson Solver: Update Colab links. 
+- Algorithm: Update schematics. 
+- References: Review references, set numbers, review links. 
+- Conclusion: Writte a conclusion (Or skip this?).
+- Final review. 
+X Merge with Colin. 
+X Grid Types: Include mesh refinement figure into Poisson chapter. 
+- Algorithm: Include Algorithm 2 predictor corrector schematic
+- Solutions: Include pressure around rotor plots and comparison in the axial induction part. 
+- Solutions: Include Peter's requested animation. 
+- Grid Types: Add a plot of simulation time vs grid refinement. 
