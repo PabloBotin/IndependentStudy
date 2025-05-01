@@ -84,7 +84,7 @@ def pressure_poisson(p, b, dx, dy, tol, maxiter):
 
     return p
 ```
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/docs/sections/poisson_solver.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/poisson_solver.ipynb)
 
 ## Gauss-Seidel
 The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pressure values in-place, making it more computationally efficient. What is more, it has been implemented using Cython for an even faster convergence.
@@ -99,10 +99,12 @@ The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pr
     B) Maximum number of iterations is reached.
 8. **Output** Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.
 
-![Chorin_Algorithm](../images/Chorin_Algorithm.png)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](Link)
+
+<!-- ![Chorin_Algorithm](../images/Chorin_Algorithm.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Chorin's algorithm schematic.
-</p>
+</p> -->
 
 ```python
 def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):

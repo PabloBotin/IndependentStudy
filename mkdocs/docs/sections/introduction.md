@@ -4,11 +4,11 @@
 
 The  **2D incompressible Navier-Stokes equations** are a simplified version of these equations which describe the motion of fluids with constant density. They are particularly useful for liquid flows and low-speed gas flows where density variations are negligible.
 
-This is an **educational** module designed to help fellow CFD students learn how to build their own solvers tailored to specific flow scenarios. In this notebook, I introduce the **governing equations**, discuss the **challenges of solving them numerically**, and seek for an **efficient solver implementation**. Along the way, I compare different grid types, interpolation strategies, discretization techniques, boundary conditions and iterative solvers to highlight the numerical trade-offs involved. 
+This is an **educational** module designed to help fellow CFD students learn how to build their own solvers tailored to specific flow scenarios. In this notebook, I introduce the **governing equations**, discuss the **challenges of solving them numerically**, and seek for an **efficient solver implementation**. Along the way, I compare different **grid types**, **interpolation strategies**, **discretization techniques**, **boundary conditions** and **iterative solvers** to highlight the numerical pros and cons involved. 
  
 ### Motivation
 
-This project originated from a personal goal: to develop a solver capable of simulating flow in wind farms, where the interaction between turbines and the atmosphere requires both flexibility and precision. The path unfolded as follows:
+This project originated from a personal goal: to develop a solver capable of **simulating flow in wind farms**, where the interaction between turbines and the atmosphere requires both flexibility and precision. The path unfolded as follows:
 
 1. First approach: **Semi-Lagrangian Projection**: I worked with a solver developed by Matthias Müller from [*Ten Minute Physics*][muller]. The method combines **semi-Lagrangian advection**, a **projection step** to enforce continuity, and an added **diffusion step** to improve stability. While useful for early testing, this approach led to results that didn’t always behave as expected, which motivated me to develop a solver from scratch using a more traditional formulation.
 

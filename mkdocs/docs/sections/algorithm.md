@@ -4,7 +4,12 @@ In this section, we outline and compare two different numerical algorithms emplo
 ## 1st order unsplit Euler's method
 The primary goal of this method is to ensure that the computed velocity field remains divergence-free (mass conserves) at each timestep. This is achieved through two main steps: **pressure projection** and **advection-diffusion**, which are alternated to ensure the incompressibility condition.
 
-### Step 1. Solving a Poisson equation for pressure at time $t_n$ that includes
+![Algorithm_1](../images/Algorithm_1.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Algorithm 1 Flowchart: First-Order Unsplit Euler Method
+</p>
+
+### Step 1. Solving a Poisson equation for pressure. 
 The first step is to **solve the Poisson equation** for the pressure, which is derived from the incompressibility condition $\nabla^2 p = \nabla \cdot \mathbf{u}^*$. The ultimate goal is to **calculate the pressure gradient** that will ensure zero divergence when performing the advection-diffusion step. 
 
 ### Step 2. Advection-Diffusion with Pressure Gradient.
@@ -16,6 +21,11 @@ $$
 ## Fractional-Step Method
 Chorin's fractional step algorithm is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.
 
+![Algorithm_2](../images/Algorithm_2.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Algorithm 2 Flowchart: Fractional Step Method.
+</p>
+
 ### Step 1. Advection-Diffusion Step.
 In the prediction step, the velocity field is updated by solving the advection-diffusion equation **without considering the pressure gradient term**. This means that the velocity field evolves based on the advection of the fluid and the diffusion effects, but the incompressibility constraint is not enforced at this stage.
 $$
@@ -26,19 +36,21 @@ The result of this step is an **intermediate velocity** field that may not satis
 ### Step 2. Solve the Poisson Equation. 
 This step involves solving the Poisson equation for the pressure field with the fractional velocity field (`u*`). 
 $$
-\nabla^2 p = \nabla \cdot \mathbf{u}^{*}
+\nabla^2 p = \nabla \cdot \mathbf{u}^{*} 
 $$
 The solution to this equation provides the **pressure distribution required to compute the pressure gradient** that will be used to correct the velocity field in order to ensure that it is divergence-free.
 
-### Step 3. Pressure-Projection (Continuity) Step
-After solving for the pressure p, we compute the pressure gradient which is the missing used to correct the velocity field. The **corrected velocity field** is computed by subtracting the pressure gradient term from the intermediate velocity:
+### Step 3. Correction Step
+After solving for the pressure p, we compute the pressure gradient term, which is used to correct the velocity field. The **corrected velocity field** is computed by subtracting the pressure gradient term from the intermediate velocity:
+
 $$
 \mathbf{u} = \mathbf{u}^* - \frac{\nabla p}{\rho}\Delta t
 $$
+
 This method effectivelly **ensures zero divergence** because the Poisson equation is solved for the actual velocity field. 
 
-![Staggered grid variables](../images/Chorin_Algorithm.png)
+<!-- ![Staggered grid variables](../images/Chorin_Algorithm.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Chorin's algorithm workflow. REDO THIS FIGURE WITH WHITE BACKGROUND.
-</p>
+</p> -->
 

@@ -11,7 +11,11 @@ The incompressible Navier-Stokes equations consist of:
 
 ## **Continuity Equation**
 The continuity equation ensures the **conservation of mass** in incompressible flows. For a velocity field 
-$\mathbf{u}$, the equation is written as $∇⋅\mathbf{u}= 0$. In 2D derivative form, it becomes:  
+$\mathbf{u}$, the equation is written as 
+$$
+∇⋅\mathbf{u}= 0
+$$
+In 2D derivative form, it becomes:  
 $$
 \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
 $$

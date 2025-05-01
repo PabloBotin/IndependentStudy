@@ -12,7 +12,7 @@
         <link rel="prev" href="../poisson_solver/">
       
       
-        <link rel="next" href="../conclusion/">
+        <link rel="next" href="../solutions/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -406,88 +406,32 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#2-selecting-boundary-conditions-for-different-scenarios" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Selecting Boundary Conditions for Different Scenarios
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Selecting Boundary Conditions for Different Scenarios">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lid-driven-cavity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lid-Driven Cavity
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#channel-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Channel Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-1-fixed-inlet-velocity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration 1: Fixed Inlet Velocity
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-2-fixed-inletoutlet-pressure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration 2: Fixed Inlet/Outlet Pressure
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#open-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Open Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#object-in-open-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Object in Open Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#wind-turbine-in-open-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Wind Turbine in Open Flow
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Solutions
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -571,84 +515,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#2-selecting-boundary-conditions-for-different-scenarios" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Selecting Boundary Conditions for Different Scenarios
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Selecting Boundary Conditions for Different Scenarios">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#lid-driven-cavity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Lid-Driven Cavity
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#channel-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Channel Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-1-fixed-inlet-velocity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration 1: Fixed Inlet Velocity
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#configuration-2-fixed-inletoutlet-pressure" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration 2: Fixed Inlet/Outlet Pressure
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#open-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Open Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#object-in-open-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Object in Open Flow
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#wind-turbine-in-open-flow" class="md-nav__link">
-    <span class="md-ellipsis">
-      Wind Turbine in Open Flow
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -690,168 +556,17 @@
 </li>
 </ul>
 <hr />
-<h2 id="2-selecting-boundary-conditions-for-different-scenarios">2. Selecting Boundary Conditions for Different Scenarios</h2>
-<h3 id="lid-driven-cavity">Lid-Driven Cavity</h3>
-<p>We begin with this case because it is the one presented in <a href="https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/">Lorena Barba’s educational CFD series</a> and widely recognized as a pedagogical introduction to solving the incompressible Navier-Stokes equations. </p>
-<p>The lid-driven cavity is a classical benchmark problem in computational fluid dynamics, it oftenly used to test the accuracy and stability of numerical solvers for incompressible flows, given its simplicity. The domain consists of a square cavity with stationary walls and a top lid moving at constant horizontal velocity. This setup creates a primary circulating vortex in the center of the cavity, making it an excellent case for evaluating velocity-pressure coupling, vorticity transport, and boundary layer resolution.  </p>
-<div style="display: flex; justify-content: center;">
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: center;">Boundary</th>
-        <th style="text-align: center;">Type</th>
-        <th style="text-align: center;">Velocity Condition</th>
-        <th style="text-align: center;">Pressure Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: center;">Top</td>
-        <td style="text-align: center;">Moving wall (non-slip)</td>
-        <td style="text-align: center;">u = U<sub>lid</sub>, v = 0</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">Bottom</td>
-        <td style="text-align: center;">Wall (non-slip)</td>
-        <td style="text-align: center;">u = 0, v = 0</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">Left</td>
-        <td style="text-align: center;">Wall (non-slip)</td>
-        <td style="text-align: center;">u = 0, v = 0</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">Right</td>
-        <td style="text-align: center;">Wall (non-slip)</td>
-        <td style="text-align: center;">u = 0, v = 0</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<p><img alt="BC_CavityFlow" src="../../images/BC_Cavity.png" /></p>
+<p>Setting <strong>appropiate boundary conditions</strong> is one of the most critical steps in solving the incompressible Navier-Stokes equations. The choice of boundary conditions directly influences the stability, accuracy, and physical realism of the simulation. For example, the <strong>no-slip condition</strong> on solid walls is commonly used, while <strong>zero-gradient conditions</strong> are often applied at outflows or boundaries where the flow should not be constrained. Different flow scenarios may require very different boundary treatment—for instance, prescribing a fixed pressure at the outlet versus allowing the flow to develop naturally from a pressure gradient. Even <strong>small changes to boundary conditions can lead to drastically different solutions</strong> or, in some cases, cause the simulation to diverge or crash entirely.</p>
+<p>The following figure illustrates how slightly different boundary condition configurations can lead to substantially different solutions, even in a simple channel flow setup:</p>
+<p><img alt="ChannelFlow_BC_Comparison" src="../../images/BC_comparison.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Velocity streamlines and divergence map for the lid-driven cavity flow problem.
+Comparison of horizontal velocity fields for two different boundary condition setups in a channel flow.
 </p>
 
-<p>The selected boundary conditions are consistent with the classical formulation of the lid-driven cavity problem. <strong>No-slip conditions are applied along all walls</strong>, ensuring zero velocity at the boundaries with the static walls. The top boundary (corresponding to the moving lid) is prescribed with a constant horizontal velocity and zero vertical velocity, which drives the internal circulation. Pressure is left unconstrained, with zero-gradient (Neumann) conditions on all boundaries to maintain consistency with the incompressible formulation.</p>
-<p>The velocity streamlines show a <strong>primary vortex flow</strong> along the center of the cavity. Smaller <strong>secondary vortices</strong> forming near the bottom corners. Streamlines clearly show the rotational pattern generated by the lid movement, while the divergence map confirms that the solution is nearly divergence-free throughout the domain. We can also observe how divergence regions are located int he top corners, this is due to the sudden imposed velocity change, given the fact that vertical walls are static but the lid is in movement. </p>
-<p>The velocity streamlines show a well-defined <strong>primary vortex</strong> occupying the central region of the cavity, driven by the motion of the top lid. The divergence map confirms that the solution remains nearly divergence-free across the domain, however <strong>small regions of accumulated divergence are observed near the top corners</strong>, resulting from the abrupt velocity transition between the non slip conditions of the stationary vertical walls and the moving lid.</p>
-<h3 id="channel-flow">Channel Flow</h3>
-<p>In this section, we explore two alternative boundary condition configurations used to model steady, incompressible flow in a 2D channel. Although the geometry remains the same, the outlet treatment differs and leads to slightly different numerical behavior.</p>
-<hr />
-<h3 id="configuration-1-fixed-inlet-velocity">Configuration 1: Fixed Inlet Velocity</h3>
-<p>This setup imposes a uniform velocity at the inlet and fixes the pressure at the outlet to anchor the pressure field. This configuration mimics an open channel where the flow is driven by a prescribed inlet velocity and develops downstream under a pressure gradient.</p>
-<!-- 
-|   Boundary   |   Type   |      Velocity Condition      |    Pressure Condition     |
-|:------------:|:--------:|:----------------------------:|:-------------------------:|
-|    Inlet     |  Inflow  | Uniform inflow (Dirichlet)   | Zero-gradient (Neumann)   |
-|   Outlet     | Outflow  | Zero-gradient (Neumann)      | Fixed pressure (Dirichlet)|
-| Top/Bottom   |  Wall    | No-slip (u = 0, Dirichlet)   | Zero-gradient (Neumann)   | -->
-
-<div style="display: flex; justify-content: center;">
-
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: center;">Boundary</th>
-        <th style="text-align: center;">Type</th>
-        <th style="text-align: center;">Velocity Condition</th>
-        <th style="text-align: center;">Pressure Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: center;">Inlet</td>
-        <td style="text-align: center;">Inflow</td>
-        <td style="text-align: center;">Uniform inflow (Dirichlet)</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">Outlet</td>
-        <td style="text-align: center;">Outflow</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-        <td style="text-align: center;">Fixed pressure (Dirichlet)</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">Top/Bottom</td>
-        <td style="text-align: center;">Wall</td>
-        <td style="text-align: center;">No-slip (u = 0, Dirichlet)</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-
-<p><img alt="BC_ChannelFlow" src="../../images/BC_ChannelFlow.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence map, pressure field and velocity magnitude for configuration 1 of the channel flow problem. 
-</p>
-
-<p>The velocity field shows the expected behavior induced by the no-slip condition at the walls. A strong vertical gradient in the horizontal velocity component develops near the solid boundaries, forming a parabolic-like profile across the height of the channel. Additionally, we can observe how the flow gradually develops along the streamwise direction, transitioning from the uniform inlet condition to the characteristic profile of a fully developed channel flow. The following figure provides a closer look at this velocity profile by comparing simulated profiles at different streamwise locations with the analytical Poiseuille solution. Notice that the orange curve represents a uniform velocity, corresponding to the inlet condition, before the flow begins to develop.</p>
-<p><img alt="Poiseuille" src="../../images/Poiseuille.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Horizontal velocity profiles at multiple cross-sections along the channel, compared to the analytical Poiseuille solution.
-</p>
-
-<p>The pressure field remains nearly constant in the vertical direction and exhibits a steady decrease along the length of the channel. This behavior reflects the well known <strong>negative pressure gradient</strong> that drives the flow in a pressure-driven channel.</p>
-<p>Although the simulation reaches a steady state, a small region of <strong>negative divergence</strong> is visible near the inlet. This localized mass imbalance results from the interaction between the imposed inlet velocity and the developed pressure field. In the next configuration, I tried to <strong>eliminate this divergence</strong> by using boundary conditions that will simulate a fully developed inflow, as if that was not the actual entrance of the pipe. </p>
-<h3 id="configuration-2-fixed-inletoutlet-pressure">Configuration 2: Fixed Inlet/Outlet Pressure</h3>
-<p>In this setup, pressure is fixed at both the inlet and the outlet. Rather than prescribing a velocity profile, the flow develops naturally in response to the <strong>imposed pressure difference</strong> across the domain. This configuration is commonly used to simulate fully developed channel flow driven by a pressure gradient. Notice how the velocity profile is already developed at the entrance, eliminating the entrance region observed in the previous setup.</p>
-<div style="display: flex; justify-content: center;">
-
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: center;">Boundary</th>
-        <th style="text-align: center;">Type</th>
-        <th style="text-align: center;">Velocity Condition</th>
-        <th style="text-align: center;">Pressure Condition</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: center;">Inlet</td>
-        <td style="text-align: center;">Inflow</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-        <td style="text-align: center;">p = 4 (Dirichlet)</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">Outlet</td>
-        <td style="text-align: center;">Outflow</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-        <td style="text-align: center;">p = 0 (Dirichlet)</td>
-      </tr>
-      <tr>
-        <td style="text-align: center;">Top/Bottom</td>
-        <td style="text-align: center;">Wall</td>
-        <td style="text-align: center;">No-slip (u = 0, Dirichlet)</td>
-        <td style="text-align: center;">Zero-gradient (Neumann)</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<p><img alt="BC_Channel2" src="../../images/BC_Channel2.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Velocity magnitude, pressure field, and divergence map for Configuration 2 (pressure-driven flow).
-</p>
-
-<p>The divergence field is similar to the previous case, with a <strong>small region of nonzero divergence</strong> near the inlet. The magnitude of the divergence is about half for this BC setup, which suggests that the pressure-driven boundary conditions could help minimize artificial divergence introduced by mismatched inflow profiles.</p>
-<p>With <strong>fixed pressure</strong> at both the inlet and the outlet, and zero-gradient conditions applied to velocity, the flow adjusts naturally to the imposed pressure difference. The pressure field exhibits a <strong>uniform gradient along the length of the channel</strong>, as expected for a fully developed, pressure-driven flow.</p>
-<p>Finally, the velocity field is <strong>fully developed from the very entrance</strong> of the domain, showing a stable parabolic profile throughout the channel. Unlike Configuration 1, there is no entrance region where the velocity evolves.</p>
-<h3 id="open-flow">Open Flow</h3>
-<p>ADD BC TABLE and RESULTS. </p>
-<h3 id="object-in-open-flow">Object in Open Flow</h3>
-<p>ADD BC TABLE and RESULTS. </p>
-<h3 id="wind-turbine-in-open-flow">Wind Turbine in Open Flow</h3>
-<p>ADD BC TABLE and RESULTS. </p>
-<hr />
+<p>On the left, a <strong>uniform velocity profile</strong> is imposed at the inlet and the <strong>pressure is fixed at the outlet</strong>. This results in a developing flow region near the inlet, where the velocity gradually adjusts toward a parabolic profile.</p>
+<p>On the right, the <strong>pressure is fixed at both the inlet and the outlet</strong>, and the velocity is not explicitly prescribed. Instead, the flow develops naturally in response to the <strong>imposed pressure difference</strong> across the domain. In this case, the parabolic velocity profile is already fully developed from the entrance, and <strong>no entrance region is observed</strong>.</p>
+<p>This comparison highlights how <strong>boundary conditions</strong> not only influence numerical stability but also fundamentally <strong>shape the physical behavior of the simulated flow</strong>.</p>
+<p>Several practical configurations and their resulting solutions are explored in detail in the <a href="#solutions">Solutions</a> chapter, where we examine how specific combinations of boundary conditions affect the flow behavior.</p>
 
 
 
