@@ -12,7 +12,7 @@ nav:
   - Poisson Solver: sections/poisson_solver.md
   - Boundary Conditions: sections/boundary_conditions.md
   - Solutions: sections/solutions.md
-  - Conclusion: sections/conclusion.md
+  # - Conclusion: sections/conclusion.md
   - References: sections/references.md
 
 markdown_extensions:

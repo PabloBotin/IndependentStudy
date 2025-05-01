@@ -25,9 +25,10 @@
   > Original paper introducing the fractional step method for incompressible flow.
 
 - Munson, et al, *Fundamentals of Fluid Mechanics*.
-> UPDATE THIS REFERENCE
+  > Standard undergraduate textbook covering fluid dynamics principles including the Navier-Stokes equations.
 
 - Rhie, C. M., & Chow, W. L. (1983). *Numerical study of the turbulent flow past an airfoil with trailing edge separation*. AIAA Journal, 21(11), 1525–1532. https://doi.org/10.2514/3.8284
+  > A good resource to understand the Rhie-Chow interpolation method to prevent pressure-velocity decoupling on collocated grids.
 
-<a id="ref2"></a>
-[2] Burton, T., Sharpe, D., Jenkins, N., & Bossanyi, E. (2011). *Wind Energy Handbook* (2nd ed.). Wiley. [ISBN: 978-0-470-69975-1]
+- Burton, T., Sharpe, D., Jenkins, N., & Bossanyi, E. (2011). *Wind Energy Handbook* (2nd ed.). Wiley. [ISBN: 978-0-470-69975-1]
+  > Comprehensive reference on wind energy theory, design, and engineering applications.

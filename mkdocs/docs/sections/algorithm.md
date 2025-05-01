@@ -35,9 +35,11 @@ The result of this step is an **intermediate velocity** field that may not satis
 
 ### Step 2. Solve the Poisson Equation. 
 This step involves solving the Poisson equation for the pressure field with the fractional velocity field (`u*`). 
+
 $$
 \nabla^2 p = \nabla \cdot \mathbf{u}^{*} 
 $$
+
 The solution to this equation provides the **pressure distribution required to compute the pressure gradient** that will be used to correct the velocity field in order to ensure that it is divergence-free.
 
 ### Step 3. Correction Step

@@ -255,3 +255,16 @@ INCLUIR parrafo aki.
 </div>
 
 ---
+
+## Embedd video test 
+
+### MP4
+<video width="640" height="360" controls>
+  <!-- <source src="images/video.webm"type="video/webm"> -->
+  <source src="/images/movie.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+### GIF
+The GIF lost quality.. but that is due to the way I converted it. 
+![Simulation animation](../images/movie.gif)

@@ -23,4 +23,4 @@ If you have any questions or feedback about the material, please feel free to re
 6. [Poisson Solver](sections/poisson_solver.md)
 7. [Boundary Conditions](sections/boundary_conditions.md)
 8. [Solutions](sections/solutions.md)
-9. [Conclusion](sections/conclusion.md)
+<!-- 9. [Conclusion](sections/conclusion.md) -->
