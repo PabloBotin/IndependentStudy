@@ -515,28 +515,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../conclusion/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Conclusion
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../references/" class="md-nav__link">
         
   
@@ -757,7 +735,7 @@ $$</li>
 
     return p
 </code></pre>
-<p><a href="https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/docs/sections/poisson_solver.ipynb"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p><a href="https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/poisson_solver.ipynb"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <h2 id="gauss-seidel">Gauss-Seidel</h2>
 <p>The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pressure values in-place, making it more computationally efficient. What is more, it has been implemented using Cython for an even faster convergence.</p>
 <h3 id="algorithm-steps_1">Algorithm steps</h3>
@@ -772,10 +750,11 @@ $$</li>
     B) Maximum number of iterations is reached.</li>
 <li><strong>Output</strong> Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.</li>
 </ol>
-<p><img alt="Chorin_Algorithm" src="../../images/Chorin_Algorithm.png" /></p>
+<p><a href="Link"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<!-- ![Chorin_Algorithm](../images/Chorin_Algorithm.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Chorin's algorithm schematic.
-</p>
+</p> -->
 
 <pre><code class="language-python">def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
     &quot;&quot;&quot;

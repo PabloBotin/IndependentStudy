@@ -364,9 +364,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-1-solving-a-poisson-equation-for-pressure-at-time-t_n-that-includes" class="md-nav__link">
+  <a href="#step-1-solving-a-poisson-equation-for-pressure" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 1. Solving a Poisson equation for pressure at time \(t_n\) that includes
+      Step 1. Solving a Poisson equation for pressure.
     </span>
   </a>
   
@@ -415,9 +415,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-3-pressure-projection-continuity-step" class="md-nav__link">
+  <a href="#step-3-correction-step" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 3. Pressure-Projection (Continuity) Step
+      Step 3. Correction Step
     </span>
   </a>
   
@@ -509,28 +509,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../conclusion/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Conclusion
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../references/" class="md-nav__link">
         
   
@@ -583,9 +561,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-1-solving-a-poisson-equation-for-pressure-at-time-t_n-that-includes" class="md-nav__link">
+  <a href="#step-1-solving-a-poisson-equation-for-pressure" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 1. Solving a Poisson equation for pressure at time \(t_n\) that includes
+      Step 1. Solving a Poisson equation for pressure.
     </span>
   </a>
   
@@ -634,9 +612,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-3-pressure-projection-continuity-step" class="md-nav__link">
+  <a href="#step-3-correction-step" class="md-nav__link">
     <span class="md-ellipsis">
-      Step 3. Pressure-Projection (Continuity) Step
+      Step 3. Correction Step
     </span>
   </a>
   
@@ -667,7 +645,12 @@
 <p>In this section, we outline and compare two different numerical algorithms employed to solve the incompressible Navier-Stokes equations: the unsplit 1st-order <strong>Euler's Method</strong> and the <strong>Fractional-Step Method</strong>. These algorithms differ in their sequence of operations and the way they integrate the pressure and velocity fields over time. I will explain and implement both methods and compare their performance and results in terms of accuracy and computational efficiency.</p>
 <h2 id="1st-order-unsplit-eulers-method">1st order unsplit Euler's method</h2>
 <p>The primary goal of this method is to ensure that the computed velocity field remains divergence-free (mass conserves) at each timestep. This is achieved through two main steps: <strong>pressure projection</strong> and <strong>advection-diffusion</strong>, which are alternated to ensure the incompressibility condition.</p>
-<h3 id="step-1-solving-a-poisson-equation-for-pressure-at-time-t_n-that-includes">Step 1. Solving a Poisson equation for pressure at time <span class="arithmatex">\(t_n\)</span> that includes</h3>
+<p><img alt="Algorithm_1" src="../../images/Algorithm_1.png" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Algorithm 1 Flowchart: First-Order Unsplit Euler Method
+</p>
+
+<h3 id="step-1-solving-a-poisson-equation-for-pressure">Step 1. Solving a Poisson equation for pressure.</h3>
 <p>The first step is to <strong>solve the Poisson equation</strong> for the pressure, which is derived from the incompressibility condition <span class="arithmatex">\(\nabla^2 p = \nabla \cdot \mathbf{u}^*\)</span>. The ultimate goal is to <strong>calculate the pressure gradient</strong> that will ensure zero divergence when performing the advection-diffusion step. </p>
 <h3 id="step-2-advection-diffusion-with-pressure-gradient">Step 2. Advection-Diffusion with Pressure Gradient.</h3>
 <p>The advection-diffusion step updates the velocity field by incorporating the pressure gradient (<span class="arithmatex">\(\nabla p^*\)</span>) obtained from the solution of the Poisson solver. This step ensures the incompressibility of the flow by <strong>adjusting the velocity field based on the pressure distribution</strong>, while simultaneously advecting and diffusing the fluid. The advection-diffusion equation, which includes the pressure gradient, is:
@@ -676,6 +659,11 @@ $$
 $$</p>
 <h2 id="fractional-step-method">Fractional-Step Method</h2>
 <p>Chorin's fractional step algorithm is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.</p>
+<p><img alt="Algorithm_2" src="../../images/Algorithm_2.png" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Algorithm 2 Flowchart: Fractional Step Method.
+</p>
+
 <h3 id="step-1-advection-diffusion-step">Step 1. Advection-Diffusion Step.</h3>
 <p>In the prediction step, the velocity field is updated by solving the advection-diffusion equation <strong>without considering the pressure gradient term</strong>. This means that the velocity field evolves based on the advection of the fluid and the diffusion effects, but the incompressibility constraint is not enforced at this stage.
 $$
@@ -683,21 +671,21 @@ $$
 $$
 The result of this step is an <strong>intermediate velocity</strong> field that may not satisfy the incompressibility condition ∇⋅u=0.</p>
 <h3 id="step-2-solve-the-poisson-equation">Step 2. Solve the Poisson Equation.</h3>
-<p>This step involves solving the Poisson equation for the pressure field with the fractional velocity field (<code>u*</code>). 
-$$
-\nabla^2 p = \nabla \cdot \mathbf{u}^{<em>}
-$$
-The solution to this equation provides the </em><em>pressure distribution required to compute the pressure gradient</em>* that will be used to correct the velocity field in order to ensure that it is divergence-free.</p>
-<h3 id="step-3-pressure-projection-continuity-step">Step 3. Pressure-Projection (Continuity) Step</h3>
-<p>After solving for the pressure p, we compute the pressure gradient which is the missing used to correct the velocity field. The <strong>corrected velocity field</strong> is computed by subtracting the pressure gradient term from the intermediate velocity:
-$$
-\mathbf{u} = \mathbf{u}^<em> - \frac{\nabla p}{\rho}\Delta t
-$$
-This method effectivelly </em><em>ensures zero divergence</em>* because the Poisson equation is solved for the actual velocity field. </p>
-<p><img alt="Staggered grid variables" src="../../images/Chorin_Algorithm.png" /></p>
+<p>This step involves solving the Poisson equation for the pressure field with the fractional velocity field (<code>u*</code>). </p>
+<div class="arithmatex">\[
+\nabla^2 p = \nabla \cdot \mathbf{u}^{*} 
+\]</div>
+<p>The solution to this equation provides the <strong>pressure distribution required to compute the pressure gradient</strong> that will be used to correct the velocity field in order to ensure that it is divergence-free.</p>
+<h3 id="step-3-correction-step">Step 3. Correction Step</h3>
+<p>After solving for the pressure p, we compute the pressure gradient term, which is used to correct the velocity field. The <strong>corrected velocity field</strong> is computed by subtracting the pressure gradient term from the intermediate velocity:</p>
+<div class="arithmatex">\[
+\mathbf{u} = \mathbf{u}^* - \frac{\nabla p}{\rho}\Delta t
+\]</div>
+<p>This method effectivelly <strong>ensures zero divergence</strong> because the Poisson equation is solved for the actual velocity field. </p>
+<!-- ![Staggered grid variables](../images/Chorin_Algorithm.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Chorin's algorithm workflow. REDO THIS FIGURE WITH WHITE BACKGROUND.
-</p>
+</p> -->
 
 
 
