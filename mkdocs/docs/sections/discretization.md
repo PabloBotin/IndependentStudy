@@ -1,43 +1,54 @@
 # Discretization 
 
-The spatial derivate of a function can be approximated by a series of function evaluations at a finite number of discrete points, known as a **finite difference**. The simplest approximation is to use the difference of two points,
-$$ 
-\frac{\partial f}{\partial x} = f' \approx \frac{1}{h}(f(x + h) - f(x))
-$$
+The spatial derivative of a function can be approximated by a series of function evaluations at a finite number of discrete points, known as a **finite difference**. The simplest approximation is to use the difference of two points:
 
-The accuracy of this approximation is dependent on where the derivative is assumed to be located relative to the two points in the differece, which are referred to as **forward, backward, and central finite difference approximations**. If $f'$ is evaluated at $x$, this is known as a forward finite difference, which is first-order accurate (i.e., the error scales with the separation, $h$). If $f'$ is evaluated at the point $x+h$, this is a backward finite difference (also first-order). However, if $f'$ is evaluated at the midpoint, $x + \tfrac{1}{2}h$, then we have the second-order accurate central finite difference (i.e., the error scales as $h^2$)
+<div id="eq-first-deriv"></div>
 
-For a **second derivative**, it is simple enough to take a finite difference of a finite difference,
-$$
+\[
+\frac{\partial f}{\partial x} = f' \approx \frac{1}{h}(f(x + h) - f(x)) \tag{1}
+\]
+
+The accuracy of this approximation depends on where the derivative is assumed to be located relative to the two points in the difference. These are referred to as **forward**, **backward**, and **central finite difference approximations**. If $f'$ is evaluated at $x$, this is known as a **forward difference**, which is **first-order accurate** (i.e., the error scales linearly with $h$). If $f'$ is evaluated at $x + h$, it's a **backward difference** (also first-order). However, if $f'$ is evaluated at the midpoint, $x + \tfrac{1}{2}h$, then it becomes a **central difference**, which is **second-order accurate**, with error scaling as $h^2$.
+
+For a **second derivative**, one can take a finite difference of a finite difference:
+
+<div id="eq-second-deriv"></div>
+
+\[
 \frac{\partial^2 f}{\partial x^2}
 \approx \frac{1}{h}(f'(x + h) - f'(x))
-\approx \frac{1}{h^2}(f(x + h) - 2f(x) + f(x-h))
-$$
-In this case, the second derivative is virtually always assumed to be located at the midpoint, $x$, in which case it is a second-order accurate central difference approximation.
+\approx \frac{1}{h^2}(f(x + h) - 2f(x) + f(x-h)) \tag{2}
+\]
 
-The [12 Steps to CFD][barba] lessons utilize a mixture of forward and central finite differences for interior grid points, and forward or backward differences for [Dirichlet boundary conditions](./boundary_conditions.md), as appropriate. However, for the remainder of this section **we will only discuss central finite differences**.
+As shown in [**(7)**](#eq-second-deriv), the second derivative is typically assumed to be located at the midpoint $x$, making it a second-order central difference approximation.
 
-## Central Finite Differences on collocated grids
-A central finite difference scheme on a "collocated" solution grid requires a total of three grid points, with the approximation of the derivate located at the central solution grid point that \emph{is located at the same point as} an evaluation of the differentiated variable itself. This results in a scheme with $h = 2\Delta x$.
+The [12 Steps to CFD][barba] lessons use a mixture of forward and central finite differences for interior grid points, and forward or backward differences for [Dirichlet boundary conditions](./boundary_conditions.md), as appropriate. However, for the remainder of this section, **we will only discuss central finite differences**.
 
-> **add figure of three points, each separated by $\Delta x$ and note that $h = 2\Delta x$ for the formula above**
+## Central Finite Differences on Collocated Grids
 
-Because all of the solution variables ($u$, $v$, and $p$) and each of their spatial gradients are collocated at the same grid points, no spatial interpolation schemes are required to solve for the pressure field, or integrate the Navier-Stokes equations forward in time.
+A central finite difference scheme on a **collocated solution grid** requires a total of **three grid points**, with the approximation of the derivative located at the central point—**the same location where the variable itself is evaluated**. In this setup, the spacing between the outer points used in the approximation is $h = 2\Delta x$, rather than $\Delta x$ as in the standard grid.
+
+> **Figure placeholder**: Add a diagram showing three equally spaced grid points, each separated by $\Delta x$, and annotate that $h = 2\Delta x$ in [**(7)**](#eq-second-deriv).
+
+Since all the solution variables ($u$, $v$, and $p$), along with their spatial gradients, are **collocated at the same grid points**, no interpolation schemes are required to compute the pressure field or to advance the Navier-Stokes equations in time.
 
 For more information, see the section on [collocated grids](./grid_types.md#collocated-grid).
 
-## Central Finite Differences on staggered grids
-A central finite difference scheme on a "staggered" grid uses a different set of solution grid points for each variable and then evaluates derivatives of each variable using two adjacent grid points. Therefore, the resulting finite difference approximation always lies between these two points, which may or may not correspond to the location of a solution point for one of the other variables. This results in a scheme with a nominal spacing of $h = \Delta x$, providing twice the approximation accuracy of a collocated scheme with the same total number of solution points for all variables. 
+## Central Finite Differences on Staggered Grids
 
-> **add figure of staggered grid points, demonstrating where each velocity and pressure component lives, and where each of their derivatives in x and y live, and note that $h = \Delta x$.**
+A central finite difference scheme on a **staggered grid** uses a different set of solution grid points for each variable. Derivatives are evaluated between two adjacent points specific to each variable, and the resulting finite difference approximation lies between them. This location **may or may not** coincide with the grid point of another variable.
 
-However, the time integration of each solution variable must occur on a collocated set of grid points. For instance, the governing equation for $u$ must be evaluated at the $u$ grid points, while the values of $v$ and $p$ are not stored at these same points, nor are the gradients of $u$ evaluated at these points. This necessitates a solution procedure that interleaves finite differencing and linear interpolation. Thus a staggered grid requires more computational effort than a collocated grid. 
+This scheme uses a nominal spacing of $h = \Delta x$, which provides **twice the approximation accuracy** of the collocated case for the same number of total solution points. This improvement in resolution directly follows from the standard second-derivative approximation in [**(7)**](#eq-second-deriv).
 
-> **add a figure demonstrating interpolation. Also include the same figure, with more detailed discussion, in the staggered grid section**
+> **Figure placeholder**: Add a schematic showing the staggered layout: where $u$, $v$, and $p$ live, where $\partial u/\partial x$, $\partial v/\partial y$, and $\partial p/\partial x$ are computed, and note that $h = \Delta x$.
 
-What makes a staggered grid worth this extra effort is that pressure gradients are evaluated at the correct solution points for the Navier-Stokes equations (e.g., $\partial p/\partial x$ is evaluated at the $u$ solution points), while the velocity gradients $\partial u/\partial x$ and $\partial v/\partial y$, which are central to the Poisson equation for pressure, are evaluated at the $p$ solution points.
+However, the **time integration** of each variable must occur at its corresponding grid location. For instance, the $u$-momentum equation must be evaluated at the $u$ grid points, but the associated $v$ and $p$ values—and even the gradients of $u$—are not naturally stored at those locations. As a result, staggered grids require **interleaving finite differencing with interpolation**.
 
-For more information, see the section on [staggered grids](./grid_types.md#staggered-grid).
+> **Figure placeholder**: Add a visualization showing how interpolation is used on a staggered grid. Include the same figure, with more discussion, in the [staggered grid section](./grid_types.md#staggered-grid).
+
+Despite the additional computational effort, staggered grids offer a significant advantage: **pressure gradients are evaluated at the correct physical locations** required by the Navier-Stokes equations. For example, $\partial p/\partial x$ is evaluated exactly where $u$ lives, and the divergence of velocity—$\partial u/\partial x + \partial v/\partial y$—is naturally computed at the pressure points.
+
+For more details, see the section on [staggered grids](./grid_types.md#staggered-grid).
 
 ---
 [barba]: https://github.com/barbagroup/CFDPython "Lorena Barba's CFD Python Tutorials"

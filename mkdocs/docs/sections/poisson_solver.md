@@ -1,35 +1,86 @@
+---
 thebe: true
+---
 
-# Poisson solver 
-In incompressible flows, ensuring mass conservation requires solving the Poisson equation for pressure at each time step, based on the updated velocity field. This step is crucial for projecting the velocity field to satisfy the continuity equation:
-where $\nabla^2 p = \nabla \cdot \mathbf{u}^*$
-where p is the intermediate velocity field computed from the momentum equation.
-To solve this equation efficiently, two common iterative solvers are used: **Jacobi** and **Gauss-Seidel** methods. In this section, I will explain both methods step by step, provide scripts for their implementation, and compare their performance.
+# Poisson Solver
 
-## Jacobi 
-The Jacobi method computes the solution iteratively by solving for each variable in terms of the others using values from the previous iteration.
-### Algorithm steps 
-1. **Initialize variables.** Start with the current p field and define the right hand side of the Poisson equation (derived from velocity divergence). 
-2. **Precompute coefficients.** Precompute p_coef and b, which are adjusted for the grid spacings.
-$$
-p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)}
-$$
-$$
-b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2}
-$$
-The computation of b depends on the method used (projection or predictor-corrector). 
-3. **Iteration.** Jacobian update of p on the interior grid points.  $p_{i,j}^{(k+1)} = p_{\text{coef}} \left[ (p_{i+1,j}^{(k)} + p_{i-1,j}^{(k)}) \Delta y^2 + (p_{i,j+1}^{(k)} + p_{i,j-1}^{(k)}) \Delta x^2 \right] - b_{i,j}$
-4. **Enforce Boundary Conditions** Apply Neumann boundary conditions $\frac{\partial p}{\partial n} = 0$ in this case. This may change depending on the BC problem.
-5. **Compute Error** Calculate the root-mean-square (RMS) error between successive pressure fields:
-$$
-\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2}
-$$
-6. **End of the iteration**  
-   Iteration automatically ends if:  
-   &nbsp;&nbsp;&nbsp;&nbsp;**A)** Error is lower than tolerance.  
-   &nbsp;&nbsp;&nbsp;&nbsp;**B)** Maximum number of iterations is reached.
-7. **Output** Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.
+In incompressible flows, ensuring mass conservation requires solving the **Poisson equation for pressure** at each time step, based on the updated velocity field. This step is crucial for projecting the velocity field so that it satisfies the continuity equation.
 
+<div id="eq-poisson-pressure"></div>
+
+\[
+\nabla^2 p = \nabla \cdot \mathbf{u}^* \tag{1}
+\]
+
+Here, $\mathbf{u}^*$ is the intermediate (non-divergence-free) velocity field computed from the momentum equation, and $p$ is the pressure field used to correct it.
+
+To solve [**(1)**](#eq-poisson-pressure) efficiently, two common iterative methods are widely used:
+
+- **Jacobi Method**
+- **Gauss-Seidel Method**
+
+In this section, we will explain both methods step by step, provide Python implementations, and compare their performance.
+
+---
+
+## Jacobi Method
+
+The **Jacobi method** computes the solution to the Poisson equation iteratively by solving for each variable in terms of the others using values from the **previous iteration**.
+
+### Algorithm Steps
+
+1. **Initialize variables**  
+   Start with the current pressure field \( p \), and define the **right-hand side** of the Poisson equation, derived from the divergence of the intermediate velocity field.
+
+2. **Precompute coefficients**  
+   Precompute the coefficient for the pressure update and the scaled right-hand side:
+
+<div id="eq-pcoef"></div>
+
+\[
+p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)} \tag{2}
+\]
+
+<div id="eq-bscaled"></div>
+
+\[
+b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2} \tag{3}
+\]
+
+> Note: The exact form of \( b \) depends on the method used (e.g., projection vs. predictor-corrector).
+
+3. **Jacobi iteration**  
+   Update pressure on the **interior grid points** using:
+
+<div id="eq-jacobi-update"></div>
+
+\[
+p_{i,j}^{(k+1)} = p_{\text{coef}} \left[ (p_{i+1,j}^{(k)} + p_{i-1,j}^{(k)}) \Delta y^2 + (p_{i,j+1}^{(k)} + p_{i,j-1}^{(k)}) \Delta x^2 \right] - b_{i,j} \tag{4}
+\]
+
+4. **Enforce boundary conditions**  
+   Apply **Neumann boundary conditions**:  
+   \[
+   \frac{\partial p}{\partial n} = 0
+   \]  
+   Other BCs may be required depending on the physical setup.
+
+5. **Compute error**  
+   Calculate the **root-mean-square (RMS) error** between successive pressure fields:
+
+<div id="eq-jacobi-error"></div>
+
+\[
+\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2} \tag{5}
+\]
+
+6. **Check for convergence**  
+   Stop iterating if **either**:
+   - A) The error falls below a specified **tolerance**  
+   - B) The **maximum number of iterations** is reached
+
+7. **Output**  
+   Return the final pressure field, which approximately satisfies the Poisson equation [**(1)**](#eq-poisson-pressure) within the desired tolerance.
 
 ```python
 def pressure_poisson(p, b, dx, dy, tol, maxiter):
@@ -87,17 +138,61 @@ def pressure_poisson(p, b, dx, dy, tol, maxiter):
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/poisson_solver.ipynb)
 
 ## Gauss-Seidel
-The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pressure values in-place, making it more computationally efficient. What is more, it has been implemented using Cython for an even faster convergence.
-### Algorithm steps 
-1. **Initialize variables.** Start with the current p field & define the RHS (b) of the Poisson equation (derived from velocity divergence). 
-2. **Precompute coefficients.** Precompute p_coef and b, which are adjusted for the grid spacings.$p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)}$ $b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2}$ 
-4. **Iteration.** Loop through the grid, updating the pressure values in-place at each grid point using the formula: $p_{i,j} = p_{\text{coef}} \left[ (p_{i,j+1} + p_{i,j-1}) \Delta y^2 + (p_{i+1,j} + p_{i-1,j}) \Delta x^2 \right] - b_{i,j}$
-5. **Enforce Boundary Conditions** Apply Neumann boundary conditions $\frac{\partial p}{\partial n} = 0$ in this case. This may change depending on the BC problem.
-6. **Compute Error** Calculate the root-mean-square (RMS) error between successive pressure fields: $\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2}$
-7. **End of the iteration** Iteration automatically ends if: 
-    A) Error is lower than tolerance.
-    B) Maximum number of iterations is reached.
-8. **Output** Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.
+
+The **Gauss-Seidel method** improves on Jacobi's iterative solver by updating the pressure values **in-place**, using the most recent values during each iteration. This results in **faster convergence**. Additionally, this method has been implemented using **Cython** for even greater efficiency.
+
+### Algorithm Steps
+
+1. **Initialize variables**  
+   Start with the current pressure field \( p \), and define the **right-hand side** \( b \) of the Poisson equation, derived from the velocity divergence.
+
+2. **Precompute coefficients**  
+   As in the Jacobi method, precompute the update coefficient and scale the RHS:
+
+<div id="eq-gs-pcoef"></div>
+
+\[
+p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)} \tag{6}
+\]
+
+<div id="eq-gs-bscaled"></div>
+
+\[
+b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2} \tag{7}
+\]
+
+3. **Gauss-Seidel iteration**  
+   Loop through the grid and update pressure **in-place** using the formula:
+
+<div id="eq-gs-update"></div>
+
+\[
+p_{i,j} = p_{\text{coef}} \left[ (p_{i,j+1} + p_{i,j-1}) \Delta y^2 + (p_{i+1,j} + p_{i-1,j}) \Delta x^2 \right] - b_{i,j} \tag{8}
+\]
+
+4. **Enforce boundary conditions**  
+   Apply **Neumann boundary conditions**:  
+   \[
+   \frac{\partial p}{\partial n} = 0
+   \]  
+   Modify as necessary for the physical problem.
+
+5. **Compute error**  
+   Calculate the **root-mean-square (RMS) error** between iterations:
+
+<div id="eq-gs-error"></div>
+
+\[
+\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2} \tag{9}
+\]
+
+6. **Check for convergence**  
+   Stop iterating if:
+   - A) The error is **less than the specified tolerance**, or  
+   - B) The **maximum number of iterations** is reached
+
+7. **Output**  
+   Return the final pressure field, which approximately satisfies the Poisson equation [**(1)**](#eq-poisson-pressure) within the desired tolerance.
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](Link)
 
@@ -166,20 +261,27 @@ def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
 
 ## Comparison of Poisson Solvers: Jacobi vs. Gauss-Seidel
 
-To assess the performance of the Jacobi and Gauss-Seidel methods in solving the Poisson equation, both algorithms were applied to the same flow setup. The figure below shows the resulting divergence fields for each method: the Jacobi solution is shown on the left, and the Gauss-Seidel solution on the right.
+To assess the performance of the **Jacobi** and **Gauss-Seidel** methods in solving the Poisson equation, both algorithms were applied to the same flow setup. The figure below shows the resulting divergence fields for each method: the Jacobi solution is on the left, and the Gauss-Seidel solution on the right.
 
-![Jacobi_vs_GaussSeide](../images/Jacobi_vs_GaussSeidel.png)
+![Gauss_vs_Jacobi](../images/Gauss_vs_Jacobi.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field results using Jacobi (left) and Gauss-Seidel (right) solvers.
+Divergence field results using Gauss-Seidel (above) and Jacobi (below) solvers.
 </p>
 
-For the same problem setup, the Gauss-Seidel method converged approximately 45% faster, requiring only 17 seconds compared to 32 seconds for the Jacobi solver. Furthermore, the final velocity field obtained with Gauss-Seidel had a divergence four orders of magnitude smaller than that obtained using Jacobi. This highlights Gauss-Seidel's improved numerical stability and effectiveness in enforcing the incompressibility constraint, making it a more efficient and accurate choice for solving the Poisson equation in this context.
+For the same problem setup—identical grid resolution, boundary conditions, and convergence tolerance—the **Gauss-Seidel method converged approximately 45% faster**, completing in **17.78 seconds** compared to **32.21 seconds** for the Jacobi solver. Furthermore, the **final divergence** field computed using Gauss-Seidel was **four orders of magnitude smaller**, indicating significantly better enforcement of the incompressibility constraint.
 
-What’s more, the Gauss-Seidel solver can be further optimized using Cython, allowing for substantial reductions in computation time by accelerating the most performance-critical loops in the algorithm.
+This performance difference stems from how each method propagates corrections: **Jacobi** uses only values from the previous iteration, while **Gauss-Seidel** uses the most recently updated values within the same iteration, improving convergence efficiency. This leads to both **faster run times** and **more accurate pressure fields**.
 
+![JGSplots](../images/JGSplots.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Execution time and divergence comparison between Jacobi and Gauss-Seidel solvers.
+</p>
 
-### Performance Optimization with Cython 
-To improve the performance of the iterative solver, Cython is used. **Cython** is a superset of Python that enables C-like performance optimizations while preserving the readability and ease of Python syntax. Compiling Python code to C allows direct and efficient interaction and the algorithm **executes much faster**.
+---
+
+### Performance Optimization with Cython
+
+To further improve performance, the Gauss-Seidel solver was implemented in **Cython**—a superset of Python that compiles to C. Cython enables **C-like performance** while retaining readable Python-like syntax. By compiling the innermost loops of the algorithm, **execution time is significantly reduced**.
 
 ```python
 def gauss_seidel_iteration(cnp.ndarray[cnp.double_t, ndim=2] p,
@@ -187,26 +289,11 @@ def gauss_seidel_iteration(cnp.ndarray[cnp.double_t, ndim=2] p,
                            double pcoef,
                            double dy,
                            double dx):
-    cdef int i,j
+    cdef int i, j
 
-    for i in range(1,p.shape[0]-1):
-        for j in range(1,p.shape[1]-1):
-            p[i,j] = pcoef * ((p[i,j+1] + p[i,j-1]) * dy**2
-                                + (p[i+1,j] + p[i-1,j]) * dx**2) - b[i-1,j-1]
+    for i in range(1, p.shape[0] - 1):
+        for j in range(1, p.shape[1] - 1):
+            p[i, j] = pcoef * ((p[i, j+1] + p[i, j-1]) * dy**2 +
+                               (p[i+1, j] + p[i-1, j]) * dx**2) - b[i-1, j-1]
 
     return p
-
-# Instructions for usage:
-# 1. Recompile the pyx file: python setup.py build_ext --inplace
-# 2. Run main.py normally 
-```
-
-### Convergence of the Poisson Solver
-
-The convergence behavior of the Gauss-Seidel solver is illustrated in the following figure, which plots the logarithm of the norm of the residual (the difference between successive pressure fields) as a function of the number of iterations. This metric provides a quantitative measure of **how rapidly the solution approaches a steady state**. The curve exhibits a steep decline during the first 700 iterations, indicating rapid error reduction in the early stages of the solution process. Beyond this point, the slope of the curve decreases, forming a slightly concave shape that reflects slower but continued convergence toward the final solution. This behavior highlights the diminishing returns of additional iterations once the residual has been sufficiently minimized. Therefore, it is important to define an appropriate convergence threshold to find a practical balance between computational efficiency and solution accuracy.
-
-![Jacobi vs Gauss-Seidel](../images/PoissonConvergence.png)
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Convergence of the Poisson solver: logarithm of the residual norm versus number of iterations.
-</p>
-

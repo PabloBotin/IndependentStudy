@@ -6,50 +6,83 @@ The primary goal of this method is to ensure that the computed velocity field re
 
 ![Algorithm_1](../images/Algorithm_1.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Algorithm 1 Flowchart: First-Order Unsplit Euler Method
+Algorithm 1 flowchart: First-Order Unsplit Euler Method
 </p>
 
 ### Step 1. Solving a Poisson equation for pressure. 
 The first step is to **solve the Poisson equation** for the pressure, which is derived from the incompressibility condition $\nabla^2 p = \nabla \cdot \mathbf{u}^*$. The ultimate goal is to **calculate the pressure gradient** that will ensure zero divergence when performing the advection-diffusion step. 
 
-### Step 2. Advection-Diffusion with Pressure Gradient.
-The advection-diffusion step updates the velocity field by incorporating the pressure gradient ($\nabla p^*$) obtained from the solution of the Poisson solver. This step ensures the incompressibility of the flow by **adjusting the velocity field based on the pressure distribution**, while simultaneously advecting and diffusing the fluid. The advection-diffusion equation, which includes the pressure gradient, is:
-$$
-\mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \left[ -\frac{1}{\rho} \nabla p^* + \nu \nabla^2 \mathbf{u}^n - (\mathbf{u}^n \cdot \nabla) \mathbf{u}^n + \mathbf{f} \right]
-$$
+### Step 2. Advection-Diffusion with Pressure Gradient
+
+The advection-diffusion step updates the velocity field by incorporating the pressure gradient ($\nabla p^*$) obtained from the solution of the Poisson solver. This step ensures the incompressibility of the flow by **adjusting the velocity field based on the pressure distribution**, while simultaneously advecting and diffusing the fluid.
+
+The advection-diffusion equation, which includes the pressure gradient, is:
+
+\[
+\mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \left[ -\frac{1}{\rho} \nabla p^* + \nu \nabla^2 \mathbf{u}^n - (\mathbf{u}^n \cdot \nabla) \mathbf{u}^n + \mathbf{f} \right] \tag{1} \label{eq:advdiff}
+\]
 
 ## Fractional-Step Method
-Chorin's fractional step algorithm is a widely used method to solve fluid dynamics equations, particularly when dealing with incompressible flows. The idea is to perform the advection-diffusion step without considering the pressure gradient. This step gives us an intermediate velocity field that may not be divergence-free (it does not satisfy the incompressibility condition). Then, we correct the predicted velocity field to ensure incompressibility, using the pressure gradient computed from the Poisson equation.
+
+Chorin's **fractional step algorithm** is a widely used method to solve the incompressible Navier-Stokes equations. The key idea is to first update the velocity field without accounting for the pressure gradient. This yields an **intermediate velocity field** that may not satisfy the incompressibility constraint, i.e., it may have non-zero divergence.
+
+To enforce incompressibility, a **pressure correction** is introduced. The final velocity field $\mathbf{u}^{n+1}$ is obtained by subtracting the gradient of the pressure field from the intermediate velocity $\mathbf{u}^*$. This projection step is written as:
+
+<div id="eq-projection"></div>
+
+\[
+\mathbf{u}^{n+1} = \mathbf{u}^* - \Delta t \nabla p^{n+1} \tag{2}
+\]
+
+As shown in equation [(2)](#eq-projection), the pressure field acts as a correction to ensure the final velocity field satisfies the incompressibility condition.
 
 ![Algorithm_2](../images/Algorithm_2.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Algorithm 2 Flowchart: Fractional Step Method.
+Algorithm 2 flowchart: Fractional Step Method.
 </p>
 
-### Step 1. Advection-Diffusion Step.
-In the prediction step, the velocity field is updated by solving the advection-diffusion equation **without considering the pressure gradient term**. This means that the velocity field evolves based on the advection of the fluid and the diffusion effects, but the incompressibility constraint is not enforced at this stage.
-$$
-\mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \left[\nu \nabla^2 \mathbf{u}^n - (\mathbf{u}^n \cdot \nabla) \mathbf{u}^n + \mathbf{f} \right]
-$$
-The result of this step is an **intermediate velocity** field that may not satisfy the incompressibility condition ∇⋅u=0.
+---
 
-### Step 2. Solve the Poisson Equation. 
-This step involves solving the Poisson equation for the pressure field with the fractional velocity field (`u*`). 
+### Step 1. Advection-Diffusion Step
 
-$$
-\nabla^2 p = \nabla \cdot \mathbf{u}^{*} 
-$$
+In the prediction step, the velocity field is updated by solving the **advection-diffusion equation without the pressure gradient term**. This means that the velocity evolves based on fluid advection and diffusion effects, but **incompressibility is not enforced** at this stage. The governing equation is:
 
-The solution to this equation provides the **pressure distribution required to compute the pressure gradient** that will be used to correct the velocity field in order to ensure that it is divergence-free.
+<div id="eq-advdiff"></div>
+
+\[
+\mathbf{u}^{*} = \mathbf{u}^n + \Delta t \left[\nu \nabla^2 \mathbf{u}^n - (\mathbf{u}^n \cdot \nabla) \mathbf{u}^n + \mathbf{f} \right] \tag{3}
+\]
+
+The result of this step is an **intermediate velocity** field $\mathbf{u}^*$ that may not satisfy the incompressibility condition, i.e., $\nabla \cdot \mathbf{u}^* \ne 0$.
+
+---
+
+### Step 2. Solve the Poisson Equation
+
+To enforce incompressibility, we solve a **Poisson equation** for pressure, derived by applying the divergence operator to the velocity update in equation [(3)](#eq-advdiff). The result is:
+
+<div id="eq-poisson"></div>
+
+\[
+\nabla^2 p = \frac{\rho}{\Delta t} \nabla \cdot \mathbf{u}^{*} \tag{4}
+\]
+
+Solving equation [(4)](#eq-poisson) yields the **pressure distribution** needed to correct the intermediate velocity field and enforce the divergence-free constraint.
+
+---
 
 ### Step 3. Correction Step
-After solving for the pressure p, we compute the pressure gradient term, which is used to correct the velocity field. The **corrected velocity field** is computed by subtracting the pressure gradient term from the intermediate velocity:
 
-$$
-\mathbf{u} = \mathbf{u}^* - \frac{\nabla p}{\rho}\Delta t
-$$
+After obtaining the pressure field, the velocity is corrected using a pressure-gradient subtraction. This projection is equivalent to equation [(2)](#eq-projection), but explicitly shows the scaling factor:
 
-This method effectivelly **ensures zero divergence** because the Poisson equation is solved for the actual velocity field. 
+<div id="eq-correct"></div>
+
+\[
+\mathbf{u}^{n+1} = \mathbf{u}^* - \frac{\Delta t}{\rho} \nabla p \tag{5}
+\]
+
+As shown in equation [(5)](#eq-correct), this correction step ensures that the resulting velocity field $\mathbf{u}^{n+1}$ is divergence-free, completing the fractional-step update.
+
 
 <!-- ![Staggered grid variables](../images/Chorin_Algorithm.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">

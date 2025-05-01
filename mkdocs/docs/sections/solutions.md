@@ -177,25 +177,29 @@ The effect of the turbine is modeled using the **actuator disk theory**, a simpl
 
 The axial induction force is introduced as a **body force term** in the momentum equation, applied over the region representing the rotor. The force acts in the streamwise (x) direction and takes the following form:
 
-The axial force applied by the turbine is modeled as a **body force term** in the x-momentum equation. Since the solver updates velocity via the transport equation \( \frac{\partial u}{\partial t} = f_x + \dots \), the force must be expressed per **unit mass** (i.e., with units of acceleration, m/s²). The continuous expression for the axial induction force is:
-
 \[
 f_x(x, y) = -\frac{1}{2} C_T \, \frac{U_{\infty}^2}{\Delta x} \, \chi(x, y)
 \]
 
-Where:
+Where:  
 - \( f_x(x, y) \) is the body force **per unit mass** in the x-direction  
 - \( C_T \) is the thrust coefficient  
 - \( U_{\infty} \) is the inlet velocity  
 - \( \Delta x \) is the grid spacing (cell width) in the x-direction  
-- \( \chi(x, y) \) is an boolean function that defines what cells are part of a turbine  
+- \( \chi(x, y) \) is a boolean function that defines what cells are part of a turbine  
 
-This formulation assumes that the **actuator force is distributed uniformly over the rotor region**, and the grid spacing \( \Delta x \) is used to convert the area based Ct into a per-volume term. Dividing by \( \rho \) then yields the specific force per unit mass, consistent with how forces are applied in the discretized velocity equation.
+This formulation assumes that the **actuator force is distributed uniformly over the rotor region**, and the grid spacing \( \Delta x \) is used to convert the area-based \( C_T \) into a per-volume term. Dividing by \( \rho \) then yields the specific force per unit mass, consistent with how forces are applied in the discretized velocity equation.
+
+This formulation results in a distinctive pressure profile along the centerline of the domain, which can be visualized in the figure below. The actuator disk imposes a resistive force that causes a sharp **pressure jump across the rotor**, with a build-up upstream and a drop downstream. The pressure then gradually returns to the far-field inlet level, which is set to zero. This distribution is characteristic of actuator disk theory and reflects the exchange of momentum between the flow and the turbine.
+
+![Axial induction pressure profile](../images/AxialInduction.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Pressure distribution along the centerline of the domain. The pressure increases upstream of the rotor, drops sharply across it, and gradually recovers downstream.
+</p>
 
 The **wake recovery effect** observed downstream of the turbine is captured by the presence of the **diffusion term** in the momentum equation. As discussed in the [Governing Equations](#governing_equations) chapter, the advection-diffusion formulation inherently includes both the transport of momentum and its **redistribution through viscous effects**.
 
-This case also serves to demonstrate **how easily body forces can be implemented in numerical solvers** and how their influence affects the rest of the domain. The results show how **strong the coupling between the pressure and velocity fields**mkdocs serve
- is, and demonstrates the **action of viscous diffusion**.
+This case also serves to demonstrate **how easily body forces can be implemented in numerical solvers** and how their influence affects the rest of the domain. The results show how **strong the coupling between the pressure and velocity fields** is, and demonstrate the **action of viscous diffusion**.
 
 ![Solution turbine velocity](../images/Solution_Turbine_u.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
@@ -255,16 +259,16 @@ INCLUIR parrafo aki.
 </div>
 
 ---
-
+<!-- 
 ## Embedd video test 
 
 ### MP4
 <video width="640" height="360" controls>
   <!-- <source src="images/video.webm"type="video/webm"> -->
-  <source src="/images/movie.mp4" type="video/mp4">
+  <!-- <source src="../images/movie.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
 ### GIF
 The GIF lost quality.. but that is due to the way I converted it. 
-![Simulation animation](../images/movie.gif)
+![Simulation animation](../images/movie.gif) --> -->
