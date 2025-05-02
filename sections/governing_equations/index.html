@@ -630,37 +630,48 @@
 
 
 <h1 id="governing-equations"><strong>Governing Equations</strong></h1>
-<p>The <strong>incompressible Navier-Stokes equations</strong> are fundamental to fluid dynamics and are used to model a wide range of physical phenomena, including airflow over airplane wings, water flow through pipes, and wake formation behind wind turbines. These equations express the <strong>conservation of mass</strong> (via the continuity equation) and the <strong>conservation of momentum</strong> (via the momentum equation) within a fluid.</p>
-<p>By assuming <strong>incompressibility</strong>, we neglect variations in density, an accepted assumption for many liquid flows and low-speed gas flows. This simplification reduces the complexity of the equations while still capturing the essential physics of many practical problems.</p>
+<p>The <strong>incompressible Navier-Stokes equations</strong> are fundamental to fluid dynamics and are used to model a wide range of physical phenomena, including airflow over airplane wings, water flow through pipes, and wake formation behind wind turbines. These equations express the <strong>conservation of mass</strong> (via the continuity equation) and the <strong>conservation of momentum</strong> (via the momentum equation) within a fluid [<a href="#munson">Munson et al.</a>].</p>
+<p>By assuming <strong>incompressibility</strong>, we neglect variations in density. This is an accepted assumption for many liquid flows and low-speed gas flows. This simplification reduces the complexity of the equations while still capturing the essential physics of many practical problems.</p>
 <p>The incompressible Navier-Stokes equations consist of:</p>
 <ul>
-<li><strong>Mass conservation</strong>, ensuring mass conservation  </li>
-<li><strong>Momentum conservation</strong>, derived from Newton’s second law applied to fluid motion</li>
+<li><strong>Mass conservation</strong>, ensuring mass conservation.  </li>
+<li><strong>Momentum conservation</strong>, derived from Newton’s second law applied to fluid motion.</li>
 </ul>
+<hr />
 <h2 id="continuity-equation"><strong>Continuity Equation</strong></h2>
-<p>The continuity equation ensures the <strong>conservation of mass</strong> in incompressible flows. For a velocity field 
-<span class="arithmatex">\(\mathbf{u}\)</span>, the equation is written as 
-$$
-∇⋅\mathbf{u}= 0
-$$
-In 2D derivative form, it becomes:<br />
-$$
-\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
-$$</p>
+<p>The continuity equation ensures the <strong>conservation of mass</strong> in incompressible flows. For a velocity field <span class="arithmatex">\(\mathbf{u}\)</span>, the equation is written as:</p>
+<div id="eq-continuity"></div>
+
+<div class="arithmatex">\[
+\nabla \cdot \mathbf{u} = 0 \tag{1}
+\]</div>
+<p>In 2D derivative form, this becomes:</p>
+<div id="eq-continuity-2d"></div>
+
+<div class="arithmatex">\[
+\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0 \tag{2}
+\]</div>
+<hr />
 <h2 id="momentum-equations"><strong>Momentum Equations</strong></h2>
-<p>The momentum equations describe the <strong>conservation of momentum</strong> in the fluid, considering all the forces involved. For incompressible flows, they are expressed as:<br />
-$$
-\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \mathbf{f}
-$$</p>
+<p>The momentum equations describe the <strong>conservation of momentum</strong> in the fluid, accounting for convection, pressure, diffusion, and external forces. For incompressible flows, they are expressed as:</p>
+<div id="eq-momentum"></div>
+
+<div class="arithmatex">\[
+\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho} \nabla p + \nu \nabla^2 \mathbf{u} + \mathbf{f} \tag{3}
+\]</div>
 <p>In 2D derivative form:</p>
-<p><strong>x-Momentum:</strong>
-$$
-\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} = -\frac{1}{\rho} \frac{\partial p}{\partial x} + \nu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\right) + F_x
-$$</p>
-<p><strong>y-Momentum:</strong>
-$$
-\frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} = -\frac{1}{\rho} \frac{\partial p}{\partial y} + \nu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} \right) + F_y 
-$$</p>
+<div id="eq-xmomentum"></div>
+
+<p><strong>x-Momentum:</strong></p>
+<div class="arithmatex">\[
+\frac{\partial u}{\partial t} + u \frac{\partial u}{\partial x} + v \frac{\partial u}{\partial y} = -\frac{1}{\rho} \frac{\partial p}{\partial x} + \nu \left( \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\right) + F_x \tag{4}
+\]</div>
+<div id="eq-ymomentum"></div>
+
+<p><strong>y-Momentum:</strong></p>
+<div class="arithmatex">\[
+\frac{\partial v}{\partial t} + u \frac{\partial v}{\partial x} + v \frac{\partial v}{\partial y} = -\frac{1}{\rho} \frac{\partial p}{\partial y} + \nu \left( \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} \right) + F_y \tag{5}
+\]</div>
 <hr />
 <h2 id="challenges-in-solving-the-incompressible-navier-stokes-equations"><strong>Challenges in Solving the Incompressible Navier-Stokes Equations</strong></h2>
 <h3 id="coupling-between-velocity-and-pressure"><strong>Coupling Between Velocity and Pressure</strong></h3>
@@ -674,17 +685,19 @@ $$</p>
 <li>There is no explicit <strong>equation for pressure</strong>, so it must be computed indirectly.</li>
 <li>Without proper treatment, the pressure-velocity relationship can become unstable, causing <strong>oscillations</strong> or <strong>non-physical results</strong></li>
 </ul>
-<p>To restore this coupling and enforce incompressibility, a Poisson equation for pressure can be derived from the divergence of the momentum equations. This acts as a surrogate for the continuity equation. A clear and pedagogical explanation of both the derivation of the Poisson equation and the discretization of the governing equations is provided in <em>CFD Python: 12 steps to Navier-Stokes</em> by Barba and Forsyth (<a href="https://github.com/barbagroup/CFDPython">Barba &amp; Forsyth, 2014</a>).</p>
+<p>To restore this coupling and enforce incompressibility, a <strong>Poisson equation</strong> for pressure can be derived from the divergence of the momentum equations. This acts as a surrogate for the continuity equation. A clear and pedagogical explanation of both the derivation of the Poisson equation and the discretization of the governing equations is provided in <em>CFD Python: 12 steps to Navier-Stokes</em> by Barba and Forsyth (<a href="https://github.com/barbagroup/CFDPython">Barba &amp; Forsyth, 2014</a>).</p>
 <hr />
 <h3 id="nonlinearity-of-the-momentum-equations"><strong>Nonlinearity of the Momentum Equations</strong></h3>
-<p>The <strong>convective term</strong> in the momentum equations,</p>
+<p>The <strong>convective term</strong> in the momentum equations introduces nonlinearity, which complicates the numerical solution:</p>
+<div id="eq-convective"></div>
+
 <div class="arithmatex">\[
-(\mathbf{u} \cdot \nabla)\mathbf{u}
+(\mathbf{u} \cdot \nabla)\mathbf{u} \tag{6}
 \]</div>
-<p>introduces <strong>nonlinearity</strong>, which complicates the numerical solution:</p>
+<p>This nonlinearity leads to several numerical challenges:</p>
 <ul>
-<li><strong>Instabilities</strong>: Small errors such as upwinding or artificial diffusion may arise.</li>
-<li><strong>Increased computational cost</strong>: Solving nonlinear systems often requires iterative methods and careful time-stepping, one way to control time-stepping is by applying a CFL condition.</li>
+<li><strong>Instabilities</strong>: Small perturbations can grow rapidly unless stabilization techniques are applied.</li>
+<li><strong>Increased computational cost</strong>: Nonlinear systems often require iterative solvers and careful time-stepping. One way to control this is by enforcing a Courant–Friedrichs–Lewy (CFL) condition, which limits the timestep based on local velocity and grid spacing.</li>
 </ul>
 <hr />
 <h3 id="boundary-conditions"><strong>Boundary Conditions</strong></h3>
@@ -692,7 +705,7 @@ $$</p>
 <ul>
 <li>Matching <strong>inflow/outflow conditions</strong> to avoid artificial reflections.</li>
 <li>Enforcing the <strong>no-slip condition</strong> on solid walls.</li>
-<li>Handling pressure/velocity gradients near boundaries to avoid <strong>divergence</strong> or <strong>loss of accuracy</strong>.</li>
+<li>Handling pressure/velocity gradients near boundaries to avoid <strong>divergence</strong> or loss of accuracy.</li>
 </ul>
 <hr />
 <h3 id="discretization-challenges"><strong>Discretization Challenges</strong></h3>
@@ -702,7 +715,7 @@ $$</p>
 <li><strong>Numerical diffusion</strong>: Some schemes may over-smooth the solution.</li>
 <li><strong>Pressure-velocity consistency</strong>: Ensuring that the discrete velocity field remains divergence-free is essential.</li>
 </ul>
-<p>These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the <strong>stability and accuracy</strong> of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called discretization.</p>
+<p>These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the <strong>stability and accuracy</strong> of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called <strong>discretization</strong>.</p>
 
 
 

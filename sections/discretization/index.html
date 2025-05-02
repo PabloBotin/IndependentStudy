@@ -312,7 +312,7 @@
         <li class="md-nav__item">
   <a href="#central-finite-differences-on-collocated-grids" class="md-nav__link">
     <span class="md-ellipsis">
-      Central Finite Differences on collocated grids
+      Central Finite Differences on Collocated Grids
     </span>
   </a>
   
@@ -321,7 +321,7 @@
         <li class="md-nav__item">
   <a href="#central-finite-differences-on-staggered-grids" class="md-nav__link">
     <span class="md-ellipsis">
-      Central Finite Differences on staggered grids
+      Central Finite Differences on Staggered Grids
     </span>
   </a>
   
@@ -496,7 +496,7 @@
         <li class="md-nav__item">
   <a href="#central-finite-differences-on-collocated-grids" class="md-nav__link">
     <span class="md-ellipsis">
-      Central Finite Differences on collocated grids
+      Central Finite Differences on Collocated Grids
     </span>
   </a>
   
@@ -505,7 +505,7 @@
         <li class="md-nav__item">
   <a href="#central-finite-differences-on-staggered-grids" class="md-nav__link">
     <span class="md-ellipsis">
-      Central Finite Differences on staggered grids
+      Central Finite Differences on Staggered Grids
     </span>
   </a>
   
@@ -528,37 +528,70 @@
 
 
 <h1 id="discretization">Discretization</h1>
-<p>The spatial derivate of a function can be approximated by a series of function evaluations at a finite number of discrete points, known as a <strong>finite difference</strong>. The simplest approximation is to use the difference of two points,
-$$ 
-\frac{\partial f}{\partial x} = f' \approx \frac{1}{h}(f(x + h) - f(x))
-$$</p>
-<p>The accuracy of this approximation is dependent on where the derivative is assumed to be located relative to the two points in the differece, which are referred to as <strong>forward, backward, and central finite difference approximations</strong>. If <span class="arithmatex">\(f'\)</span> is evaluated at <span class="arithmatex">\(x\)</span>, this is known as a forward finite difference, which is first-order accurate (i.e., the error scales with the separation, <span class="arithmatex">\(h\)</span>). If <span class="arithmatex">\(f'\)</span> is evaluated at the point <span class="arithmatex">\(x+h\)</span>, this is a backward finite difference (also first-order). However, if <span class="arithmatex">\(f'\)</span> is evaluated at the midpoint, <span class="arithmatex">\(x + \tfrac{1}{2}h\)</span>, then we have the second-order accurate central finite difference (i.e., the error scales as <span class="arithmatex">\(h^2\)</span>)</p>
-<p>For a <strong>second derivative</strong>, it is simple enough to take a finite difference of a finite difference,
-$$
+<p>The spatial derivative of a function can be approximated by a series of function evaluations at a finite number of discrete points, known as a <strong>finite difference</strong>. The simplest approximation is to use the difference of two points:</p>
+<div id="eq-first-deriv"></div>
+
+<div class="arithmatex">\[
+\frac{\partial f}{\partial x} = f' \approx \frac{1}{h}(f(x + h) - f(x)) \tag{1}
+\]</div>
+<p>The accuracy of this approximation depends on where the derivative is assumed to be located relative to the two points in the difference. These are referred to as <strong>forward</strong>, <strong>backward</strong>, and <strong>central finite difference approximations</strong>. If <span class="arithmatex">\(f'\)</span> is evaluated at <span class="arithmatex">\(x\)</span>, this is known as a <strong>forward difference</strong>, which is <strong>first-order accurate</strong> (i.e., the error scales linearly with <span class="arithmatex">\(h\)</span>). If <span class="arithmatex">\(f'\)</span> is evaluated at <span class="arithmatex">\(x + h\)</span>, it's a <strong>backward difference</strong> (also first-order). However, if <span class="arithmatex">\(f'\)</span> is evaluated at the midpoint, <span class="arithmatex">\(x + \tfrac{1}{2}h\)</span>, then it becomes a <strong>central difference</strong>, which is <strong>second-order accurate</strong>, with error scaling as <span class="arithmatex">\(h^2\)</span>.</p>
+<p>For a <strong>second derivative</strong>, one can take the finite difference of the finite difference:</p>
+<div id="eq-second-deriv"></div>
+
+<div class="arithmatex">\[
 \frac{\partial^2 f}{\partial x^2}
 \approx \frac{1}{h}(f'(x + h) - f'(x))
-\approx \frac{1}{h^2}(f(x + h) - 2f(x) + f(x-h))
-$$
-In this case, the second derivative is virtually always assumed to be located at the midpoint, <span class="arithmatex">\(x\)</span>, in which case it is a second-order accurate central difference approximation.</p>
-<p>The <a href="https://github.com/barbagroup/CFDPython" title="Lorena Barba's CFD Python Tutorials">12 Steps to CFD</a> lessons utilize a mixture of forward and central finite differences for interior grid points, and forward or backward differences for <a href="../boundary_conditions/">Dirichlet boundary conditions</a>, as appropriate. However, for the remainder of this section <strong>we will only discuss central finite differences</strong>.</p>
-<h2 id="central-finite-differences-on-collocated-grids">Central Finite Differences on collocated grids</h2>
-<p>A central finite difference scheme on a "collocated" solution grid requires a total of three grid points, with the approximation of the derivate located at the central solution grid point that \emph{is located at the same point as} an evaluation of the differentiated variable itself. This results in a scheme with <span class="arithmatex">\(h = 2\Delta x\)</span>.</p>
-<blockquote>
-<p><strong>add figure of three points, each separated by <span class="arithmatex">\(\Delta x\)</span> and note that <span class="arithmatex">\(h = 2\Delta x\)</span> for the formula above</strong></p>
-</blockquote>
-<p>Because all of the solution variables (<span class="arithmatex">\(u\)</span>, <span class="arithmatex">\(v\)</span>, and <span class="arithmatex">\(p\)</span>) and each of their spatial gradients are collocated at the same grid points, no spatial interpolation schemes are required to solve for the pressure field, or integrate the Navier-Stokes equations forward in time.</p>
+\approx \frac{1}{h^2}(f(x + h) - 2f(x) + f(x-h)) \tag{2}
+\]</div>
+<p>As shown in <a href="#eq-second-deriv"><strong>(2)</strong></a>, the second derivative is typically assumed to be located at the midpoint <span class="arithmatex">\(x\)</span>, making it a second-order central difference approximation.</p>
+<p>The <a href="https://github.com/barbagroup/CFDPython" title="Lorena Barba's CFD Python Tutorials">12 Steps to CFD</a> lessons use a mixture of forward and central finite differences for interior grid points, and forward or backward differences for <a href="../boundary_conditions/">Dirichlet boundary conditions</a>, as appropriate. However, for the remainder of this section, <strong>we will only discuss central finite differences</strong>.</p>
+<h2 id="central-finite-differences-on-collocated-grids">Central Finite Differences on Collocated Grids</h2>
+<p>A central finite difference scheme on a <strong>collocated solution grid</strong> requires a total of <strong>three grid points</strong>, with the approximation of the derivative located at the central point: <strong>the same location where the variable itself is evaluated</strong>. In this setup, the spacing between the outer points used in the approximation is <span class="arithmatex">\(h = 2\Delta x\)</span>, rather than <span class="arithmatex">\(\Delta x\)</span> as in the standard grid.</p>
+<p><img alt="Discretization_1" src="../../images/Discretization_1.png" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Schematic of three equally spaced grid points.
+</p>
+
+<p>Since all the solution variables (<span class="arithmatex">\(u\)</span>, <span class="arithmatex">\(v\)</span>, and <span class="arithmatex">\(p\)</span>), along with their spatial gradients, are collocated at the same grid points, <strong>no interpolation schemes are required</strong> to compute the pressure field or to advance the Navier-Stokes equations in time.</p>
 <p>For more information, see the section on <a href="../grid_types/#collocated-grid">collocated grids</a>.</p>
-<h2 id="central-finite-differences-on-staggered-grids">Central Finite Differences on staggered grids</h2>
-<p>A central finite difference scheme on a "staggered" grid uses a different set of solution grid points for each variable and then evaluates derivatives of each variable using two adjacent grid points. Therefore, the resulting finite difference approximation always lies between these two points, which may or may not correspond to the location of a solution point for one of the other variables. This results in a scheme with a nominal spacing of <span class="arithmatex">\(h = \Delta x\)</span>, providing twice the approximation accuracy of a collocated scheme with the same total number of solution points for all variables. </p>
-<blockquote>
-<p><strong>add figure of staggered grid points, demonstrating where each velocity and pressure component lives, and where each of their derivatives in x and y live, and note that <span class="arithmatex">\(h = \Delta x\)</span>.</strong></p>
-</blockquote>
-<p>However, the time integration of each solution variable must occur on a collocated set of grid points. For instance, the governing equation for <span class="arithmatex">\(u\)</span> must be evaluated at the <span class="arithmatex">\(u\)</span> grid points, while the values of <span class="arithmatex">\(v\)</span> and <span class="arithmatex">\(p\)</span> are not stored at these same points, nor are the gradients of <span class="arithmatex">\(u\)</span> evaluated at these points. This necessitates a solution procedure that interleaves finite differencing and linear interpolation. Thus a staggered grid requires more computational effort than a collocated grid. </p>
-<blockquote>
-<p><strong>add a figure demonstrating interpolation. Also include the same figure, with more detailed discussion, in the staggered grid section</strong></p>
-</blockquote>
-<p>What makes a staggered grid worth this extra effort is that pressure gradients are evaluated at the correct solution points for the Navier-Stokes equations (e.g., <span class="arithmatex">\(\partial p/\partial x\)</span> is evaluated at the <span class="arithmatex">\(u\)</span> solution points), while the velocity gradients <span class="arithmatex">\(\partial u/\partial x\)</span> and <span class="arithmatex">\(\partial v/\partial y\)</span>, which are central to the Poisson equation for pressure, are evaluated at the <span class="arithmatex">\(p\)</span> solution points.</p>
-<p>For more information, see the section on <a href="../grid_types/#staggered-grid">staggered grids</a>.</p>
+<h2 id="central-finite-differences-on-staggered-grids">Central Finite Differences on Staggered Grids</h2>
+<p>A central finite difference scheme on a staggered grid uses a different set of solution grid points for each variable. Derivatives are evaluated between two adjacent points specific to each variable, and the resulting finite difference approximation lies between them. This location <strong>may or may not</strong> coincide with the grid point of another variable.</p>
+<p>This scheme uses a nominal spacing of <span class="arithmatex">\(h = \Delta x\)</span>, which provides <strong>twice the approximation accuracy</strong> of the collocated case for the same number of total solution points. This improvement in resolution directly follows from the standard second-derivative approximation in <a href="#eq-second-deriv"><strong>(7)</strong></a>.</p>
+<p>However, the <strong>time integration</strong> of each variable must occur at its corresponding grid location. For instance, the <span class="arithmatex">\(u\)</span>-momentum equation must be evaluated at the <span class="arithmatex">\(u\)</span> grid points, but the associated <span class="arithmatex">\(v\)</span> and <span class="arithmatex">\(p\)</span> values, and even the gradients of <span class="arithmatex">\(u\)</span>, are not naturally stored at those locations. As a result, staggered grids require <strong>interleaving finite differencing with interpolation</strong>.</p>
+<p><img alt="Discretization_1" src="../../images/u_interpolation.jpeg" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Diagram and interpolation formulas for the \( u \)-velocity component on a staggered grid. Shows horizontal and vertical interpolation using central differences.
+</p>
+
+<p><img alt="Discretization_1" src="../../images/v_interpolation.jpeg" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Diagram and interpolation layout for the \( v \)-velocity component on a staggered grid.
+</p>
+
+<p><img alt="Discretization_1" src="../../images/p_interpolation.jpeg" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Diagram and interpolation layout for the pressure on a staggered grid.
+</p>
+
+<p>Despite the additional computational effort, staggered grids offer a significant advantage: <strong>pressure gradients are evaluated at the correct physical locations</strong> required by the Navier-Stokes equations. For example, <span class="arithmatex">\(\partial p/\partial x\)</span> is evaluated exactly where <span class="arithmatex">\(u\)</span> lives, and the divergence of velocity—<span class="arithmatex">\(\partial u/\partial x + \partial v/\partial y\)</span>—is naturally computed at the pressure points.</p>
+<p>For more details, see the section on <a href="../grid_types/#staggered-grid">staggered grids</a>.</p>
+<hr />
+<p>To help visualize how the finite-difference stencils are applied on a staggered grid, the following sketches illustrate the <strong>storage locations</strong> for each variable and the <strong>interpolation formulas</strong> used in the discretization process. These figures highlight the relative positions of neighboring points used for computing derivatives and show examples of both <strong>first-order and second-order central differences</strong>. These sketches are intended as conceptual aids.</p>
+<p><img alt="u-velocity interpolation stencil" src="../../images/u_discretized.jpeg" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Discretization of the u-velocity on its implicit and explicit forms.
+</p>
+
+<p><img alt="v-velocity interpolation stencil" src="../../images/v_discretized.jpeg" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Discretization of the v-velocity on its implicit and explicit forms.
+</p>
+
+<p><img alt="Pressure interpolation stencil" src="../../images/p_discretized.jpeg" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Discretization of the pressure on its implicit and explicit forms.
+</p>
+
 <hr />
 
 

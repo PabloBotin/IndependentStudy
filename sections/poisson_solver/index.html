@@ -376,19 +376,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#jacobi" class="md-nav__link">
+  <a href="#jacobi-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Jacobi
+      Jacobi Method
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Jacobi">
+    <nav class="md-nav" aria-label="Jacobi Method">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#algorithm-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      Algorithm steps
+      Algorithm Steps
     </span>
   </a>
   
@@ -412,7 +412,7 @@
           <li class="md-nav__item">
   <a href="#algorithm-steps_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Algorithm steps
+      Algorithm Steps
     </span>
   </a>
   
@@ -437,15 +437,6 @@
   <a href="#performance-optimization-with-cython" class="md-nav__link">
     <span class="md-ellipsis">
       Performance Optimization with Cython
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#convergence-of-the-poisson-solver" class="md-nav__link">
-    <span class="md-ellipsis">
-      Convergence of the Poisson Solver
     </span>
   </a>
   
@@ -557,19 +548,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#jacobi" class="md-nav__link">
+  <a href="#jacobi-method" class="md-nav__link">
     <span class="md-ellipsis">
-      Jacobi
+      Jacobi Method
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Jacobi">
+    <nav class="md-nav" aria-label="Jacobi Method">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#algorithm-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      Algorithm steps
+      Algorithm Steps
     </span>
   </a>
   
@@ -593,7 +584,7 @@
           <li class="md-nav__item">
   <a href="#algorithm-steps_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Algorithm steps
+      Algorithm Steps
     </span>
   </a>
   
@@ -623,15 +614,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#convergence-of-the-poisson-solver" class="md-nav__link">
-    <span class="md-ellipsis">
-      Convergence of the Poisson Solver
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -653,200 +635,287 @@
 
 
 
-<h1 id="poisson-solver">Poisson solver</h1>
-<p>In incompressible flows, ensuring mass conservation requires solving the Poisson equation for pressure at each time step, based on the updated velocity field. This step is crucial for projecting the velocity field to satisfy the continuity equation:
-where <span class="arithmatex">\(\nabla^2 p = \nabla \cdot \mathbf{u}^*\)</span>
-where p is the intermediate velocity field computed from the momentum equation.
-To solve this equation efficiently, two common iterative solvers are used: <strong>Jacobi</strong> and <strong>Gauss-Seidel</strong> methods. In this section, I will explain both methods step by step, provide scripts for their implementation, and compare their performance.</p>
-<h2 id="jacobi">Jacobi</h2>
-<p>The Jacobi method computes the solution iteratively by solving for each variable in terms of the others using values from the previous iteration.</p>
-<h3 id="algorithm-steps">Algorithm steps</h3>
+<h1 id="poisson-solver">Poisson Solver</h1>
+<p>In incompressible flows, ensuring mass conservation requires solving the <strong>Poisson equation for pressure</strong> at each time step, based on the updated velocity field. This step is crucial for projecting the velocity field so that it satisfies the continuity equation.</p>
+<div id="eq-poisson-pressure"></div>
+
+<div class="arithmatex">\[
+\nabla^2 p = \nabla \cdot \mathbf{u}^* \tag{1}
+\]</div>
+<p>Here, <span class="arithmatex">\(\mathbf{u}^*\)</span> is the intermediate (non-divergence-free) velocity field computed from the momentum equation, and <span class="arithmatex">\(p\)</span> is the pressure field used to correct it.</p>
+<p>To solve <a href="#eq-poisson-pressure"><strong>(1)</strong></a> efficiently, two common iterative methods are widely used:</p>
+<ul>
+<li><strong>Jacobi Method</strong></li>
+<li><strong>Gauss-Seidel Method</strong></li>
+</ul>
+<p>In this section, we will explain both methods step by step, provide Python implementations, and compare their performance.</p>
+<hr />
+<h2 id="jacobi-method">Jacobi Method</h2>
+<p>The <strong>Jacobi method</strong> computes the solution to the Poisson equation iteratively by solving for each variable in terms of the others using values from the <strong>previous iteration</strong>.</p>
+<h3 id="algorithm-steps">Algorithm Steps</h3>
 <ol>
-<li><strong>Initialize variables.</strong> Start with the current p field and define the right hand side of the Poisson equation (derived from velocity divergence). </li>
-<li><strong>Precompute coefficients.</strong> Precompute p_coef and b, which are adjusted for the grid spacings.
+
+<li><strong>Initialize Variables</strong><br>
+Begin with an initial guess for the pressure field \( p \), and compute the <strong>right-hand side</strong> \( b \) from velocity divergence.
+</li>
+
+<li><strong>Precompute Coefficients</strong><br>
+To simplify updates, define:
+
 $$
-p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)}
+p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)} \tag{2}
 $$
+
 $$
-b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2}
+b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2)\rho}{\Delta x^2 \Delta y^2} \tag{3}
 $$
-The computation of b depends on the method used (projection or predictor-corrector). </li>
-<li><strong>Iteration.</strong> Jacobian update of p on the interior grid points.  <span class="arithmatex">\(p_{i,j}^{(k+1)} = p_{\text{coef}} \left[ (p_{i+1,j}^{(k)} + p_{i-1,j}^{(k)}) \Delta y^2 + (p_{i,j+1}^{(k)} + p_{i,j-1}^{(k)}) \Delta x^2 \right] - b_{i,j}\)</span></li>
-<li><strong>Enforce Boundary Conditions</strong> Apply Neumann boundary conditions <span class="arithmatex">\(\frac{\partial p}{\partial n} = 0\)</span> in this case. This may change depending on the BC problem.</li>
-<li><strong>Compute Error</strong> Calculate the root-mean-square (RMS) error between successive pressure fields:
+</li>
+
+<li><strong>Jacobi Iteration</strong><br>
+Update pressure on interior points:
+
 $$
-\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2}
-$$</li>
-<li><strong>End of the iteration</strong><br />
-   Iteration automatically ends if:<br />
-   &nbsp;&nbsp;&nbsp;&nbsp;<strong>A)</strong> Error is lower than tolerance.<br />
-   &nbsp;&nbsp;&nbsp;&nbsp;<strong>B)</strong> Maximum number of iterations is reached.</li>
-<li><strong>Output</strong> Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.</li>
+p_{i,j}^{(k+1)} = p_{\text{coef}} \left[ (p_{i+1,j}^{(k)} + p_{i-1,j}^{(k)}) \Delta y^2 + (p_{i,j+1}^{(k)} + p_{i,j-1}^{(k)}) \Delta x^2 \right] - b_{i,j} \tag{4}
+$$
+</li>
+
+<li><strong>Enforce Boundary Conditions</strong><br>
+Use homogeneous Neumann boundaries:
+
+$$
+\frac{\partial p}{\partial n} = 0
+$$
+</li>
+
+<li><strong>Compute Error</strong><br>
+After each iteration:
+
+$$
+\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2} \tag{5}
+$$
+</li>
+
+<li><strong>Check for Convergence</strong><br>
+Stop when:
+<ul>
+<li>Error < tolerance</li>
+<li>Or maximum iterations reached</li>
+</ul>
+</li>
+
+<li><strong>Return Final Pressure Field</strong><br>
+The final \( p \) approximately satisfies the Poisson equation within the specified tolerance.
+</li>
+
 </ol>
-<pre><code class="language-python">def pressure_poisson(p, b, dx, dy, tol, maxiter):
-    &quot;&quot;&quot;
-    Solve the Poisson equation for pressure correction using Jacobi's iterative method.
 
-    Parameters:
-    -----------
-    p : numpy.ndarray
-        Current pressure field. This array will be updated iteratively.
-    b : numpy.ndarray
-        Right-hand side of the Poisson equation, derived from velocity divergence.
-    dx, dy : float
-        Grid spacing in the x and y directions.
-    tol : float
-        Convergence tolerance for the root-mean-square error.
-    maxiter : int
-        Maximum number of iterations. Accelerates the speed at the beginning of the iterations. 
-    rho : density. 
+<p><div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pressure_poisson</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solve the Poisson equation for pressure correction using Jacobi&#39;s iterative method.</span>
 
-    Returns:
-    --------
-    numpy.ndarray
-        The updated pressure field that satisfies the Poisson eq. within the specified tolerance.
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    p : numpy.ndarray</span>
+<span class="sd">        Current pressure field. This array will be updated iteratively.</span>
+<span class="sd">    b : numpy.ndarray</span>
+<span class="sd">        Right-hand side of the Poisson equation, derived from velocity divergence.</span>
+<span class="sd">    dx, dy : float</span>
+<span class="sd">        Grid spacing in the x and y directions.</span>
+<span class="sd">    tol : float</span>
+<span class="sd">        Convergence tolerance for the root-mean-square error.</span>
+<span class="sd">    maxiter : int</span>
+<span class="sd">        Maximum number of iterations. Accelerates the speed at the beginning of the iterations. </span>
+<span class="sd">    rho : density. </span>
 
-    Notes:
-    ------
-    - Implements Jacobi's method, iteratively updating the pressure field.
-    - Enforces Neumann boundary conditions (zero pressure gradient) on all domain edges (this is just for the Cavity Flow case). 
-    - The method stops when either the error falls below the specified tolerance or the maximum
-      number of iterations is reached.
-    &quot;&quot;&quot;
-    err = np.inf # Initialize huge error.
-    nit = 0 # Reset num iterations.
-    pcoef = 0.5 / (dx**2 + dy**2) # Simplifies code
-    b *= rho * dx**2 * dy**2 / (2*(dx**2 + dy**2))
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The updated pressure field that satisfies the Poisson eq. within the specified tolerance.</span>
 
-    while err &gt; tol and nit &lt; maxiter:
-        pn = p.copy()
+<span class="sd">    Notes:</span>
+<span class="sd">    ------</span>
+<span class="sd">    - Implements Jacobi&#39;s method, iteratively updating the pressure field.</span>
+<span class="sd">    - Enforces Neumann boundary conditions (zero pressure gradient) on all domain edges (this is just for the Cavity Flow case). </span>
+<span class="sd">    - The method stops when either the error falls below the specified tolerance or the maximum</span>
+<span class="sd">      number of iterations is reached.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="c1"># Initialize huge error.</span>
+    <span class="n">nit</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Reset num iterations.</span>
+    <span class="n">pcoef</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># Simplifies code</span>
+    <span class="n">b</span> <span class="o">*=</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 
-        p[1:-1, 1:-1] = (pcoef * ((pn[1:-1, 2:] + pn[1:-1, :-2])*dy**2
-                        + (pn[2:, 1:-1] + pn[:-2, 1:-1])*dx**2) - b)
+    <span class="k">while</span> <span class="n">err</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">nit</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">:</span>
+        <span class="n">pn</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        # BCs. Openfield.
-        p[:, 0] = p[:, 1] # dp/dx=0 at x=0.
-        p[:, -1] = -p[:, -2] # p = 0 at x = L.
-        p[0, :] = p[1, :]   # dp/dy = 0 at y = 0.
-        p[-1, :] = p[-2, :] # dp/dx = 0 at y = 2.
+        <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pcoef</span> <span class="o">*</span> <span class="p">((</span><span class="n">pn</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">pn</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">*</span><span class="n">dy</span><span class="o">**</span><span class="mi">2</span>
+                        <span class="o">+</span> <span class="p">(</span><span class="n">pn</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">pn</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span>
 
-        err = np.mean((p[1:-1, 1:-1] - pn[1:-1, 1:-1])**2)**0.5
-        nit += 1
+        <span class="c1"># BCs. Openfield.</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># dp/dx=0 at x=0.</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">p</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># p = 0 at x = L.</span>
+        <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>   <span class="c1"># dp/dy = 0 at y = 0.</span>
+        <span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="c1"># dp/dx = 0 at y = 2.</span>
 
-    return p
-</code></pre>
-<p><a href="https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/poisson_solver.ipynb"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+        <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pn</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="n">nit</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">p</span>
+</code></pre></div>
+<a href="https://colab.research.google.com/drive/17bZHbWqu0VDs_U_6I8OKm-2imxyb9_w_"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <h2 id="gauss-seidel">Gauss-Seidel</h2>
-<p>The Gauss-Seidel method improves on Jacobi's iterative solver by updating the pressure values in-place, making it more computationally efficient. What is more, it has been implemented using Cython for an even faster convergence.</p>
-<h3 id="algorithm-steps_1">Algorithm steps</h3>
+<p>The <strong>Gauss-Seidel method</strong> improves on Jacobi's iterative solver by updating the pressure values <strong>in-place</strong>, using the most recent values during each iteration. This results in <strong>faster convergence</strong>. Additionally, this method has been implemented using <strong>Cython</strong> for even greater efficiency.</p>
+<h3 id="algorithm-steps_1">Algorithm Steps</h3>
 <ol>
-<li><strong>Initialize variables.</strong> Start with the current p field &amp; define the RHS (b) of the Poisson equation (derived from velocity divergence). </li>
-<li><strong>Precompute coefficients.</strong> Precompute p_coef and b, which are adjusted for the grid spacings.<span class="arithmatex">\(p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)}\)</span> <span class="arithmatex">\(b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2}\)</span> </li>
-<li><strong>Iteration.</strong> Loop through the grid, updating the pressure values in-place at each grid point using the formula: <span class="arithmatex">\(p_{i,j} = p_{\text{coef}} \left[ (p_{i,j+1} + p_{i,j-1}) \Delta y^2 + (p_{i+1,j} + p_{i-1,j}) \Delta x^2 \right] - b_{i,j}\)</span></li>
-<li><strong>Enforce Boundary Conditions</strong> Apply Neumann boundary conditions <span class="arithmatex">\(\frac{\partial p}{\partial n} = 0\)</span> in this case. This may change depending on the BC problem.</li>
-<li><strong>Compute Error</strong> Calculate the root-mean-square (RMS) error between successive pressure fields: <span class="arithmatex">\(\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2}\)</span></li>
-<li><strong>End of the iteration</strong> Iteration automatically ends if: 
-    A) Error is lower than tolerance.
-    B) Maximum number of iterations is reached.</li>
-<li><strong>Output</strong> Return the final pressure field, which satisfies the Poisson equation within the specified tolerance.</li>
+
+<li><strong>Initialize variables</strong><br>
+Start with the current pressure field \( p \), and define the <strong>right-hand side</strong> \( b \) of the Poisson equation, derived from the velocity divergence.
+</li>
+
+<li><strong>Precompute coefficients</strong><br>
+As in the Jacobi method, precompute the update coefficient and scale the RHS:
+
+<div id="eq-gs-pcoef"></div>  
+$$
+p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)} \tag{6}
+$$
+
+<div id="eq-gs-bscaled"></div>  
+$$
+b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2} \tag{7}
+$$
+</li>
+
+<li><strong>Gauss-Seidel iteration</strong><br>
+Loop through the grid and update pressure <strong>in-place</strong> using:
+
+<div id="eq-gs-update"></div>  
+$$
+p_{i,j} = p_{\text{coef}} \left[ (p_{i,j+1} + p_{i,j-1}) \Delta y^2 + (p_{i+1,j} + p_{i-1,j}) \Delta x^2 \right] - b_{i,j} \tag{8}
+$$
+</li>
+
+<li><strong>Enforce boundary conditions</strong><br>
+Apply Neumann boundary conditions:
+
+$$
+\frac{\partial p}{\partial n} = 0
+$$
+
+Modify as necessary for the physical problem.
+</li>
+
+<li><strong>Compute error</strong><br>
+Calculate the root-mean-square (RMS) error between iterations:
+
+<div id="eq-gs-error"></div>  
+$$
+\text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2} \tag{9}
+$$
+</li>
+
+<li><strong>Check for convergence</strong><br>
+Stop iterating if either:
+<ul>
+<li>Error is less than the specified tolerance, or</li>
+<li>The maximum number of iterations is reached.</li>
+</ul>
+</li>
+
+<li><strong>Output</strong><br>
+Return the final pressure field, which approximately satisfies the Poisson equation within the defined tolerance.
+</li>
+
 </ol>
-<p><a href="Link"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
-<!-- ![Chorin_Algorithm](../images/Chorin_Algorithm.png)
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Chorin's algorithm schematic.
-</p> -->
 
-<pre><code class="language-python">def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
-    &quot;&quot;&quot;
-    Solve the Poisson equation for pressure correction using the Gauss-Seidel method.
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pressure_poisson_gauss_seidel</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solve the Poisson equation for pressure correction using the Gauss-Seidel method.</span>
 
-    This function iteratively solves the pressure Poisson equation, which is derived from 
-    the incompressible Navier-Stokes equations to ensure mass conservation. It uses the 
-    Gauss-Seidel method for in-place updates, leveraging the latest pressure estimates 
-    during each iteration for faster convergence.
+<span class="sd">    This function iteratively solves the pressure Poisson equation, which is derived from </span>
+<span class="sd">    the incompressible Navier-Stokes equations to ensure mass conservation. It uses the </span>
+<span class="sd">    Gauss-Seidel method for in-place updates, leveraging the latest pressure estimates </span>
+<span class="sd">    during each iteration for faster convergence.</span>
 
-    Parameters:
-    -----------
-    p : numpy.ndarray
-        The pressure field (2D array) that needs to be updated in order to satisfy the Poisson equation. 
-    b : numpy.ndarray
-        The Poisson's equation RHS (b term, 2D array) derived from the velocity divergence.
-    dx : float
-        Grid spacing in the x-direction.
-    dy : float
-        Grid spacing in the y-direction.
-    rho : float
-        Fluid density, used to scale the source term.
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    p : numpy.ndarray</span>
+<span class="sd">        The pressure field (2D array) that needs to be updated in order to satisfy the Poisson equation. </span>
+<span class="sd">    b : numpy.ndarray</span>
+<span class="sd">        The Poisson&#39;s equation RHS (b term, 2D array) derived from the velocity divergence.</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing in the x-direction.</span>
+<span class="sd">    dy : float</span>
+<span class="sd">        Grid spacing in the y-direction.</span>
+<span class="sd">    rho : float</span>
+<span class="sd">        Fluid density, used to scale the source term.</span>
 
-    Returns:
-    --------
-    p : numpy.ndarray
-        Updated pressure field satisfying the Poisson equation within the specified tolerance.
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    p : numpy.ndarray</span>
+<span class="sd">        Updated pressure field satisfying the Poisson equation within the specified tolerance.</span>
 
-    Key Features:
-    --------------
-    1. In-place updates using Gauss-Seidel accelerate convergence compared to Jacobi's method.
-    2. Enforces Neumann boundary conditions (zero pressure gradient) on all domain edges (this is just for the Cavity Flow case).
-    3. Convergence is determined based on the root-mean-square (RMS) error between iterations.
-    &quot;&quot;&quot;
-    err = np.inf  # Initialize a large error.
-    nit = 0  # Reset the number of iterations.
-    pcoef = 0.5 / (dx**2 + dy**2)  # Precompute coefficient for simplicity.
-    b *= rho * dx**2 * dy**2 / (2 * (dx**2 + dy**2))
+<span class="sd">    Key Features:</span>
+<span class="sd">    --------------</span>
+<span class="sd">    1. In-place updates using Gauss-Seidel accelerate convergence compared to Jacobi&#39;s method.</span>
+<span class="sd">    2. Enforces Neumann boundary conditions (zero pressure gradient) on all domain edges (this is just for the Cavity Flow case).</span>
+<span class="sd">    3. Convergence is determined based on the root-mean-square (RMS) error between iterations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>  <span class="c1"># Initialize a large error.</span>
+    <span class="n">nit</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Reset the number of iterations.</span>
+    <span class="n">pcoef</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Precompute coefficient for simplicity.</span>
+    <span class="n">b</span> <span class="o">*=</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 
-    while err &gt; tol and nit &lt; maxiter:
-        pn = p.copy()
+    <span class="k">while</span> <span class="n">err</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">nit</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">:</span>
+        <span class="n">pn</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        # Gauss-Seidel in-place update
-        p = gauss_seidel_iteration(p, b, pcoef, dx, dy)
+        <span class="c1"># Gauss-Seidel in-place update</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">gauss_seidel_iteration</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">pcoef</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
 
-        # Apply boundary conditions
-        p[:, 0] = p[:, 1] # dp/dx=0 at x=0.
-        p[:, -1] = -p[:, -2] # p = 0 at x = L.
-        p[0, :] = p[1, :]   # dp/dy = 0 at y = 0.
-        p[-1, :] = p[-2, :] # dp/dx = 0 at y = 2.
+        <span class="c1"># Apply boundary conditions</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># dp/dx=0 at x=0.</span>
+        <span class="n">p</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">p</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># p = 0 at x = L.</span>
+        <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>   <span class="c1"># dp/dy = 0 at y = 0.</span>
+        <span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="c1"># dp/dx = 0 at y = 2.</span>
 
-        # Calculate error based on the new values
-        err = np.mean((p[1:-1, 1:-1] - pn[1:-1, 1:-1])**2)**0.5
-        nit += 1
+        <span class="c1"># Calculate error based on the new values</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pn</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="n">nit</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    return p
-</code></pre>
+    <span class="k">return</span> <span class="n">p</span>
+</code></pre></div>
+<!-- [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() -->
+
 <h2 id="comparison-of-poisson-solvers-jacobi-vs-gauss-seidel">Comparison of Poisson Solvers: Jacobi vs. Gauss-Seidel</h2>
-<p>To assess the performance of the Jacobi and Gauss-Seidel methods in solving the Poisson equation, both algorithms were applied to the same flow setup. The figure below shows the resulting divergence fields for each method: the Jacobi solution is shown on the left, and the Gauss-Seidel solution on the right.</p>
-<p><img alt="Jacobi_vs_GaussSeide" src="../../images/Jacobi_vs_GaussSeidel.png" /></p>
+<p>To assess the performance of the <strong>Jacobi</strong> and <strong>Gauss-Seidel</strong> methods in solving the Poisson equation, both algorithms were applied to the same flow setup. The figure below shows the resulting divergence fields for each method: the Jacobi solution is on the left, and the Gauss-Seidel solution on the right.</p>
+<p><img alt="Gauss_vs_Jacobi" src="../../images/Gauss_vs_Jacobi.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Divergence field results using Jacobi (left) and Gauss-Seidel (right) solvers.
+Divergence field results using Gauss-Seidel (above) and Jacobi (below) solvers.
 </p>
 
-<p>For the same problem setup, the Gauss-Seidel method converged approximately 45% faster, requiring only 17 seconds compared to 32 seconds for the Jacobi solver. Furthermore, the final velocity field obtained with Gauss-Seidel had a divergence four orders of magnitude smaller than that obtained using Jacobi. This highlights Gauss-Seidel's improved numerical stability and effectiveness in enforcing the incompressibility constraint, making it a more efficient and accurate choice for solving the Poisson equation in this context.</p>
-<p>What’s more, the Gauss-Seidel solver can be further optimized using Cython, allowing for substantial reductions in computation time by accelerating the most performance-critical loops in the algorithm.</p>
+<p>For the same problem setup—identical grid resolution, boundary conditions, and convergence tolerance—the <strong>Gauss-Seidel method converged approximately 45% faster</strong>, completing in <strong>17.78 seconds</strong> compared to <strong>32.21 seconds</strong> for the Jacobi solver. Furthermore, the <strong>final divergence</strong> field computed using Gauss-Seidel was <strong>four orders of magnitude smaller</strong>, indicating significantly better enforcement of the incompressibility constraint.</p>
+<p>This performance difference stems from how each method propagates corrections: <strong>Jacobi</strong> uses only values from the previous iteration, while <strong>Gauss-Seidel</strong> uses the most recently updated values within the same iteration, improving convergence efficiency. This leads to both <strong>faster run times</strong> and <strong>more accurate pressure fields</strong>.</p>
+<p><img alt="JGSplots" src="../../images/JGSplots.png" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Execution time and divergence comparison between Jacobi and Gauss-Seidel solvers.
+</p>
+
+<hr />
 <h3 id="performance-optimization-with-cython">Performance Optimization with Cython</h3>
-<p>To improve the performance of the iterative solver, Cython is used. <strong>Cython</strong> is a superset of Python that enables C-like performance optimizations while preserving the readability and ease of Python syntax. Compiling Python code to C allows direct and efficient interaction and the algorithm <strong>executes much faster</strong>.</p>
-<pre><code class="language-python">def gauss_seidel_iteration(cnp.ndarray[cnp.double_t, ndim=2] p,
+<p>To further improve performance, the Gauss-Seidel solver was implemented in <strong>Cython</strong>—a superset of Python that compiles to C. Cython enables <strong>C-like performance</strong> while retaining readable Python-like syntax. By compiling the innermost loops of the algorithm, <strong>execution time is significantly reduced</strong>.</p>
+<p>```python
+def gauss_seidel_iteration(cnp.ndarray[cnp.double_t, ndim=2] p,
                            cnp.ndarray[cnp.double_t, ndim=2] b,
                            double pcoef,
                            double dy,
                            double dx):
-    cdef int i,j
+    cdef int i, j</p>
+<pre><code>for i in range(1, p.shape[0] - 1):
+    for j in range(1, p.shape[1] - 1):
+        p[i, j] = pcoef * ((p[i, j+1] + p[i, j-1]) * dy**2 +
+                           (p[i+1, j] + p[i-1, j]) * dx**2) - b[i-1, j-1]
 
-    for i in range(1,p.shape[0]-1):
-        for j in range(1,p.shape[1]-1):
-            p[i,j] = pcoef * ((p[i,j+1] + p[i,j-1]) * dy**2
-                                + (p[i+1,j] + p[i-1,j]) * dx**2) - b[i-1,j-1]
-
-    return p
-
-# Instructions for usage:
-# 1. Recompile the pyx file: python setup.py build_ext --inplace
-# 2. Run main.py normally 
+return p
 </code></pre>
-<h3 id="convergence-of-the-poisson-solver">Convergence of the Poisson Solver</h3>
-<p>The convergence behavior of the Gauss-Seidel solver is illustrated in the following figure, which plots the logarithm of the norm of the residual (the difference between successive pressure fields) as a function of the number of iterations. This metric provides a quantitative measure of <strong>how rapidly the solution approaches a steady state</strong>. The curve exhibits a steep decline during the first 700 iterations, indicating rapid error reduction in the early stages of the solution process. Beyond this point, the slope of the curve decreases, forming a slightly concave shape that reflects slower but continued convergence toward the final solution. This behavior highlights the diminishing returns of additional iterations once the residual has been sufficiently minimized. Therefore, it is important to define an appropriate convergence threshold to find a practical balance between computational efficiency and solution accuracy.</p>
-<p><img alt="Jacobi vs Gauss-Seidel" src="../../images/PoissonConvergence.png" /></p>
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Convergence of the Poisson solver: logarithm of the residual norm versus number of iterations.
-</p>
 
 
 

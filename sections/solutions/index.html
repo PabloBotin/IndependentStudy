@@ -462,54 +462,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Wind Turbine in Open Flow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#computational-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Computational Parameters
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#embedd-video-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      Embedd video test
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Embedd video test">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mp4" class="md-nav__link">
-    <span class="md-ellipsis">
-      MP4
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gif" class="md-nav__link">
-    <span class="md-ellipsis">
-      GIF
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -611,54 +563,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Wind Turbine in Open Flow">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#computational-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Computational Parameters
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#embedd-video-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      Embedd video test
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Embedd video test">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#mp4" class="md-nav__link">
-    <span class="md-ellipsis">
-      MP4
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gif" class="md-nav__link">
-    <span class="md-ellipsis">
-      GIF
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -679,8 +583,8 @@
 
 <h1 id="solutions">Solutions</h1>
 <h3 id="lid-driven-cavity">Lid-Driven Cavity</h3>
-<p>We begin with this case because it is the one presented in <a href="https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/">Lorena Barba’s educational CFD series</a> and widely recognized as a pedagogical introduction to solving the incompressible Navier-Stokes equations. </p>
-<p>The lid-driven cavity is a classical benchmark problem in computational fluid dynamics, it oftenly used to test the accuracy and stability of numerical solvers for incompressible flows, given its simplicity. The domain consists of a square cavity with stationary walls and a top lid moving at constant horizontal velocity. This setup creates a primary circulating vortex in the center of the cavity, making it an excellent case for evaluating velocity-pressure coupling, vorticity transport, and boundary layer resolution.  </p>
+<p>We begin with this case because it is the one presented in <a href="https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/">Lorena Barba’s educational CFD series</a> and <strong>widely recognized</strong> as a pedagogical introduction to solving the incompressible Navier-Stokes equations. </p>
+<p>The lid-driven cavity is a classical benchmark problem in computational fluid dynamics, it oftenly used to test the accuracy and stability of numerical solvers for incompressible flows, given its simplicity. The domain consists of a <strong>square cavity with stationary walls and a top lid moving at constant horizontal velocity</strong>. This setup creates a primary circulating vortex in the center of the cavity, making it an excellent case for evaluating velocity-pressure coupling, vorticity transport, and boundary layer resolution.  </p>
 <div style="display: flex; justify-content: center;">
   <table>
     <thead>
@@ -730,7 +634,7 @@ Velocity streamlines and divergence map for the lid-driven cavity flow problem.
 <p>In this section, we explore two alternative boundary condition configurations used to model steady, incompressible flow in a 2D channel. Although the geometry remains the same, the outlet treatment differs and leads to slightly different numerical behavior.</p>
 <hr />
 <h3 id="configuration-1-fixed-inlet-velocity">Configuration 1: Fixed Inlet Velocity</h3>
-<p>This setup imposes a uniform velocity at the inlet and fixes the pressure at the outlet to anchor the pressure field. This configuration mimics an open channel where the flow is driven by a prescribed inlet velocity and develops downstream under a pressure gradient.</p>
+<p>This setup imposes a <strong>uniform velocity at the inlet</strong> and fixes the pressure at the outlet to anchor the pressure field. This configuration mimics an open channel where the flow is driven by a prescribed inlet velocity and develops downstream under a pressure gradient.</p>
 <!-- 
 |   Boundary   |   Type   |      Velocity Condition      |    Pressure Condition     |
 |:------------:|:--------:|:----------------------------:|:-------------------------:|
@@ -778,14 +682,14 @@ Velocity streamlines and divergence map for the lid-driven cavity flow problem.
 Divergence map, pressure field and velocity magnitude for configuration 1 of the channel flow problem. 
 </p>
 
-<p>The velocity field shows the expected behavior induced by the no-slip condition at the walls. A strong vertical gradient in the horizontal velocity component develops near the solid boundaries, forming a parabolic-like profile across the height of the channel. Additionally, we can observe how the flow gradually develops along the streamwise direction, transitioning from the uniform inlet condition to the characteristic profile of a fully developed channel flow. The following figure provides a closer look at this velocity profile by comparing simulated profiles at different streamwise locations with the analytical Poiseuille solution. Notice that the orange curve represents a uniform velocity, corresponding to the inlet condition, before the flow begins to develop.</p>
+<p>The velocity field shows the expected behavior induced by the <strong>no-slip condition at the walls</strong>. A strong vertical gradient in the horizontal velocity component develops near the solid boundaries, forming a <strong>parabolic-like profile</strong> across the height of the channel. Additionally, we can observe how the flow gradually develops along the streamwise direction, transitioning from the uniform inlet condition to the characteristic profile of a fully developed channel flow. The following figure provides a closer look at this velocity profile by comparing simulated profiles at different streamwise locations with the <strong>analytical Poiseuille solution</strong>. Notice that the orange curve represents a uniform velocity, corresponding to the inlet condition, before the flow begins to develop.</p>
 <p><img alt="Poiseuille" src="../../images/Poiseuille.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Horizontal velocity profiles at multiple cross-sections along the channel, compared to the analytical Poiseuille solution.
 </p>
 
 <p>The pressure field remains nearly constant in the vertical direction and exhibits a steady decrease along the length of the channel. This behavior reflects the well known <strong>negative pressure gradient</strong> that drives the flow in a pressure-driven channel.</p>
-<p>Although the simulation reaches a steady state, a small region of <strong>negative divergence</strong> is visible near the inlet. This localized mass imbalance results from the interaction between the imposed inlet velocity and the developed pressure field. In the next configuration, I tried to <strong>eliminate this divergence</strong> by using boundary conditions that will simulate a fully developed inflow, as if that was not the actual entrance of the pipe. </p>
+<p>Although the simulation reaches a steady state, a <strong>small region of negative divergence</strong> is visible near the inlet. This localized mass imbalance results from the interaction between the imposed inlet velocity and the developed pressure field. In the next configuration, I tried to <strong>eliminate this divergence</strong> by using boundary conditions that will simulate a fully developed inflow, as if that was not the actual entrance of the pipe. </p>
 <h3 id="configuration-2-fixed-inletoutlet-pressure">Configuration 2: Fixed Inlet/Outlet Pressure</h3>
 <p>In this setup, pressure is fixed at both the inlet and the outlet. Rather than prescribing a velocity profile, the flow develops naturally in response to the <strong>imposed pressure difference</strong> across the domain. This configuration is commonly used to simulate fully developed channel flow driven by a pressure gradient. Notice how the velocity profile is already developed at the entrance, eliminating the entrance region observed in the previous setup.</p>
 <div style="display: flex; justify-content: center;">
@@ -834,20 +738,24 @@ Velocity magnitude, pressure field, and divergence map for Configuration 2 (pres
 <p>In this case, I simulated an open-channel flow interacting with a <strong>wind turbine</strong> placed at the center of the domain. The objective is to analyze how the presence of the turbine alters the surrounding velocity, pressure, and divergence fields, and to capture the formation and development of a wake. This setup is representative of utility-scale wind turbine siting, where the inflow is nearly uniform and the behavior of the downstream wake is of particular interest.</p>
 <p>The effect of the turbine is modeled using the <strong>actuator disk theory</strong>, a simplified aerodynamic model that treats the turbine as a <strong>porous disk imposing a resistive force on the flow</strong>. This approach captures the key features of wake formation in a really simplified manner, without resolving individual blades. For a comprehensive understanding of actuator disk theory, see <a href="#ref2">Burton et al. 2011</a>.</p>
 <p>The axial induction force is introduced as a <strong>body force term</strong> in the momentum equation, applied over the region representing the rotor. The force acts in the streamwise (x) direction and takes the following form:</p>
-<p>The axial force applied by the turbine is modeled as a <strong>body force term</strong> in the x-momentum equation. Since the solver updates velocity via the transport equation <span class="arithmatex">\( \frac{\partial u}{\partial t} = f_x + \dots \)</span>, the force must be expressed per <strong>unit mass</strong> (i.e., with units of acceleration, m/s²). The continuous expression for the axial induction force is:</p>
 <div class="arithmatex">\[
 f_x(x, y) = -\frac{1}{2} C_T \, \frac{U_{\infty}^2}{\Delta x} \, \chi(x, y)
 \]</div>
-<p>Where:
-- <span class="arithmatex">\( f_x(x, y) \)</span> is the body force <strong>per unit mass</strong> in the x-direction<br />
+<p>Where:<br />
+- <span class="arithmatex">\( f_x(x, y) \)</span> is the body force per unit mass in the x-direction<br />
 - <span class="arithmatex">\( C_T \)</span> is the thrust coefficient<br />
 - <span class="arithmatex">\( U_{\infty} \)</span> is the inlet velocity<br />
 - <span class="arithmatex">\( \Delta x \)</span> is the grid spacing (cell width) in the x-direction<br />
-- <span class="arithmatex">\( \chi(x, y) \)</span> is an boolean function that defines what cells are part of a turbine  </p>
-<p>This formulation assumes that the <strong>actuator force is distributed uniformly over the rotor region</strong>, and the grid spacing <span class="arithmatex">\( \Delta x \)</span> is used to convert the area based Ct into a per-volume term. Dividing by <span class="arithmatex">\( \rho \)</span> then yields the specific force per unit mass, consistent with how forces are applied in the discretized velocity equation.</p>
+- <span class="arithmatex">\( \chi(x, y) \)</span> is a boolean function that defines what cells are part of a turbine  </p>
+<p>This formulation assumes that the <strong>actuator force is distributed uniformly over the rotor region</strong>, and the grid spacing <span class="arithmatex">\( \Delta x \)</span> is used to convert the area-based <span class="arithmatex">\( C_T \)</span> into a per-volume term. Dividing by <span class="arithmatex">\( \rho \)</span> then yields the specific force per unit mass, consistent with how forces are applied in the discretized velocity equation.</p>
+<p>This formulation results in a distinctive pressure profile along the centerline of the domain, which can be visualized in the figure below. The actuator disk imposes a resistive force that causes a sharp <strong>pressure jump across the rotor</strong>, with a build-up upstream and a drop downstream. The pressure then gradually returns to the far-field inlet level, which is set to zero throughpout the unaffected region of the flow. This distribution is characteristic of actuator disk theory and reflects the exchange of momentum between the flow and the turbine.</p>
+<p><img alt="Axial induction pressure profile" src="../../images/AxialInduction.png" /></p>
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Pressure distribution along the centerline of the domain. The pressure increases upstream of the rotor, drops sharply across it, and gradually recovers downstream.
+</p>
+
 <p>The <strong>wake recovery effect</strong> observed downstream of the turbine is captured by the presence of the <strong>diffusion term</strong> in the momentum equation. As discussed in the <a href="#governing_equations">Governing Equations</a> chapter, the advection-diffusion formulation inherently includes both the transport of momentum and its <strong>redistribution through viscous effects</strong>.</p>
-<p>This case also serves to demonstrate <strong>how easily body forces can be implemented in numerical solvers</strong> and how their influence affects the rest of the domain. The results show how <strong>strong the coupling between the pressure and velocity fields</strong>mkdocs serve
- is, and demonstrates the <strong>action of viscous diffusion</strong>.</p>
+<p>This case also serves to demonstrate <strong>how easily body forces can be implemented in numerical solvers</strong> and how their influence affects the rest of the domain. The results show how <strong>strong the coupling between the pressure and velocity fields</strong> is, and demonstrate the <strong>action of viscous diffusion</strong>.</p>
 <p><img alt="Solution turbine velocity" src="../../images/Solution_Turbine_u.png" /></p>
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Horizontal velocity field (u-component) for flow through a turbine in open-flow conditions.
@@ -866,8 +774,6 @@ Divergence map for flow through a turbine in open-flow conditions. The solution 
 </p>
 
 <p>The divergence field shown above confirms that the solution is nearly divergence-free across the domain, validating the stability and consistency of the solver. The color scale indicates values on the order of <span class="arithmatex">\(10^{-5}\)</span>, demonstrating that mass conservation is maintained up to numerical precision.</p>
-<h4 id="computational-parameters">Computational Parameters</h4>
-<p>INCLUIR parrafo aki. </p>
 <div style="display: flex; justify-content: center;">
 <table>
   <thead>
@@ -902,17 +808,6 @@ Divergence map for flow through a turbine in open-flow conditions. The solution 
 </div>
 
 <hr />
-<h2 id="embedd-video-test">Embedd video test</h2>
-<h3 id="mp4">MP4</h3>
-<video width="640" height="360" controls>
-  <!-- <source src="images/video.webm"type="video/webm"> -->
-  <source src="/images/movie.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-<h3 id="gif">GIF</h3>
-<p>The GIF lost quality.. but that is due to the way I converted it. 
-<img alt="Simulation animation" src="../../images/movie.gif" /></p>
 
 
 
