@@ -1,13 +1,13 @@
 # **Governing Equations**
 
-The **incompressible Navier-Stokes equations** are fundamental to fluid dynamics and are used to model a wide range of physical phenomena, including airflow over airplane wings, water flow through pipes, and wake formation behind wind turbines. These equations express the **conservation of mass** (via the continuity equation) and the **conservation of momentum** (via the momentum equation) within a fluid.
+The **incompressible Navier-Stokes equations** are fundamental to fluid dynamics and are used to model a wide range of physical phenomena, including airflow over airplane wings, water flow through pipes, and wake formation behind wind turbines. These equations express the **conservation of mass** (via the continuity equation) and the **conservation of momentum** (via the momentum equation) within a fluid [<a href="#munson">Munson et al.</a>].
 
-By assuming **incompressibility**, we neglect variations in density—an accepted assumption for many liquid flows and low-speed gas flows. This simplification reduces the complexity of the equations while still capturing the essential physics of many practical problems.
+By assuming **incompressibility**, we neglect variations in density. This is an accepted assumption for many liquid flows and low-speed gas flows. This simplification reduces the complexity of the equations while still capturing the essential physics of many practical problems.
 
 The incompressible Navier-Stokes equations consist of:
 
-- **Mass conservation**, ensuring mass conservation  
-- **Momentum conservation**, derived from Newton’s second law applied to fluid motion
+- **Mass conservation**, ensuring mass conservation.  
+- **Momentum conservation**, derived from Newton’s second law applied to fluid motion.
 
 ---
 
@@ -21,7 +21,7 @@ The continuity equation ensures the **conservation of mass** in incompressible f
 \nabla \cdot \mathbf{u} = 0 \tag{1}
 \]
 
-In two dimensions, this becomes:
+In 2D derivative form, this becomes:
 
 <div id="eq-continuity-2d"></div>
 
@@ -75,7 +75,7 @@ This apparent decoupling gives rise to several **numerical challenges**:
 - There is no explicit **equation for pressure**, so it must be computed indirectly.
 - Without proper treatment, the pressure-velocity relationship can become unstable, causing **oscillations** or **non-physical results**
 
-To restore this coupling and enforce incompressibility, a Poisson equation for pressure can be derived from the divergence of the momentum equations. This acts as a surrogate for the continuity equation. A clear and pedagogical explanation of both the derivation of the Poisson equation and the discretization of the governing equations is provided in *CFD Python: 12 steps to Navier-Stokes* by Barba and Forsyth ([Barba & Forsyth, 2014](https://github.com/barbagroup/CFDPython)).
+To restore this coupling and enforce incompressibility, a **Poisson equation** for pressure can be derived from the divergence of the momentum equations. This acts as a surrogate for the continuity equation. A clear and pedagogical explanation of both the derivation of the Poisson equation and the discretization of the governing equations is provided in *CFD Python: 12 steps to Navier-Stokes* by Barba and Forsyth ([Barba & Forsyth, 2014](https://github.com/barbagroup/CFDPython)).
 
 ---
 
@@ -91,8 +91,8 @@ The **convective term** in the momentum equations introduces nonlinearity, which
 
 This nonlinearity leads to several numerical challenges:
 
-- **Instabilities**: Small perturbations can grow rapidly unless stabilization techniques such as **upwinding** or **artificial diffusion** are applied.
-- **Increased computational cost**: Nonlinear systems often require **iterative solvers** and **careful time-stepping**. One way to control this is by enforcing a **Courant–Friedrichs–Lewy (CFL) condition**, which limits the timestep based on local velocity and grid spacing.
+- **Instabilities**: Small perturbations can grow rapidly unless stabilization techniques are applied.
+- **Increased computational cost**: Nonlinear systems often require iterative solvers and careful time-stepping. One way to control this is by enforcing a Courant–Friedrichs–Lewy (CFL) condition, which limits the timestep based on local velocity and grid spacing.
 
 ---
 
@@ -102,7 +102,7 @@ Correctly specifying boundary conditions is critical for both **accuracy** and *
 
 - Matching **inflow/outflow conditions** to avoid artificial reflections.
 - Enforcing the **no-slip condition** on solid walls.
-- Handling pressure/velocity gradients near boundaries to avoid **divergence** or **loss of accuracy**.
+- Handling pressure/velocity gradients near boundaries to avoid **divergence** or loss of accuracy.
 
 ---
 
@@ -114,4 +114,4 @@ Discretizing the continuous equations introduces trade-offs:
 - **Numerical diffusion**: Some schemes may over-smooth the solution.
 - **Pressure-velocity consistency**: Ensuring that the discrete velocity field remains divergence-free is essential.
 
-These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the **stability and accuracy** of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called discretization.
+These difficulties make it clear that choosing the right numerical approach is essential. All the mentioned factors will define the **stability and accuracy** of the solver. In the next chapter, we’ll look at how to turn the continuous equations into a form that we can solve cell by cell, a process called **discretization**.

@@ -61,7 +61,7 @@ In **staggered grids**, different variables are stored at different spatial loca
 Staggered grid. Variables location layout.
 </p>
 
-This configuration **naturally couples pressure and velocity** by storing them at offset locations—velocity components on the cell faces and pressure at the cell centers. This staggered layout helps enforce the discretized continuity equation more accurately, potentially getting rid of the divergence and oscillations. As a result, staggered grids are often more effective for incompressible flow solvers where maintaining a divergence-free velocity field is essential.
+This configuration **naturally couples pressure and velocity** by storing them at offset locations: velocity components on the cell faces and pressure at the cell centers. This staggered layout helps enforce the discretized continuity equation more accurately, potentially getting rid of the divergence and oscillations. As a result, staggered grids are often more effective for incompressible flow solvers where maintaining a divergence-free velocity field is essential.
 
 The following figure shows the results for a **flow across a wind turbine** using a staggered grid. It displays the divergence, pressure, and velocity fields. Notice how the divergence has been effectively eliminated around the turbine and only minimal residual values remain left near the outlet region.
 
@@ -83,9 +83,9 @@ The following figure shows how the **error decreases as the mesh resolution incr
 Effect of Mesh Refinement on the accuracy of the solution.
 </p>
 
-The figure above shows the L2 error of the velocity field compared to the Poiseuille analytical solution, plotted against mesh resolution. The concave shape of the curve illustrates how the **error decreases with finer grids**, demonstrating the proper convergence behavior of the numerical method. However, after a certain resolution, the gain in accuracy becomes marginal compared to the increase in computational cost. Identifying this balance point—where further refinement offers diminishing returns—is a key challenge in practical CFD simulations.
+The figure above shows the L2 error of the velocity field compared to the Poiseuille analytical solution, plotted against mesh resolution. The concave shape of the curve illustrates how the **error decreases with finer grids**, demonstrating the proper convergence behavior of the numerical method. However, after a certain resolution, the gain in accuracy becomes marginal compared to the increase in computational cost. Identifying this balance point is a key challenge in practical CFD simulations.
 
-To further highlight this tradeoff, the figure below shows how the **simulation time increases with mesh resolution**. As expected, computational cost rises steeply with finer grids, reinforcing the importance of choosing a resolution that offers sufficient accuracy without excessive runtime.
+The figure below shows how the **simulation time increases with mesh resolution**. As expected, computational cost rises steeply with finer grids, highlighting the importance of choosing a resolution that offers sufficient accuracy without excessive runtime.
 
 ![Simulation Time vs. Mesh Resolution](../images/simulation_time_vs_resolution.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">

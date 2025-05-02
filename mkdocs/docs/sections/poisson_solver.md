@@ -29,58 +29,61 @@ The **Jacobi method** computes the solution to the Poisson equation iteratively 
 
 ### Algorithm Steps
 
-1. **Initialize variables**  
-   Start with the current pressure field \( p \), and define the **right-hand side** of the Poisson equation, derived from the divergence of the intermediate velocity field.
+<ol>
 
-2. **Precompute coefficients**  
-   Precompute the coefficient for the pressure update and the scaled right-hand side:
+<li><strong>Initialize Variables</strong><br>
+Begin with an initial guess for the pressure field \( p \), and compute the <strong>right-hand side</strong> \( b \) from velocity divergence.
+</li>
 
-<div id="eq-pcoef"></div>
+<li><strong>Precompute Coefficients</strong><br>
+To simplify updates, define:
 
-\[
+$$
 p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)} \tag{2}
-\]
+$$
 
-<div id="eq-bscaled"></div>
+$$
+b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2)\rho}{\Delta x^2 \Delta y^2} \tag{3}
+$$
+</li>
 
-\[
-b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2} \tag{3}
-\]
+<li><strong>Jacobi Iteration</strong><br>
+Update pressure on interior points:
 
-> Note: The exact form of \( b \) depends on the method used (e.g., projection vs. predictor-corrector).
-
-3. **Jacobi iteration**  
-   Update pressure on the **interior grid points** using:
-
-<div id="eq-jacobi-update"></div>
-
-\[
+$$
 p_{i,j}^{(k+1)} = p_{\text{coef}} \left[ (p_{i+1,j}^{(k)} + p_{i-1,j}^{(k)}) \Delta y^2 + (p_{i,j+1}^{(k)} + p_{i,j-1}^{(k)}) \Delta x^2 \right] - b_{i,j} \tag{4}
-\]
+$$
+</li>
 
-4. **Enforce boundary conditions**  
-   Apply **Neumann boundary conditions**:  
-   \[
-   \frac{\partial p}{\partial n} = 0
-   \]  
-   Other BCs may be required depending on the physical setup.
+<li><strong>Enforce Boundary Conditions</strong><br>
+Use homogeneous Neumann boundaries:
 
-5. **Compute error**  
-   Calculate the **root-mean-square (RMS) error** between successive pressure fields:
+$$
+\frac{\partial p}{\partial n} = 0
+$$
+</li>
 
-<div id="eq-jacobi-error"></div>
+<li><strong>Compute Error</strong><br>
+After each iteration:
 
-\[
+$$
 \text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2} \tag{5}
-\]
+$$
+</li>
 
-6. **Check for convergence**  
-   Stop iterating if **either**:
-   - A) The error falls below a specified **tolerance**  
-   - B) The **maximum number of iterations** is reached
+<li><strong>Check for Convergence</strong><br>
+Stop when:
+<ul>
+<li>Error < tolerance</li>
+<li>Or maximum iterations reached</li>
+</ul>
+</li>
 
-7. **Output**  
-   Return the final pressure field, which approximately satisfies the Poisson equation [**(1)**](#eq-poisson-pressure) within the desired tolerance.
+<li><strong>Return Final Pressure Field</strong><br>
+The final \( p \) approximately satisfies the Poisson equation within the specified tolerance.
+</li>
+
+</ol>
 
 ```python
 def pressure_poisson(p, b, dx, dy, tol, maxiter):
@@ -135,7 +138,7 @@ def pressure_poisson(p, b, dx, dy, tol, maxiter):
 
     return p
 ```
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/Jacobi.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/17bZHbWqu0VDs_U_6I8OKm-2imxyb9_w_)
 
 ## Gauss-Seidel
 
@@ -143,56 +146,67 @@ The **Gauss-Seidel method** improves on Jacobi's iterative solver by updating th
 
 ### Algorithm Steps
 
-1. **Initialize variables**  
-   Start with the current pressure field \( p \), and define the **right-hand side** \( b \) of the Poisson equation, derived from the velocity divergence.
+<ol>
 
-2. **Precompute coefficients**  
-   As in the Jacobi method, precompute the update coefficient and scale the RHS:
+<li><strong>Initialize variables</strong><br>
+Start with the current pressure field \( p \), and define the <strong>right-hand side</strong> \( b \) of the Poisson equation, derived from the velocity divergence.
+</li>
 
-<div id="eq-gs-pcoef"></div>
+<li><strong>Precompute coefficients</strong><br>
+As in the Jacobi method, precompute the update coefficient and scale the RHS:
 
-\[
+<div id="eq-gs-pcoef"></div>  
+$$
 p_{\text{coef}} = \frac{1}{2(\Delta x^2 + \Delta y^2)} \tag{6}
-\]
+$$
 
-<div id="eq-gs-bscaled"></div>
-
-\[
+<div id="eq-gs-bscaled"></div>  
+$$
 b_{i,j} \leftarrow b_{i,j} \cdot \frac{2(\Delta x^2 + \Delta y^2) \rho}{\Delta x^2 \Delta y^2} \tag{7}
-\]
+$$
+</li>
 
-3. **Gauss-Seidel iteration**  
-   Loop through the grid and update pressure **in-place** using the formula:
+<li><strong>Gauss-Seidel iteration</strong><br>
+Loop through the grid and update pressure <strong>in-place</strong> using:
 
-<div id="eq-gs-update"></div>
-
-\[
+<div id="eq-gs-update"></div>  
+$$
 p_{i,j} = p_{\text{coef}} \left[ (p_{i,j+1} + p_{i,j-1}) \Delta y^2 + (p_{i+1,j} + p_{i-1,j}) \Delta x^2 \right] - b_{i,j} \tag{8}
-\]
+$$
+</li>
 
-4. **Enforce boundary conditions**  
-   Apply **Neumann boundary conditions**:  
-   \[
-   \frac{\partial p}{\partial n} = 0
-   \]  
-   Modify as necessary for the physical problem.
+<li><strong>Enforce boundary conditions</strong><br>
+Apply Neumann boundary conditions:
 
-5. **Compute error**  
-   Calculate the **root-mean-square (RMS) error** between iterations:
+$$
+\frac{\partial p}{\partial n} = 0
+$$
 
-<div id="eq-gs-error"></div>
+Modify as necessary for the physical problem.
+</li>
 
-\[
+<li><strong>Compute error</strong><br>
+Calculate the root-mean-square (RMS) error between iterations:
+
+<div id="eq-gs-error"></div>  
+$$
 \text{Error} = \sqrt{\frac{1}{N} \sum_{i,j} \left( p_{i,j}^{(k+1)} - p_{i,j}^{(k)} \right)^2} \tag{9}
-\]
+$$
+</li>
 
-6. **Check for convergence**  
-   Stop iterating if:
-   - A) The error is **less than the specified tolerance**, or  
-   - B) The **maximum number of iterations** is reached
+<li><strong>Check for convergence</strong><br>
+Stop iterating if either:
+<ul>
+<li>Error is less than the specified tolerance, or</li>
+<li>The maximum number of iterations is reached.</li>
+</ul>
+</li>
 
-7. **Output**  
-   Return the final pressure field, which approximately satisfies the Poisson equation [**(1)**](#eq-poisson-pressure) within the desired tolerance.
+<li><strong>Output</strong><br>
+Return the final pressure field, which approximately satisfies the Poisson equation within the defined tolerance.
+</li>
+
+</ol>
 
 ```python
 def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
@@ -251,7 +265,7 @@ def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
 
     return p
 ```
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/Gauss-Seidel.ipynb)
+<!-- [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() -->
 
 ## Comparison of Poisson Solvers: Jacobi vs. Gauss-Seidel
 

@@ -1,9 +1,9 @@
 # Solutions
 
 ### Lid-Driven Cavity
-We begin with this case because it is the one presented in [Lorena Barba’s educational CFD series](https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/) and widely recognized as a pedagogical introduction to solving the incompressible Navier-Stokes equations. 
+We begin with this case because it is the one presented in [Lorena Barba’s educational CFD series](https://lorenabarba.com/blog/cfd-python-12-steps-to-navier-stokes/) and **widely recognized** as a pedagogical introduction to solving the incompressible Navier-Stokes equations. 
 
-The lid-driven cavity is a classical benchmark problem in computational fluid dynamics, it oftenly used to test the accuracy and stability of numerical solvers for incompressible flows, given its simplicity. The domain consists of a square cavity with stationary walls and a top lid moving at constant horizontal velocity. This setup creates a primary circulating vortex in the center of the cavity, making it an excellent case for evaluating velocity-pressure coupling, vorticity transport, and boundary layer resolution.  
+The lid-driven cavity is a classical benchmark problem in computational fluid dynamics, it oftenly used to test the accuracy and stability of numerical solvers for incompressible flows, given its simplicity. The domain consists of a **square cavity with stationary walls and a top lid moving at constant horizontal velocity**. This setup creates a primary circulating vortex in the center of the cavity, making it an excellent case for evaluating velocity-pressure coupling, vorticity transport, and boundary layer resolution.  
 
 <div style="display: flex; justify-content: center;">
   <table>
@@ -60,7 +60,7 @@ In this section, we explore two alternative boundary condition configurations us
 
 ### Configuration 1: Fixed Inlet Velocity
 
-This setup imposes a uniform velocity at the inlet and fixes the pressure at the outlet to anchor the pressure field. This configuration mimics an open channel where the flow is driven by a prescribed inlet velocity and develops downstream under a pressure gradient.
+This setup imposes a **uniform velocity at the inlet** and fixes the pressure at the outlet to anchor the pressure field. This configuration mimics an open channel where the flow is driven by a prescribed inlet velocity and develops downstream under a pressure gradient.
 
 <!-- 
 |   Boundary   |   Type   |      Velocity Condition      |    Pressure Condition     |
@@ -109,7 +109,7 @@ This setup imposes a uniform velocity at the inlet and fixes the pressure at the
 Divergence map, pressure field and velocity magnitude for configuration 1 of the channel flow problem. 
 </p>
 
-The velocity field shows the expected behavior induced by the no-slip condition at the walls. A strong vertical gradient in the horizontal velocity component develops near the solid boundaries, forming a parabolic-like profile across the height of the channel. Additionally, we can observe how the flow gradually develops along the streamwise direction, transitioning from the uniform inlet condition to the characteristic profile of a fully developed channel flow. The following figure provides a closer look at this velocity profile by comparing simulated profiles at different streamwise locations with the analytical Poiseuille solution. Notice that the orange curve represents a uniform velocity, corresponding to the inlet condition, before the flow begins to develop.
+The velocity field shows the expected behavior induced by the **no-slip condition at the walls**. A strong vertical gradient in the horizontal velocity component develops near the solid boundaries, forming a **parabolic-like profile** across the height of the channel. Additionally, we can observe how the flow gradually develops along the streamwise direction, transitioning from the uniform inlet condition to the characteristic profile of a fully developed channel flow. The following figure provides a closer look at this velocity profile by comparing simulated profiles at different streamwise locations with the **analytical Poiseuille solution**. Notice that the orange curve represents a uniform velocity, corresponding to the inlet condition, before the flow begins to develop.
 
 ![Poiseuille](../images/Poiseuille.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
@@ -118,7 +118,7 @@ Horizontal velocity profiles at multiple cross-sections along the channel, compa
 
 The pressure field remains nearly constant in the vertical direction and exhibits a steady decrease along the length of the channel. This behavior reflects the well known **negative pressure gradient** that drives the flow in a pressure-driven channel.
 
-Although the simulation reaches a steady state, a small region of **negative divergence** is visible near the inlet. This localized mass imbalance results from the interaction between the imposed inlet velocity and the developed pressure field. In the next configuration, I tried to **eliminate this divergence** by using boundary conditions that will simulate a fully developed inflow, as if that was not the actual entrance of the pipe. 
+Although the simulation reaches a steady state, a **small region of negative divergence** is visible near the inlet. This localized mass imbalance results from the interaction between the imposed inlet velocity and the developed pressure field. In the next configuration, I tried to **eliminate this divergence** by using boundary conditions that will simulate a fully developed inflow, as if that was not the actual entrance of the pipe. 
 
 ### Configuration 2: Fixed Inlet/Outlet Pressure
 
@@ -182,7 +182,7 @@ f_x(x, y) = -\frac{1}{2} C_T \, \frac{U_{\infty}^2}{\Delta x} \, \chi(x, y)
 \]
 
 Where:  
-- \( f_x(x, y) \) is the body force **per unit mass** in the x-direction  
+- \( f_x(x, y) \) is the body force per unit mass in the x-direction  
 - \( C_T \) is the thrust coefficient  
 - \( U_{\infty} \) is the inlet velocity  
 - \( \Delta x \) is the grid spacing (cell width) in the x-direction  
@@ -190,7 +190,7 @@ Where:
 
 This formulation assumes that the **actuator force is distributed uniformly over the rotor region**, and the grid spacing \( \Delta x \) is used to convert the area-based \( C_T \) into a per-volume term. Dividing by \( \rho \) then yields the specific force per unit mass, consistent with how forces are applied in the discretized velocity equation.
 
-This formulation results in a distinctive pressure profile along the centerline of the domain, which can be visualized in the figure below. The actuator disk imposes a resistive force that causes a sharp **pressure jump across the rotor**, with a build-up upstream and a drop downstream. The pressure then gradually returns to the far-field inlet level, which is set to zero. This distribution is characteristic of actuator disk theory and reflects the exchange of momentum between the flow and the turbine.
+This formulation results in a distinctive pressure profile along the centerline of the domain, which can be visualized in the figure below. The actuator disk imposes a resistive force that causes a sharp **pressure jump across the rotor**, with a build-up upstream and a drop downstream. The pressure then gradually returns to the far-field inlet level, which is set to zero throughpout the unaffected region of the flow. This distribution is characteristic of actuator disk theory and reflects the exchange of momentum between the flow and the turbine.
 
 ![Axial induction pressure profile](../images/AxialInduction.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
@@ -221,9 +221,6 @@ Divergence map for flow through a turbine in open-flow conditions. The solution 
 </p>
 
 The divergence field shown above confirms that the solution is nearly divergence-free across the domain, validating the stability and consistency of the solver. The color scale indicates values on the order of \(10^{-5}\), demonstrating that mass conservation is maintained up to numerical precision.
-
-#### Computational Parameters
-INCLUIR parrafo aki. 
 
 <div style="display: flex; justify-content: center;">
 <table>
@@ -259,16 +256,3 @@ INCLUIR parrafo aki.
 </div>
 
 ---
-<!-- 
-## Embedd video test 
-
-### MP4
-<video width="640" height="360" controls>
-  <!-- <source src="images/video.webm"type="video/webm"> -->
-  <!-- <source src="../images/movie.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-### GIF
-The GIF lost quality.. but that is due to the way I converted it. 
-![Simulation animation](../images/movie.gif) --> -->

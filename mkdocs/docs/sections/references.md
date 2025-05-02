@@ -28,7 +28,7 @@
   > Original paper introducing the fractional step method for incompressible flow.
 
 
-- Munson, et al, *Fundamentals of Fluid Mechanics*.
+- <a id="munson"></a>Munson, et al., *Fundamentals of Fluid Mechanics*.
 
   > Standard undergraduate textbook covering fluid dynamics principles including the Navier-Stokes equations.
 
