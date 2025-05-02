@@ -135,7 +135,7 @@ def pressure_poisson(p, b, dx, dy, tol, maxiter):
 
     return p
 ```
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/poisson_solver.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/Jacobi.ipynb)
 
 ## Gauss-Seidel
 
@@ -194,13 +194,6 @@ p_{i,j} = p_{\text{coef}} \left[ (p_{i,j+1} + p_{i,j-1}) \Delta y^2 + (p_{i+1,j}
 7. **Output**  
    Return the final pressure field, which approximately satisfies the Poisson equation [**(1)**](#eq-poisson-pressure) within the desired tolerance.
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](Link)
-
-<!-- ![Chorin_Algorithm](../images/Chorin_Algorithm.png)
-<p style="text-align: center; font-size: 0.9em; color: #666;">
-Chorin's algorithm schematic.
-</p> -->
-
 ```python
 def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
     """
@@ -258,6 +251,7 @@ def pressure_poisson_gauss_seidel(p, b, dx, dy, rho):
 
     return p
 ```
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PabloBotin/IndependentStudy/blob/main/mkdocs/site/notebooks/Gauss-Seidel.ipynb)
 
 ## Comparison of Poisson Solvers: Jacobi vs. Gauss-Seidel
 
