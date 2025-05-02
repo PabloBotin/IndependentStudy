@@ -3,8 +3,11 @@ Numerical solvers for the incompressible Navier-Stokes equations often use struc
 
 ![Grid Types](../images/GridTypes.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Grid Types: Collocated and staggered. Need to include Copyright. 
+Grid Types: Collocated and staggered layout of velocity components in CFD solvers. <br>
+Adapted from Matthias Müller, <em>Ten Minute Physics – Fluid Simulation</em>, used under the MIT License. <br>
+Available at: <a href="https://github.com/matthias-research/pages/blob/master/tenMinutePhysics/17-fluidSim.html" target="_blank">github.com/matthias-research</a>.
 </p>
+
 
 ## Collocated Grid
 
@@ -75,10 +78,16 @@ To quantify this, I have computed the **L2 error** between the numerical and ana
 
 The following figure shows how the **error decreases as the mesh resolution increases**. The test was performed using a staggered grid and solving the channel flow problem at different resolutions.
 
-![Mesh Refinement Convergence](../images/mesh_refinement.png)
+![Mesh Refinement Convergence](../images/l2_error_vs_resolution.png)
 <p style="text-align: center; font-size: 0.9em; color: #666;">
-Effect of Mesh Refinement on the accuracy of the solution. 
+Effect of Mesh Refinement on the accuracy of the solution.
 </p>
 
 The figure above shows the L2 error of the velocity field compared to the Poiseuille analytical solution, plotted against mesh resolution. The concave shape of the curve illustrates how the **error decreases with finer grids**, demonstrating the proper convergence behavior of the numerical method. However, after a certain resolution, the gain in accuracy becomes marginal compared to the increase in computational cost. Identifying this balance point—where further refinement offers diminishing returns—is a key challenge in practical CFD simulations.
 
+To further highlight this tradeoff, the figure below shows how the **simulation time increases with mesh resolution**. As expected, computational cost rises steeply with finer grids, reinforcing the importance of choosing a resolution that offers sufficient accuracy without excessive runtime.
+
+![Simulation Time vs. Mesh Resolution](../images/simulation_time_vs_resolution.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Simulation cost grows rapidly with mesh refinement, emphasizing the need for a balance between accuracy and performance.
+</p>
