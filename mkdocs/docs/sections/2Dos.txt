@@ -15,8 +15,9 @@ X Algorithm: Substitute figures.
 O Solutions: 
         X Include pressure around rotor plots and comparison in the axial induction part. 
         O Include Peter's requested animation. 
-O Grid Types: Add a plot of simulation time vs grid refinement. 
+O Grid Types: Add a plot of simulation time vs grid refinement. (create)
 X Latex numbers. 
 - Discretization: 
-    - Review Colin text, set bold text. 
-    - Include figures. 
+    X Review Colin text, set bold text. 
+    - Review p_interpolation figure. 
+

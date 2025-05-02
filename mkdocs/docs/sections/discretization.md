@@ -28,27 +28,50 @@ The [12 Steps to CFD][barba] lessons use a mixture of forward and central finite
 
 A central finite difference scheme on a **collocated solution grid** requires a total of **three grid points**, with the approximation of the derivative located at the central point—**the same location where the variable itself is evaluated**. In this setup, the spacing between the outer points used in the approximation is $h = 2\Delta x$, rather than $\Delta x$ as in the standard grid.
 
-> **Figure placeholder**: Add a diagram showing three equally spaced grid points, each separated by $\Delta x$, and annotate that $h = 2\Delta x$ in [**(7)**](#eq-second-deriv).
+![Discretization_1](../images/Discretization_1.png)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Schematic of three equally spaced grid points.
+</p>
 
-Since all the solution variables ($u$, $v$, and $p$), along with their spatial gradients, are **collocated at the same grid points**, no interpolation schemes are required to compute the pressure field or to advance the Navier-Stokes equations in time.
+Since all the solution variables ($u$, $v$, and $p$), along with their spatial gradients, are collocated at the same grid points, **no interpolation schemes are required** to compute the pressure field or to advance the Navier-Stokes equations in time.
 
 For more information, see the section on [collocated grids](./grid_types.md#collocated-grid).
 
 ## Central Finite Differences on Staggered Grids
 
-A central finite difference scheme on a **staggered grid** uses a different set of solution grid points for each variable. Derivatives are evaluated between two adjacent points specific to each variable, and the resulting finite difference approximation lies between them. This location **may or may not** coincide with the grid point of another variable.
+A central finite difference scheme on a staggered grid uses a different set of solution grid points for each variable. Derivatives are evaluated between two adjacent points specific to each variable, and the resulting finite difference approximation lies between them. This location **may or may not** coincide with the grid point of another variable.
 
 This scheme uses a nominal spacing of $h = \Delta x$, which provides **twice the approximation accuracy** of the collocated case for the same number of total solution points. This improvement in resolution directly follows from the standard second-derivative approximation in [**(7)**](#eq-second-deriv).
 
 > **Figure placeholder**: Add a schematic showing the staggered layout: where $u$, $v$, and $p$ live, where $\partial u/\partial x$, $\partial v/\partial y$, and $\partial p/\partial x$ are computed, and note that $h = \Delta x$.
 
-However, the **time integration** of each variable must occur at its corresponding grid location. For instance, the $u$-momentum equation must be evaluated at the $u$ grid points, but the associated $v$ and $p$ values—and even the gradients of $u$—are not naturally stored at those locations. As a result, staggered grids require **interleaving finite differencing with interpolation**.
+However, the **time integration** of each variable must occur at its corresponding grid location. For instance, the $u$-momentum equation must be evaluated at the $u$ grid points, but the associated $v$ and $p$ values, and even the gradients of $u$, are not naturally stored at those locations. As a result, staggered grids require **interleaving finite differencing with interpolation**.
 
 > **Figure placeholder**: Add a visualization showing how interpolation is used on a staggered grid. Include the same figure, with more discussion, in the [staggered grid section](./grid_types.md#staggered-grid).
 
 Despite the additional computational effort, staggered grids offer a significant advantage: **pressure gradients are evaluated at the correct physical locations** required by the Navier-Stokes equations. For example, $\partial p/\partial x$ is evaluated exactly where $u$ lives, and the divergence of velocity—$\partial u/\partial x + \partial v/\partial y$—is naturally computed at the pressure points.
 
 For more details, see the section on [staggered grids](./grid_types.md#staggered-grid).
+
+---
+
+To help visualize how the finite-difference stencils are applied on a staggered grid, the following sketches illustrate the **storage locations** for each variable and the **interpolation formulas** used in the discretization process. These figures highlight the relative positions of neighboring points used for computing derivatives and show examples of both **first-order and second-order central differences**. Please excuse the informal handwritten style—these sketches are intended as conceptual aids.
+
+![u-velocity interpolation stencil](../images/u_interpolation.jpeg)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Stencil and interpolation formulas for the \( u \)-velocity component on a staggered grid. Shows horizontal and vertical interpolation using central differences.
+</p>
+
+![v-velocity interpolation stencil](../images/v_interpolation.jpeg)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Stencil and interpolation layout for the \( v \)-velocity component. Illustrates spatial offsets and relevant neighboring points for computing derivatives.
+</p>
+
+![Pressure interpolation stencil](../images/p_interpolation.jpeg)
+<p style="text-align: center; font-size: 0.9em; color: #666;">
+Interpolation and discretization stencil for pressure values. Highlights the grid-aligned location of \( p \) relative to the velocity components.
+</p>
+
 
 ---
 [barba]: https://github.com/barbagroup/CFDPython "Lorena Barba's CFD Python Tutorials"

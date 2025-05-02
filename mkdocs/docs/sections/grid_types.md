@@ -22,7 +22,7 @@ Another challenge is the enforcement of mass conservation. In collocated grids, 
 <p style="text-align: center; font-size: 0.9em; color: #666;">
 Divergence  map for the lid-driven cavity flow problem.
 </p>
-
+ 
 - **Channel flow:** Divergence is concentrated at the inlet corners. This is likely caused by the sudden onset of flow and the interaction between imposed boundary conditions and the pressure field, which can be challenging to resolve with a collocated grid.
 
 ![Divergence_CFSquare](../images/Divergence_ChannelFlow.png)
